@@ -1,5 +1,7 @@
 package xyz.rollingstone.tabs;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
 import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
 
@@ -25,7 +28,8 @@ public class ManualTab extends Fragment {
     private ImageView imageView;
     private Bitmap imageData;
 
-    private LiveViewUpdaterSocket updater;
+    private LiveViewUpdaterSocket updater = null;
+    private SharedPreferences sharedPreferences;
 
     /*
         Handler for UI thread
@@ -49,6 +53,9 @@ public class ManualTab extends Fragment {
             }
         });
 
+        this.sharedPreferences = getActivity().getSharedPreferences(
+                MainActivity.PREFERENCES, Context.MODE_PRIVATE);
+
     }
 
     @Override
@@ -63,9 +70,14 @@ public class ManualTab extends Fragment {
         // Locate our image view
         imageView = (ImageView) getView().findViewById(R.id.liveview);
 
+        // Get IP and PORT from sharedPreferenceuse in LiveViewUpdaterSocket
+        String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+
         // Creating new thread for refreshing ImageView
-        updater = new LiveViewUpdaterSocket(this);
+        updater = new LiveViewUpdaterSocket(this, IP, PORT);
         updater.start();
+
     }
 
     @Override
@@ -80,7 +92,12 @@ public class ManualTab extends Fragment {
         super.onResume();
         Log.d(DEBUG, "onResume called. Starting updater thread if none exist ..");
         if( ! updater.isAlive() ) {
-            updater = new LiveViewUpdaterSocket(this);
+
+            // Get IP and PORT from sharedPreferenceuse in LiveViewUpdaterSocket
+            String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+            int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+
+            updater = new LiveViewUpdaterSocket(this, IP, PORT);
             updater.start();
         }
     }

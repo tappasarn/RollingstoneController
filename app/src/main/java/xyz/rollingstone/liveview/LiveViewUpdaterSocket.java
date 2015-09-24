@@ -22,8 +22,8 @@ public class LiveViewUpdaterSocket extends Thread {
     private boolean killed = false;
 
     // IP and PORT of the server
-    final private static String IP = "10.0.2.1";
-    final private static int PORT = 1234;
+    private String IP ;
+    private int PORT;
 
     // Thread sleep time between each request
     final private static int refreshRate = 5;
@@ -32,11 +32,13 @@ public class LiveViewUpdaterSocket extends Thread {
     final BitmapFactory.Options options = new BitmapFactory.Options();
 
     // inBitmap and buffer is used for caching and performance improvement
-    private static Bitmap inBitmap = null;
-    private static byte[] buffer = new byte[16 * 1024];
+    private Bitmap inBitmap = null;
+    private byte[] buffer = new byte[16 * 1024];
 
-    public LiveViewUpdaterSocket(Fragment fragment) {
+    public LiveViewUpdaterSocket(Fragment fragment, String IP, int PORT) {
         this.fragment = fragment;
+        this.IP = IP;
+        this.PORT = PORT;
 
         // inBitmap works with mutable only
         options.inMutable = true;
