@@ -28,6 +28,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 0: return new ManualTab();
             case 1: return new Tab2();
             case 2: return new Tab3();
+            case 3: return new SettingTab();
             default:
                 return new ManualTab();
         }

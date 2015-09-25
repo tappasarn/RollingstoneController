@@ -10,13 +10,15 @@ import android.view.View;
 public class MainActivity extends ActionBarActivity {
 
     // Declaring Your View and Variables
-
-    private Toolbar toolbar;
     private ViewPager pager;
     private ViewPagerAdapter adapter;
     private SlidingTabLayout tabs;
-    private CharSequence Titles[] = {"Manual", "List", "Add"};
-    private int numTabs = 3;
+    private CharSequence titles[] = {"Manual", "List", "Add", "Settings"};
+    private int numTabs = 4;
+
+    public static final String PREFERENCES = "xyz.rollingstone.preferences";
+    public static final String LIVEVIEW_IP = "xyz.rollingstone.liveview.ip";
+    public static final String LIVEVIEW_PORT = "xyz.rollingstone.liveview.port";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +26,8 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles, numTabs);
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, titles fot the Tabs and Number Of Tabs.
+        adapter =  new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs);
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
