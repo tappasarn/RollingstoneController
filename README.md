@@ -15,5 +15,5 @@ This repository implements netcat like application for sending image frames.
 ##### [virtual_joystick] (https://github.com/tappasarn/virtual_joystick)
 This repository customize virtual joystick implemented by [this] (http://www.akexorcist.com/2012/10/android-code-joystick-controller.html) awesome developer.
 
-##### [action-test] (https://github.com/tappasarn/action-test)
-This repository implements script editor for creating and editing script.
+##### [ActionManager] (https://github.com/robroooh/ActionManager)
+This repository implements action management including edit, create, run.
