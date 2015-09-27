@@ -9,7 +9,7 @@ Other repositories implements other features can be found below.
 ##### [live-view-poc] (https://github.com/hibikiledo/live-view-poc)
 This repository creates an Android application that stream jpeg frame from robot.
 
-##### [A-liveview-Feeder] (https://github.com/hibikiledo/A-Liveview-Feeder)
+##### [A+ liveview Feeder] (https://github.com/hibikiledo/A-Liveview-Feeder)
 This repository implements netcat like application for sending image frames.
 
 ##### [virtual_joystick] (https://github.com/tappasarn/virtual_joystick)
