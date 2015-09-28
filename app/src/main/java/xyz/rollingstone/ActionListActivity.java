@@ -4,12 +4,15 @@ package xyz.rollingstone;
  * displayList and push them all in database
  */
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -30,18 +33,19 @@ public class ActionListActivity extends Activity {
     public static final String TAG = "TIME";
     public ListView listActs;
     public List<Action> actionList;
-    public int old_position;
     public int time_add_counter = 0;
     private ArrayAdapter<String> listAdapter;
     private List<String> displayList;
+    private int addToPosition, old_position = -1,current_position=-1;
+    private boolean isCheck = false;
 
     /**
      * need to set a RADIO id for checking of selection bcuz Android is too stupid
      */
-    public static final int RADIO_ID_FORWARD = 2131492947;
-    public static final int RADIO_ID_LEFT = 2131492948;
-    public static final int RADIO_ID_RIGHT = 2131492949;
-    public static final int RADIO_ID_BACK = 2131492950;
+    public static final int RADIO_ID_FORWARD = 2131492945;
+    public static final int RADIO_ID_LEFT = 2131492946;
+    public static final int RADIO_ID_RIGHT = 2131492947;
+    public static final int RADIO_ID_BACK = 2131492948;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +86,9 @@ public class ActionListActivity extends Activity {
                     Toast toast = Toast.makeText(ActionListActivity.this, String.format("The %s is removed", displayList.get(pos)), Toast.LENGTH_SHORT);
                     toast.show();
 
-                    // remove what's been select from the display list then set the position prior to
-                    // what's been deleted
                     displayList.remove(pos);
                     listAdapter.notifyDataSetChanged();
-                    old_position = pos;
+                    old_position = displayList.size();
                     return true;
                 }
             });
@@ -94,17 +96,31 @@ public class ActionListActivity extends Activity {
             listActs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
+
                     Log.d(TAG, String.format("old_position = %d pos = %d", old_position, pos));
                     Log.d(TAG, String.format("Checked = %d", listActs.getSelectedItemPosition()));
 
+                    //unchecking item in list view
                     if (old_position == pos) {
+
+                        Toast toast = Toast.makeText(ActionListActivity.this, String.format("The script %s is uncheck", displayList.get(pos)), Toast.LENGTH_SHORT);
+                        toast.show();
                         listActs.setItemChecked(pos, false);
+
                         //use for moving old_position to unreal pos allowing toggle
-                        old_position = actionList.size();
-                    } else {
-                        listActs.setItemChecked(pos, true);
-                        old_position = pos;
+                        //un-select the current position and old position since there are nothing selected
+                        old_position = -1;
+                        current_position = -1;
                     }
+                    //for checking item on list view
+                    else {
+                        Toast toast = Toast.makeText(ActionListActivity.this, String.format("The script %s is check", displayList.get(pos)), Toast.LENGTH_SHORT);
+                        toast.show();
+                        listActs.setItemChecked(pos, true);
+                        old_position = pos; // for compare position of the next check
+                        current_position = pos; //setting the current position
+                    }
+
                 }
             });
 
@@ -123,10 +139,12 @@ public class ActionListActivity extends Activity {
     public void AddButtonOnClick(View view) {
         RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
         int id = rg.getCheckedRadioButtonId();
+        Log.d("Radio", Integer.toString(id));
         NumberPicker np = (NumberPicker) findViewById(R.id.numberPicker);
 
         StringBuilder commandBuilder = new StringBuilder();
         Action act = new Action();
+
         switch (id) {
             case RADIO_ID_FORWARD:
                 act.setDirection("FORWARD");
@@ -149,22 +167,23 @@ public class ActionListActivity extends Activity {
                 toast.show();
                 return;
         }
+
         commandBuilder.append(" ");
         commandBuilder.append(np.getValue() + "m");
         act.setLength(np.getValue());
 
-        if (old_position != actionList.size()) {
-            displayList.add(old_position + 1, act.humanize());
-        } else {
-            displayList.add(old_position, act.humanize());
+        if(current_position != -1){
+            displayList.add(current_position +1 , act.humanize());
+        }
+        else {
+            displayList.add(displayList.size() , act.humanize());
+            old_position = -1;//make sure the tracking position is detach from the list
         }
 
         listAdapter.notifyDataSetChanged();
         Toast toast = Toast.makeText(ActionListActivity.this, commandBuilder.toString(), Toast.LENGTH_SHORT);
         toast.show();
 
-        old_position++;
-        time_add_counter++;
     }
 
     /*
@@ -187,5 +206,36 @@ public class ActionListActivity extends Activity {
         Toast.makeText(ActionListActivity.this, String.format("Save %s successfully", tableName), Toast.LENGTH_SHORT).show();
     }
 
+    //this method ask user if they have saved their list
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+            //Handle the back button
+            if(keyCode == KeyEvent.KEYCODE_BACK) {
+                //Ask the user if they want to quit
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("HAVE YOU SAVED YOUR LIST ?")
+                        .setMessage("press cancel to back to list")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                //Stop the activity
+                                ActionListActivity.this.finish();
+                            }
+
+                        })
+                        .setNegativeButton("cancel", null)
+                        .show();
+
+                return true;
+            }
+            else {
+                return super.onKeyDown(keyCode, event);
+            }
+
+
+    }
 }
 

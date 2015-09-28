@@ -26,8 +26,8 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch(position) {
             case 0: return new ManualTab();
-            case 1: return new Tab2();
-            case 2: return new Tab3();
+            case 1: return new Auto();
+            case 2: return new ScriptSelectTab();
             case 3: return new SettingTab();
             default:
                 return new ManualTab();
