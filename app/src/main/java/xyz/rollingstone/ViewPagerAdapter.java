@@ -3,10 +3,11 @@ package xyz.rollingstone;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 
-import xyz.rollingstone.tabs.*;
+import xyz.rollingstone.tabs.ManualTab;
+import xyz.rollingstone.tabs.SettingTab;
+import xyz.rollingstone.tabs.Tab2;
+import xyz.rollingstone.tabs.Tab3;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 

@@ -26,12 +26,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        pager = (CustomViewPager) findViewById(R.id.pager);
-
         // Creating The ViewPagerAdapter and Passing Fragment Manager, titles fot the Tabs and Number Of Tabs.
         adapter =  new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs);
 
         // Assigning ViewPager View and setting the adapter
+        pager = (CustomViewPager) findViewById(R.id.pager);
         pager.setPagingEnabled(false);
         pager.setAdapter(adapter);
 
