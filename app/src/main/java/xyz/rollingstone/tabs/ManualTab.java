@@ -133,6 +133,12 @@ public class ManualTab extends Fragment {
 
                 }
 
+                // When user lift up finger from screen, remove joystickLayout
+                if(event.getAction() == MotionEvent.ACTION_UP) {
+                    // Remove joystick from root view
+                    frameLayout.removeView(joystickLayout);
+                }
+
                 // Obtain MotionEvent object
                 MotionEvent motionEvent = MotionEvent.obtain(
                         SystemClock.uptimeMillis(),

@@ -1,10 +1,7 @@
 package xyz.rollingstone;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 
 public class MainActivity extends ActionBarActivity {
