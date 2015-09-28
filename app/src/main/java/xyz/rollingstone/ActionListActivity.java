@@ -3,6 +3,7 @@ package xyz.rollingstone;
  * main idea is to make change only on displayList then if user click save, just extract from
  * displayList and push them all in database
  */
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -36,8 +37,9 @@ public class ActionListActivity extends Activity {
     public int time_add_counter = 0;
     private ArrayAdapter<String> listAdapter;
     private List<String> displayList;
-    private int addToPosition, old_position = -1,current_position=-1;
+    private int addToPosition, old_position = -1, current_position = -1;
     private boolean isCheck = false;
+    private boolean isSaved = true;
 
     /**
      * need to set a RADIO id for checking of selection bcuz Android is too stupid
@@ -172,17 +174,17 @@ public class ActionListActivity extends Activity {
         commandBuilder.append(np.getValue() + "m");
         act.setLength(np.getValue());
 
-        if(current_position != -1){
-            displayList.add(current_position +1 , act.humanize());
-        }
-        else {
-            displayList.add(displayList.size() , act.humanize());
+        if (current_position != -1) {
+            displayList.add(current_position + 1, act.humanize());
+        } else {
+            displayList.add(displayList.size(), act.humanize());
             old_position = -1;//make sure the tracking position is detach from the list
         }
 
         listAdapter.notifyDataSetChanged();
         Toast toast = Toast.makeText(ActionListActivity.this, commandBuilder.toString(), Toast.LENGTH_SHORT);
         toast.show();
+        isSaved = false;
 
     }
 
@@ -204,38 +206,37 @@ public class ActionListActivity extends Activity {
             db.addActionToTable(tableName, act);
         }
         Toast.makeText(ActionListActivity.this, String.format("Save %s successfully", tableName), Toast.LENGTH_SHORT).show();
+        isSaved = true;
     }
 
     //this method ask user if they have saved their list
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-            //Handle the back button
-            if(keyCode == KeyEvent.KEYCODE_BACK) {
-                //Ask the user if they want to quit
-                new AlertDialog.Builder(this)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("HAVE YOU SAVED YOUR LIST ?")
-                        .setMessage("press cancel to back to list")
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+        //Handle the back button
+        if (keyCode == KeyEvent.KEYCODE_BACK && !isSaved) {
 
-                                //Stop the activity
-                                ActionListActivity.this.finish();
-                            }
+            //Ask the user if they want to quit
+            new AlertDialog.Builder(this)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setTitle("DID YOU SAVED?")
+                    .setMessage("if you didn't, the progress will be lost")
+                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
-                        })
-                        .setNegativeButton("cancel", null)
-                        .show();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                return true;
-            }
-            else {
-                return super.onKeyDown(keyCode, event);
-            }
+                            //Stop the activity
+                            ActionListActivity.this.finish();
+                        }
 
-
+                    })
+                    .setNegativeButton("cancel", null)
+                    .show();
+            return true;
+        } else {
+            return super.onKeyDown(keyCode, event);
+        }
     }
 }
 
