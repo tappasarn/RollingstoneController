@@ -10,7 +10,7 @@ import android.view.View;
 public class MainActivity extends ActionBarActivity {
 
     // Declaring Your View and Variables
-    private ViewPager pager;
+    private CustomViewPager pager;
     private ViewPagerAdapter adapter;
     private SlidingTabLayout tabs;
     private CharSequence titles[] = {"Manual", "List", "Add", "Settings"};
@@ -26,11 +26,13 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        pager = (CustomViewPager) findViewById(R.id.pager);
+
         // Creating The ViewPagerAdapter and Passing Fragment Manager, titles fot the Tabs and Number Of Tabs.
         adapter =  new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs);
 
         // Assigning ViewPager View and setting the adapter
-        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setPagingEnabled(false);
         pager.setAdapter(adapter);
 
         // Assign the Sliding Tab Layout View

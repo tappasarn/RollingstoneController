@@ -70,7 +70,9 @@ public class SettingTab extends Fragment {
             }
         });
 
-        // Populate values of IP and PORt if existed
+        /*
+            Populate values of IP and PORT into EditTexts if the values exist
+         */
         String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
         int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
 
