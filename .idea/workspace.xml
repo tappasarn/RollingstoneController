@@ -6,23 +6,13 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="DEBUG" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="12521212-775e-44cc-b789-2781642af936" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/joystick_bg.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/joystick_button.png" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/CustomViewPager.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/JoyStick.java" />
+    <list default="true" id="14a758b5-332d-402f-860d-3ea6763c2d1f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/ManualTab.java" afterPath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/ManualTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/SettingTab.java" afterPath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/SettingTab.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/ViewPagerAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/ViewPagerAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/manual_tab.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/manual_tab.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/liveview/LiveViewUpdaterSocket.java" afterPath="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/liveview/LiveViewUpdaterSocket.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="timeControler.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,81 +33,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="MainActivity.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/MainActivity.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ViewPagerAdapter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/ViewPagerAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="LiveViewUpdaterSocket.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="LiveViewUpdaterSocket.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/liveview/LiveViewUpdaterSocket.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+            <state vertical-scroll-proportion="1.2821577">
+              <caret line="149" column="65" selection-start-line="149" selection-start-column="65" selection-end-line="149" selection-end-column="65" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ManualTab.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/ManualTab.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.48471615">
-              <caret line="135" column="78" selection-start-line="135" selection-start-column="78" selection-end-line="135" selection-end-column="78" />
-              <folding>
-                <element signature="e#1653#1991#0" expanded="true" />
-                <element signature="e#1990#1991#0" expanded="true" />
-                <element signature="e#5883#6074#0" expanded="true" />
-                <element signature="e#6073#6074#0" expanded="true" />
-              </folding>
+      <file leaf-file-name="manual_tab.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/manual_tab.xml">
+          <provider editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
             </state>
           </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SettingTab.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/SettingTab.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="79" column="35" selection-start-line="79" selection-start-column="35" selection-end-line="79" selection-end-column="35" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
+          <provider selected="true" editor-type-id="android-designer">
+            <state />
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="settings-fragment" />
-      </map>
-    </option>
   </component>
   <component name="GradleLocalSettings">
     <option name="availableProjects">
@@ -1549,54 +1491,17 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/timecontroler/SlidingTabStrip.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/timecontroler/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/timecontroler/ViewPagerAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/timecontroler/SlidingTabLayout.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/tab_1.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/timecontroler/LiveViewUpdater.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/timecontroler/Tab1.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/timecontroler/LiveViewUpdaterSocket.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/timecontroler/ManualTab.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/timecontroler/tabs/ManualTab.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/timecontroler/liveview/LiveViewUpdaterSocket.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/timecontroler/com/rollingstone/ViewPagerAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/SlidingTabLayout.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/Tab2.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/Tab3.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/SlidingTabStrip.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/color.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/Tab4.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/liveview/LiveViewUpdaterSocket.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/settings_tab.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/SettingTab.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/manual_tab.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/JoyStick.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/CustomViewPager.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/ViewPagerAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/ManualTab.java" />
       </list>
-    </option>
-  </component>
-  <component name="MavenImportPreferences">
-    <option name="generalSettings">
-      <MavenGeneralSettings>
-        <option name="mavenHome" value="Bundled (Maven 3)" />
-      </MavenGeneralSettings>
     </option>
   </component>
   <component name="NamedScopeManager">
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="697" />
-    <option name="y" value="135" />
-    <option name="width" value="1215" />
+    <option name="x" value="205" />
+    <option name="y" value="68" />
+    <option name="width" value="1529" />
     <option name="height" value="877" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -1622,17 +1527,12 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="AndroidView">
         <subPane>
           <PATH>
             <PATH_ELEMENT>
               <option name="myItemId" value="timeControler" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Gradle Scripts" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidBuildScriptsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1643,6 +1543,28 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="timeControler" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="res" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="layout" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -1699,33 +1621,30 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="timeControler" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane" />
+      <pane id="Scope" />
       <pane id="Scratches" />
+      <pane id="ProjectPane" />
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Font" />
+    <property name="settings.editor.selected.configurable" value="android.sdk-updates" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="recentsLimit" value="5" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_SERIALS" value="4d005909e3935071" />
     <property name="ANDROID_EXTENDED_DEVICE_CHOOSER_AVD" value="Nexus_5_API_23_x86" />
-    <property name="OverrideImplement.combined" value="true" />
-    <property name="OverrideImplement.overriding.sorted" value="false" />
-    <property name="FullScreen" value="false" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="xyz.rollingstone" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/app/src/main/res/drawable" />
-    </key>
-    <key name="android.template.packageName">
-      <recent name="timecontroler.com.timecontroler" />
-    </key>
   </component>
   <component name="RunManager" selected="Android Application.app">
     <configuration default="true" type="AndroidRunConfigurationType" factoryName="Android Application">
@@ -1734,36 +1653,6 @@
       <option name="MODE" value="default_activity" />
       <option name="DEPLOY" value="true" />
       <option name="ARTIFACT_NAME" value="" />
-      <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
-      <option name="USE_LAST_SELECTED_DEVICE" value="false" />
-      <option name="PREFERRED_AVD" value="" />
-      <option name="USE_COMMAND_LINE" value="true" />
-      <option name="COMMAND_LINE" value="" />
-      <option name="WIPE_USER_DATA" value="false" />
-      <option name="DISABLE_BOOT_ANIMATION" value="false" />
-      <option name="NETWORK_SPEED" value="full" />
-      <option name="NETWORK_LATENCY" value="none" />
-      <option name="CLEAR_LOGCAT" value="false" />
-      <option name="SHOW_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="FILTER_LOGCAT_AUTOMATICALLY" value="true" />
-      <option name="SELECTED_CLOUD_MATRIX_CONFIGURATION_ID" value="0" />
-      <option name="SELECTED_CLOUD_MATRIX_PROJECT_ID" value="" />
-      <option name="SELECTED_CLOUD_DEVICE_CONFIGURATION_ID" value="0" />
-      <option name="SELECTED_CLOUD_DEVICE_PROJECT_ID" value="" />
-      <option name="IS_VALID_CLOUD_MATRIX_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_MATRIX_SELECTION_ERROR" value="" />
-      <option name="IS_VALID_CLOUD_DEVICE_SELECTION" value="false" />
-      <option name="INVALID_CLOUD_DEVICE_SELECTION_ERROR" value="" />
-      <option name="CLOUD_DEVICE_SERIAL_NUMBER" value="" />
-      <method />
-    </configuration>
-    <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
-      <module name="" />
-      <option name="TESTING_TYPE" value="0" />
-      <option name="INSTRUMENTATION_RUNNER_CLASS" value="" />
-      <option name="METHOD_NAME" value="" />
-      <option name="CLASS_NAME" value="" />
-      <option name="PACKAGE_NAME" value="" />
       <option name="TARGET_SELECTION_MODE" value="EMULATOR" />
       <option name="USE_LAST_SELECTED_DEVICE" value="false" />
       <option name="PREFERRED_AVD" value="" />
@@ -1821,11 +1710,6 @@
       </option>
       <envs />
       <patterns />
-      <method />
-    </configuration>
-    <configuration default="true" type="JarApplication" factoryName="JAR Application">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
-      <envs />
       <method />
     </configuration>
     <configuration default="true" type="Remote" factoryName="Remote">
@@ -1915,82 +1799,44 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="12521212-775e-44cc-b789-2781642af936" name="Default" comment="" />
-      <created>1442920431385</created>
+      <changelist id="14a758b5-332d-402f-860d-3ea6763c2d1f" name="Default" comment="" />
+      <created>1443491033205</created>
       <option name="number" value="Default" />
-      <updated>1442920431385</updated>
+      <updated>1443491033205</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="697" y="135" width="1215" height="877" extended-state="0" />
+    <frame x="205" y="68" width="1529" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3285151" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32999283" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298292" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3285151" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.325887" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298292" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3298292" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27791986" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3061761" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24949563" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298292" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-    </layout>
-    <layout-to-restore>
-      <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2511556" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32921347" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="true" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32816902" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-    </layout-to-restore>
-  </component>
-  <component name="Vcs.Log.UiProperties">
-    <option name="RECENTLY_FILTERED_USER_GROUPS">
-      <collection />
-    </option>
-    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-      <collection />
-    </option>
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+    </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
@@ -2000,351 +1846,7 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="38" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/liveview/LiveViewUpdaterSocket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/ViewPagerAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="0" selection-start-line="39" selection-start-column="0" selection-end-line="39" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/ManualTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="57" column="68" selection-start-line="57" selection-start-column="68" selection-end-line="57" selection-end-column="68" />
-          <folding>
-            <element signature="e#1653#1991#0" expanded="true" />
-            <element signature="e#1990#1991#0" expanded="true" />
-            <element signature="e#5883#6074#0" expanded="true" />
-            <element signature="e#6073#6074#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/ManualTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="72" column="24" selection-start-line="72" selection-start-column="24" selection-end-line="72" selection-end-column="24" />
-          <folding>
-            <element signature="e#1653#1991#0" expanded="true" />
-            <element signature="e#1990#1991#0" expanded="true" />
-            <element signature="e#5883#6074#0" expanded="true" />
-            <element signature="e#6073#6074#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/liveview/LiveViewUpdaterSocket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="24" column="0" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="10" column="43" selection-start-line="10" selection-start-column="43" selection-end-line="10" selection-end-column="43" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/manual_tab.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="47" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/tab_2.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/tab_3.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/liveview/LiveViewUpdaterSocket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="15" column="31" selection-start-line="15" selection-start-column="31" selection-end-line="15" selection-end-column="31" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/ManualTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="66" column="24" selection-start-line="66" selection-start-column="24" selection-end-line="66" selection-end-column="24" />
-          <folding>
-            <element signature="e#1653#1991#0" expanded="true" />
-            <element signature="e#1990#1991#0" expanded="true" />
-            <element signature="e#5883#6074#0" expanded="true" />
-            <element signature="e#6073#6074#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/SlidingTabStrip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="43" column="45" selection-start-line="43" selection-start-column="45" selection-end-line="43" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/ViewPagerAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/SlidingTabLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/Tab2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="30" selection-start-line="0" selection-start-column="30" selection-end-line="0" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/Tab3.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="19" column="59" selection-start-line="19" selection-start-column="59" selection-end-line="19" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="20" column="66" selection-start-line="20" selection-start-column="66" selection-end-line="20" selection-end-column="66" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/manual_tab.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="8" column="47" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/SlidingTabLayout.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="17" column="0" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/color/selector.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18973215">
-          <caret line="5" column="36" selection-start-line="5" selection-start-column="36" selection-end-line="5" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-w820dp/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.121140145">
-          <caret line="3" column="52" selection-start-line="3" selection-start-column="52" selection-end-line="3" selection-end-column="52" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/Tab2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3489736">
-          <caret line="14" column="64" selection-start-line="14" selection-start-column="64" selection-end-line="14" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/SlidingTabStrip.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.3251671">
-          <caret line="70" column="21" selection-start-line="70" selection-start-column="21" selection-end-line="70" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/tab_2.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/res/values/values.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.5464684">
-          <caret line="1427" column="17" selection-start-line="1427" selection-start-column="17" selection-end-line="1427" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/styles.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.41535777">
-          <caret line="14" column="0" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/color.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.14834206">
-          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/tab_3.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32818532">
-          <caret line="15" column="17" selection-start-line="15" selection-start-column="17" selection-end-line="15" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/23.0.1/support-v4-23.0.1-sources.jar!/android/support/v4/app/Fragment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.33224756">
-          <caret line="1252" column="16" selection-start-line="1252" selection-start-column="16" selection-end-line="1252" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/Tab3.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.56082475">
-          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/build.gradle">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.37107778">
-          <caret line="16" column="94" selection-start-line="16" selection-start-column="94" selection-end-line="16" selection-end-column="94" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.18553889">
-          <caret line="8" column="38" selection-start-line="8" selection-start-column="30" selection-end-line="8" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/settings_tab.xml">
       <provider editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -2355,271 +1857,11 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.93201756">
-          <caret line="25" column="30" selection-start-line="25" selection-start-column="30" selection-end-line="25" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/23.0.1/support-v4-23.0.1-sources.jar!/android/support/v4/app/FragmentStatePagerAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28041238">
-          <caret line="72" column="4" selection-start-line="72" selection-start-column="4" selection-end-line="72" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$USER_HOME$/Library/Android/sdk/extras/android/m2repository/com/android/support/support-v4/23.0.1/support-v4-23.0.1-sources.jar!/android/support/v4/view/ViewPager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.42061856">
-          <caret line="90" column="13" selection-start-line="90" selection-start-column="13" selection-end-line="90" selection-end-column="13" />
-          <folding>
-            <element signature="docComment;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#mExpectedAdapterCount#0;class#ViewPager#0" expanded="false" />
-            <element signature="class#ItemInfo#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#mLastMotionX#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#mActivePointerId#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#INVALID_POINTER#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#mVelocityTracker#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#SCROLL_STATE_IDLE#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#SCROLL_STATE_DRAGGING#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#SCROLL_STATE_SETTLING#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;class#OnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="class#OnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#onPageScrolled#0;class#OnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#onPageSelected#0;class#OnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#onPageScrollStateChanged#0;class#OnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;class#SimpleOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="class#SimpleOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onPageScrolled#0;class#SimpleOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onPageSelected#0;class#SimpleOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onPageScrollStateChanged#0;class#SimpleOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;class#PageTransformer#0;class#ViewPager#0" expanded="false" />
-            <element signature="class#PageTransformer#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#transformPage#0;class#PageTransformer#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;class#OnAdapterChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="class#OnAdapterChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;class#Decor#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#ViewPager#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#ViewPager#1;class#ViewPager#0" expanded="false" />
-            <element signature="method#initViewPager#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onDetachedFromWindow#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setScrollState#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#setAdapter#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setAdapter#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#removeNonDecorViews#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#getAdapter#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setOnAdapterChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#getClientWidth#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#setCurrentItem#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setCurrentItem#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#setCurrentItem#1;class#ViewPager#0" expanded="false" />
-            <element signature="method#setCurrentItem#1;class#ViewPager#0" expanded="false" />
-            <element signature="method#setCurrentItemInternal#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setCurrentItemInternal#1;class#ViewPager#0" expanded="false" />
-            <element signature="e#19265#19320#0" expanded="false" />
-            <element signature="e#19652#19733#0" expanded="false" />
-            <element signature="method#scrollToItem#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#setOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#addOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#addOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#removeOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#removeOnPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#clearOnPageChangeListeners#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#clearOnPageChangeListeners#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#setPageTransformer#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setPageTransformer#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setChildrenDrawingOrderEnabledCompat#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#getChildDrawingOrder#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#setInternalPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setInternalPageChangeListener#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#getOffscreenPageLimit#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#setOffscreenPageLimit#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setOffscreenPageLimit#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#setPageMargin#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setPageMargin#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#getPageMargin#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#setPageMarginDrawable#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setPageMarginDrawable#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#setPageMarginDrawable#1;class#ViewPager#0" expanded="false" />
-            <element signature="method#setPageMarginDrawable#1;class#ViewPager#0" expanded="false" />
-            <element signature="method#verifyDrawable#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#drawableStateChanged#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#distanceInfluenceForSnapDuration#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#smoothScrollTo#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#smoothScrollTo#1;class#ViewPager#0" expanded="false" />
-            <element signature="method#smoothScrollTo#1;class#ViewPager#0" expanded="false" />
-            <element signature="method#addNewItem#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#dataSetChanged#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#populate#1;class#ViewPager#0" expanded="false" />
-            <element signature="e#35003#35066#0" expanded="false" />
-            <element signature="e#35477#35547#0" expanded="false" />
-            <element signature="e#37264#37327#0" expanded="false" />
-            <element signature="e#41303#41370#0" expanded="false" />
-            <element signature="method#sortChildDrawingOrder#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#calculatePageOffsets#0;class#ViewPager#0" expanded="false" />
-            <element signature="e#44421#44465#0" expanded="false" />
-            <element signature="e#45393#45437#0" expanded="false" />
-            <element signature="docComment;class#SavedState#0;class#ViewPager#0" expanded="false" />
-            <element signature="class#SavedState#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#writeToParcel#0;class#SavedState#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#toString#0;class#SavedState#0;class#ViewPager#0" expanded="false" />
-            <element signature="class#48257:48688" expanded="false" />
-            <element signature="method#createFromParcel#0;class#48257:48688" expanded="false" />
-            <element signature="method#SavedState#1;class#SavedState#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onSaveInstanceState#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onRestoreInstanceState#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#addView#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#removeView#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#infoForChild#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#infoForAnyChild#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#infoForPosition#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onAttachedToWindow#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onMeasure#0;class#ViewPager#0" expanded="false" />
-            <element signature="e#52115#52175#0" expanded="false" />
-            <element signature="method#onSizeChanged#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#recomputeScrollPosition#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onLayout#0;class#ViewPager#0" expanded="false" />
-            <element signature="e#58843#58912#0" expanded="false" />
-            <element signature="e#62165#62219#0" expanded="false" />
-            <element signature="method#computeScroll#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#pageScrolled#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#onPageScrolled#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onPageScrolled#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#dispatchOnPageScrolled#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#dispatchOnPageSelected#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#dispatchOnScrollStateChanged#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#completeScroll#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#isGutterDrag#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#enableLayers#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#requestParentDisallowInterceptTouchEvent#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#performDrag#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#infoForCurrentScrollPosition#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#infoForCurrentScrollPosition#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#determineTargetPage#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#draw#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onDraw#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#beginFakeDrag#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#beginFakeDrag#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#endFakeDrag#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#endFakeDrag#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#fakeDragBy#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#fakeDragBy#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#isFakeDragging#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onSecondaryPointerUp#0;class#ViewPager#0" expanded="false" />
-            <element signature="e#97097#97150#0" expanded="false" />
-            <element signature="method#endDrag#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#setScrollingCacheEnabled#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#canScrollHorizontally#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#canScroll#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#canScroll#0;class#ViewPager#0" expanded="false" />
-            <element signature="e#99756#99814#0" expanded="false" />
-            <element signature="method#dispatchKeyEvent#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#executeKeyEvent#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#executeKeyEvent#0;class#ViewPager#0" expanded="false" />
-            <element signature="e#101534#101605#0" expanded="false" />
-            <element signature="method#arrowScroll#0;class#ViewPager#0" expanded="false" />
-            <element signature="e#103635#103695#0" expanded="false" />
-            <element signature="e#104263#104324#0" expanded="false" />
-            <element signature="method#getChildRectInPagerCoordinates#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#pageLeft#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#pageRight#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;method#addFocusables#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#addFocusables#0;class#ViewPager#0" expanded="false" />
-            <element signature="e#107393#107463#0" expanded="false" />
-            <element signature="e#107883#107946#0" expanded="false" />
-            <element signature="docComment;method#addTouchables#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#addTouchables#0;class#ViewPager#0" expanded="false" />
-            <element signature="e#108550#108616#0" expanded="false" />
-            <element signature="docComment;method#onRequestFocusInDescendants#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onRequestFocusInDescendants#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#dispatchPopulateAccessibilityEvent#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#generateLayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#checkLayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#generateLayoutParams#1;class#ViewPager#0" expanded="false" />
-            <element signature="class#MyAccessibilityDelegate#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onInitializeAccessibilityEvent#0;class#MyAccessibilityDelegate#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#onInitializeAccessibilityNodeInfo#0;class#MyAccessibilityDelegate#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#performAccessibilityAction#0;class#MyAccessibilityDelegate#0;class#ViewPager#0" expanded="false" />
-            <element signature="class#PagerObserver#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;class#LayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="class#LayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#isDecor#0;class#LayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#gravity#0;class#LayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#widthFactor#0;class#LayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#needsMeasure#0;class#LayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#position#0;class#LayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="docComment;field#childIndex#0;class#LayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#LayoutParams#1;class#LayoutParams#0;class#ViewPager#0" expanded="false" />
-            <element signature="class#ViewPositionComparator#0;class#ViewPager#0" expanded="false" />
-            <element signature="method#compare#0;class#ViewPositionComparator#0;class#ViewPager#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/ViewPagerAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="25" selection-start-line="7" selection-start-column="25" selection-end-line="7" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/manual_tab.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38636363">
-          <caret line="16" column="57" selection-start-line="16" selection-start-column="57" selection-end-line="16" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="android-designer">
-        <state />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/SettingTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="79" column="35" selection-start-line="79" selection-start-column="35" selection-end-line="79" selection-end-column="35" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/liveview/LiveViewUpdaterSocket.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="53" column="0" selection-start-line="53" selection-start-column="0" selection-end-line="53" selection-end-column="0" />
+        <state vertical-scroll-proportion="1.2821577">
+          <caret line="149" column="65" selection-start-line="149" selection-start-column="65" selection-end-line="149" selection-end-column="65" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/xyz/rollingstone/tabs/ManualTab.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.48471615">
-          <caret line="135" column="78" selection-start-line="135" selection-start-column="78" selection-end-line="135" selection-end-column="78" />
-          <folding>
-            <element signature="e#1653#1991#0" expanded="true" />
-            <element signature="e#1990#1991#0" expanded="true" />
-            <element signature="e#5883#6074#0" expanded="true" />
-            <element signature="e#6073#6074#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
