@@ -73,14 +73,22 @@ public class ScriptSelectTab extends Fragment {
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
                 SparseBooleanArray checked = listView.getCheckedItemPositions();
+
                 Toast toast = Toast.makeText(getContext(), String.format("The script %s is removed", allBigsName.get(pos)), Toast.LENGTH_SHORT);
                 toast.show();
-
-                db.deleteBigById(pos + 1);
+                db.deleteBigByName(allBigsName.get(pos));
                 db.deleteTableByName(allBigsName.get(pos));
-
                 //////////////
+
                 //listView.setItemChecked(pos, false);
+                for (int i = pos; i < checked.size(); i++) {
+
+                    listView.setItemChecked(i, checked.valueAt(i));
+                }
+                listView.setItemChecked(checked.size(), false);
+
+                Log.d("hahhahaha", checked.toString());
+
 
                 allBigsName.remove(pos);
 
