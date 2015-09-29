@@ -27,6 +27,7 @@ import java.util.List;
 
 
 public class ActionListActivity extends Activity {
+
     public static final String EXTRA_TBNAME = "table_name";
     private static String tableName;
     public static final String TAG = "TIME";
@@ -90,8 +91,10 @@ public class ActionListActivity extends Activity {
                     old_position = displayList.size();
 
                     // in case we delete the last row, so we need to set in back in scope
-                    if (current_position > displayList.size()) {
-                        current_position = displayList.size() - 1;
+                    // -1 is used for append the list
+                    if (current_position >= displayList.size()) {
+                        listActs.setItemChecked(current_position, false);
+                        current_position = - 1;
                     }
 
                     return true;
@@ -142,9 +145,10 @@ public class ActionListActivity extends Activity {
 
     // working on displaying data only,
     public void AddButtonOnClick(View view) {
+
         RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
         int id = rg.getCheckedRadioButtonId();
-        Log.d("Radio", Integer.toString(id));
+        Log.d("Radio", Integer.toString(current_position));
         NumberPicker np = (NumberPicker) findViewById(R.id.numberPicker);
 
         StringBuilder commandBuilder = new StringBuilder();
