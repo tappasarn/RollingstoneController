@@ -77,6 +77,7 @@ public class ActionListActivity extends Activity {
             listActs.setLongClickable(true);
             listActs.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
+            // delete is here
             listActs.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
                 public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -87,6 +88,12 @@ public class ActionListActivity extends Activity {
                     displayList.remove(pos);
                     listAdapter.notifyDataSetChanged();
                     old_position = displayList.size();
+
+                    // in case we delete the last row, so we need to set in back in scope
+                    if (current_position > displayList.size()) {
+                        current_position = displayList.size() - 1;
+                    }
+
                     return true;
                 }
             });
