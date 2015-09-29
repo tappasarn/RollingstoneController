@@ -26,23 +26,36 @@ import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
 
 public class ManualTab extends Fragment {
 
+    // Define TAG for logcat filtering
     final public static String DEBUG = "me.hibikiledo.DEBUG";
+    // Define TAG for sending message betweeb UI Thread and LiveViewUpdater Thread
     final public static String MSG = "me.hibikiledo.MESSAGE";
-
+    // Define type of MSG. In this case, LIVEVIEW message which contains Bitmap
     final public static int LIVEVIEW_MSG = 0;
 
+    // For showing live view
     private ImageView imageView;
+    // Hold bitmap data for displaying in imageView
     private Bitmap imageData;
 
+    // Reference to virtual joystick
     private JoyStick joystick;
 
+    // Thread for performing image fetching from the robot
     private LiveViewUpdaterSocket updater = null;
+
+    // Use to save application configurations
     private SharedPreferences sharedPreferences;
 
+    // Root layout for ManualTab
     private FrameLayout frameLayout;
+    // Layout for holding virtual joystick
     private RelativeLayout joystickLayout;
 
+    // Define size of stick and layout
     private int layoutSize = 500, stickSize = 150;
+    // True if joystick is displaying, otherwise false
+    private boolean isJoystickShown = false;
 
     /*
         Handler for UI thread
@@ -58,7 +71,10 @@ public class ManualTab extends Fragment {
         handler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
+                // Get message type
                 int msgType = msg.getData().getInt(MSG);
+                // If message type is LIVEVIEW_MSG, this implies that, new bitmap data has been set.
+                // We are free to update Bitmap data in imageView.
                 if( msgType == LIVEVIEW_MSG ) {
                     imageView.setImageBitmap( imageData );
                 }
@@ -66,6 +82,7 @@ public class ManualTab extends Fragment {
             }
         });
 
+        // Get sharedPreferences object for accessing configurations
         this.sharedPreferences = getActivity().getSharedPreferences(
                 MainActivity.PREFERENCES, Context.MODE_PRIVATE);
 
@@ -109,6 +126,8 @@ public class ManualTab extends Fragment {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
+                    Log.d("", "on down received.");
+
                     float xPos = event.getX();
                     float yPos = event.getY();
 
@@ -131,26 +150,51 @@ public class ManualTab extends Fragment {
                     // Add joystick back with created layout parameters
                     frameLayout.addView(joystickLayout, params);
 
+                    // This handles another TouchEvent while virtual joystick is being shown.
+                    // Without this dispatchTouchEvent will raise RuntimeException.
+                    if(!isJoystickShown) {
+                        // Obtain MotionEvent object
+                        MotionEvent motionEvent = MotionEvent.obtain(
+                                SystemClock.uptimeMillis(),
+                                SystemClock.uptimeMillis() + 100,
+                                event.getAction(),
+                                (layoutSize / 2) + (event.getX() - xRef),
+                                (layoutSize / 2) + (event.getY() - yRef),
+                                0
+                        );
+                        joystickLayout.dispatchTouchEvent(motionEvent);
+                        isJoystickShown = true;
+                    }
+
                 }
 
                 // When user lift up finger from screen, remove joystickLayout
                 if(event.getAction() == MotionEvent.ACTION_UP) {
+
+                    Log.d("", "on up received");
+
+                    isJoystickShown = false;
+
                     // Remove joystick from root view
                     frameLayout.removeView(joystickLayout);
                 }
 
-                // Obtain MotionEvent object
-                MotionEvent motionEvent = MotionEvent.obtain(
-                        SystemClock.uptimeMillis(),
-                        SystemClock.uptimeMillis() + 100,
-                        event.getAction(),
-                        (layoutSize / 2) + (event.getX() - xRef),
-                        (layoutSize / 2) + (event.getY() - yRef),
-                        0
-                );
-                // Dispatch this event to joystickLayout as well
-                // The reason is to make sure that joystickLayout get event
-                joystickLayout.dispatchTouchEvent(motionEvent);
+
+                // Only ACTION_DOWN and ACTION_MOVE needed to be dispatch
+                // to joystickLayout as well
+                if(event.getAction() == MotionEvent.ACTION_MOVE) {
+                    // Obtain MotionEvent object
+                    MotionEvent motionEvent = MotionEvent.obtain(
+                            SystemClock.uptimeMillis(),
+                            SystemClock.uptimeMillis() + 100,
+                            event.getAction(),
+                            (layoutSize / 2) + (event.getX() - xRef),
+                            (layoutSize / 2) + (event.getY() - yRef),
+                            0
+                    );
+                    joystickLayout.dispatchTouchEvent(motionEvent);
+                }
+
 
                 return true;
             }
