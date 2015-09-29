@@ -32,6 +32,7 @@ public class ScriptSelectTab extends Fragment {
     List<String> allBigsName; //Bigs stands for Script, me so sry i can't remember the name at that time
     private int addToPosition, old_position = -1,current_position=-1;
     private boolean isSelected = false;
+    ListView listView;
 
     @Nullable
     @Override
@@ -42,11 +43,15 @@ public class ScriptSelectTab extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final ListView listView = (ListView) getView().findViewById(R.id.list);
+        listView = (ListView) getView().findViewById(R.id.list);
+        Toast.makeText(getContext(), String.format("%d",old_position), Toast.LENGTH_SHORT).show();
 
         db = new ActionSQLHelper(getContext());
         //CRUD goes here
         allBigsName = db.getAllBigsName();
+
+
+
         listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_activated_1, allBigsName);
         listView.setAdapter(listAdapter);
 
@@ -57,6 +62,12 @@ public class ScriptSelectTab extends Fragment {
         listView.setLongClickable(true);
         listView.setClickable(true);
         listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+        if(old_position==-1) {
+            for (int i = 0; i < allBigsName.size(); i++) {
+                listView.setItemChecked(i, false);
+            }
+        }
 
         //set listenner for both longclick and normal click
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
