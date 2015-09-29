@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,35 +43,31 @@ public class ScriptSelectTab extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onStart() {
+        super.onStart();
+
+        Log.d("", "onStart is called.");
+
         listView = (ListView) getView().findViewById(R.id.list);
-        Toast.makeText(getContext(), String.format("%d",old_position), Toast.LENGTH_SHORT).show();
 
         db = new ActionSQLHelper(getContext());
-        //CRUD goes here
+
+        // CRUD goes here
         allBigsName = db.getAllBigsName();
-
-
 
         listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_activated_1, allBigsName);
         listView.setAdapter(listAdapter);
 
-        //defult adding position will be appending to the last of the list
+        // Default adding position will be appending to the last of the list
         addToPosition = allBigsName.size();
 
-        //implement the listview so it can receive long click and normal click to delete
+        // Implement the list view so it can receive long click and normal click to delete
         listView.setLongClickable(true);
         listView.setClickable(true);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        if(old_position==-1) {
-            for (int i = 0; i < allBigsName.size(); i++) {
-                listView.setItemChecked(i, false);
-            }
-        }
-
-        //set listenner for both longclick and normal click
+        /*
+        // Set listener for both long click and normal click
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
@@ -108,11 +106,14 @@ public class ScriptSelectTab extends Fragment {
             }
         });
 
+        */
+
+
+        /*
         // init FAB button and create their listener
         ImageButton addBtn = (ImageButton) getView().findViewById(R.id.addButton);
         ImageButton uploadBtn = (ImageButton) getView().findViewById(R.id.uploadButton);
         ImageButton editBtn = (ImageButton) getView().findViewById(R.id.editButton);
-
 
         // Add Button Listener
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -177,7 +178,11 @@ public class ScriptSelectTab extends Fragment {
             }
         });
 
+        */
+
     }
+
+
 
 
 

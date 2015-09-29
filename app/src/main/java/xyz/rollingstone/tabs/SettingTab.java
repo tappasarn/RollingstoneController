@@ -39,8 +39,8 @@ public class SettingTab extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onStart() {
+        super.onStart();
 
         // Locate UI Elements
         this.ipEditText = (EditText) getView().findViewById(R.id.ipEditText);

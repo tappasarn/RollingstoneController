@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 import xyz.rollingstone.tabs.ManualTab;
 import xyz.rollingstone.tabs.SettingTab;
-import xyz.rollingstone.tabs.Tab2;
-import xyz.rollingstone.tabs.Tab3;
+import xyz.rollingstone.tabs.Auto;
+import xyz.rollingstone.tabs.ScriptSelectTab;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 

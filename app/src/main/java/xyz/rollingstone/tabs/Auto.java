@@ -30,8 +30,8 @@ public class Auto extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onStart() {
+        super.onStart();
 
         // get the tableName here
         /*tableName = R.string.app_name;
