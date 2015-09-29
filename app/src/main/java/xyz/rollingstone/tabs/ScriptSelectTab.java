@@ -32,7 +32,7 @@ public class ScriptSelectTab extends Fragment {
     ActionSQLHelper db;
     ArrayAdapter<String> listAdapter;
     List<String> allBigsName; //Bigs stands for Script, me so sry i can't remember the name at that time
-    private int addToPosition, old_position = -1,current_position=-1;
+    private int addToPosition, old_position = -1, current_position = -1;
     private boolean isSelected = false;
     ListView listView;
 
@@ -66,15 +66,24 @@ public class ScriptSelectTab extends Fragment {
         listView.setClickable(true);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        /*
+        ///////////////////////////////////////////////////////////////////////////////////////////////////
         // Set listener for both long click and normal click
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
+                SparseBooleanArray checked = listView.getCheckedItemPositions();
                 Toast toast = Toast.makeText(getContext(), String.format("The script %s is removed", allBigsName.get(pos)), Toast.LENGTH_SHORT);
                 toast.show();
+
+                db.deleteBigById(pos + 1);
+                db.deleteTableByName(allBigsName.get(pos));
+
+                //////////////
+                //listView.setItemChecked(pos, false);
+
                 allBigsName.remove(pos);
+
                 listAdapter.notifyDataSetChanged();
                 return true;
             }
@@ -87,7 +96,7 @@ public class ScriptSelectTab extends Fragment {
                 if (old_position == pos) {
                     Toast toast = Toast.makeText(getContext(), String.format("The script %s is uncheck", allBigsName.get(pos)), Toast.LENGTH_SHORT);
                     toast.show();
-                    listView.setItemChecked(pos, false);
+                    //listView.setItemChecked(pos, false);// no need to use since we use CHOICE_MODE_MULTIPLE
                     //use for moving old_position to unreal pos allowing toggle
                     old_position = allBigsName.size();
                     current_position = -1;
@@ -97,7 +106,7 @@ public class ScriptSelectTab extends Fragment {
                 else {
                     Toast toast = Toast.makeText(getContext(), String.format("The script %s is check", allBigsName.get(pos)), Toast.LENGTH_SHORT);
                     toast.show();
-                    listView.setItemChecked(pos, true);
+                    //listView.setItemChecked(pos, true);// no need to use since we use CHOICE_MODE_MULTIPLE
                     old_position = pos;
                     current_position = pos;
                     isSelected = true;
@@ -106,10 +115,7 @@ public class ScriptSelectTab extends Fragment {
             }
         });
 
-        */
 
-
-        /*
         // init FAB button and create their listener
         ImageButton addBtn = (ImageButton) getView().findViewById(R.id.addButton);
         ImageButton uploadBtn = (ImageButton) getView().findViewById(R.id.uploadButton);
@@ -170,20 +176,30 @@ public class ScriptSelectTab extends Fragment {
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSelected) {
-                    Toast.makeText(getContext(), "Upload button is clicked", Toast.LENGTH_SHORT).show();
+                SparseBooleanArray checked = listView.getCheckedItemPositions();
+                Log.d("KUY", checked.toString());
+
+                int count = 0;
+                if (checked.size() > 0) {
+                    int len = listView.getCount();
+                    for (int i = 0; i < len; i++) {
+                        Log.d("KUY", String.valueOf(checked.get(i)));
+                        if (checked.get(i)) {
+                            count = count + 1;
+                            String item = allBigsName.get(i);
+                            Log.d("KUYName", allBigsName.get(i));
+                            /* do whatever you want with the checked item */
+                        }
+                    }
+                    Toast.makeText(getContext(), String.format("%d", count), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Please select the script first", Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
-        */
 
     }
-
-
-
 
 
 }

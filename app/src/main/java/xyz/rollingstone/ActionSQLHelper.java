@@ -29,7 +29,7 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
     public static final String KEY_DIRECTION = "direction";
     public static final String KEY_LENGTH = "length";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_NAME};
+    private static final String[] COLUMNS = {KEY_ID, KEY_NAME};
 
     public ActionSQLHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -59,9 +59,9 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
      * CRUD operations (create "add", read "get", update, delete) book + get all books + delete all books
      */
 
-    public void addBig(Big big){
+    public void addBig(Big big) {
         //for logging
-        Log.d("addBig", big.toString());
+        Log.d("addBig", big.getName());
 
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -77,9 +77,11 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
 
         // 4. close
         db.close();
+
+        getAllBigs();
     }
 
-    public Big getBig(int id){
+    public Big getBig(int id) {
 
         // 1. get reference to readable DB
         SQLiteDatabase db = this.getReadableDatabase();
@@ -89,7 +91,7 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
                 db.query(TABLE_BIG, // a. table
                         COLUMNS, // b. column names
                         " id = ?", // c. selections
-                        new String[] { String.valueOf(id) }, // d. selections args
+                        new String[]{String.valueOf(id)}, // d. selections args
                         null, // e. group by
                         null, // f. having
                         null, // g. order by
@@ -130,13 +132,11 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
                 big.setId(Integer.parseInt(cursor.getString(0)));
                 big.setName(cursor.getString(1));
 
-                // Add book to books
+                // Add big to bigs
+                Log.d("getAllBigs()", big.toString());
                 bigs.add(big);
             } while (cursor.moveToNext());
         }
-
-        Log.d("getAllBigs()", bigs.toString());
-
         // return books
         return bigs;
     }
@@ -153,8 +153,8 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
         // 3. updating row
         int i = db.update(TABLE_BIG, //table
                 values, // column/value
-                KEY_ID+" = ?", // selections
-                new String[] { String.valueOf(big.getId()) }); //selection args
+                KEY_ID + " = ?", // selections
+                new String[]{String.valueOf(big.getId())}); //selection args
 
         // 4. close
         db.close();
@@ -199,6 +199,7 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
 
     }
 
+
     public List<String> getAllBigsName() {
         List<String> bigsName = new LinkedList<String>();
 
@@ -217,7 +218,7 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        Log.d("getAllBigs()", bigsName.toString());
+        Log.d("getAllBigsName()", bigsName.toString());
 
         // return books
         return bigsName;
@@ -237,7 +238,7 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_ACTION_TABLE);
     }
 
-    public void addActionToTable(String tableName, Action action){
+    public void addActionToTable(String tableName, Action action) {
         //for logging
         Log.d("addAction", action.toString());
 
@@ -259,7 +260,7 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
     }
 
     public List<Action> getAllActionsFromTable(String tableName) {
-        List<Action> actions= new LinkedList<Action>();
+        List<Action> actions = new LinkedList<Action>();
 
         // 1. build the query
         String query = "SELECT  * FROM " + tableName;
@@ -302,8 +303,8 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
         // 3. updating row
         int i = db.update(tableName, //table
                 values, // column/value
-                KEY_ID+" = ?", // selections
-                new String[] { String.valueOf(act.getId()) }); //selection args
+                KEY_ID + " = ?", // selections
+                new String[]{String.valueOf(act.getId())}); //selection args
 
         // 4. close
         db.close();
