@@ -141,7 +141,7 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
         return bigs;
     }
 
-    public int updateBook(Big big) {
+    public int updateBig(Big big) {
 
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -177,7 +177,25 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
         db.close();
 
         //log
-        Log.d("deleteBook", Integer.toString(id));
+        Log.d("deleteBig", Integer.toString(id));
+
+    }
+
+    public void deleteBigByName(String name) {
+
+        // 1. get reference to writable DB
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // 2. delete
+        db.delete(TABLE_BIG, //table name
+                KEY_NAME + " = ?",  // selections
+                new String[]{name}); //selections args
+
+        // 3. close
+        db.close();
+
+        //log
+        Log.d("deleteBig", name);
 
     }
 
