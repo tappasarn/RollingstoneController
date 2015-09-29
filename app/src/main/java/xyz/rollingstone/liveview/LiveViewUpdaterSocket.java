@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.Socket;
 
+import xyz.rollingstone.BuildConfig;
 import xyz.rollingstone.tabs.*;
 
 public class LiveViewUpdaterSocket extends Thread {
@@ -52,7 +53,7 @@ public class LiveViewUpdaterSocket extends Thread {
         // Set priority
         Process.setThreadPriority(Process.THREAD_PRIORITY_LOWEST);
 
-        Log.d(ManualTab.DEBUG, "LiveViewUpdaterSocket started.");
+        Log.d(ManualTab.DEBUG, String.format("LiveViewUpdaterSocket started %s:%s", IP, PORT));
 
         while( !failed && !killed ) {
 

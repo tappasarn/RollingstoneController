@@ -1,16 +1,13 @@
 package xyz.rollingstone;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 
 public class MainActivity extends ActionBarActivity {
 
     // Declaring Your View and Variables
-    private ViewPager pager;
+    private CustomViewPager pager;
     private ViewPagerAdapter adapter;
     private SlidingTabLayout tabs;
     private CharSequence titles[] = {"Manual", "List", "Add", "Settings"};
@@ -30,7 +27,8 @@ public class MainActivity extends ActionBarActivity {
         adapter =  new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs);
 
         // Assigning ViewPager View and setting the adapter
-        pager = (ViewPager) findViewById(R.id.pager);
+        pager = (CustomViewPager) findViewById(R.id.pager);
+        pager.setPagingEnabled(false);
         pager.setAdapter(adapter);
 
         // Assign the Sliding Tab Layout View

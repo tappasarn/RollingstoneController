@@ -4,7 +4,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import xyz.rollingstone.tabs.*;
+import xyz.rollingstone.tabs.ManualTab;
+import xyz.rollingstone.tabs.SettingTab;
+import xyz.rollingstone.tabs.Tab2;
+import xyz.rollingstone.tabs.Tab3;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -29,8 +32,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
             case 1: return new Auto();
             case 2: return new ScriptSelectTab();
             case 3: return new SettingTab();
-            default:
-                return new ManualTab();
+            default: return new ManualTab();
         }
     }
 
