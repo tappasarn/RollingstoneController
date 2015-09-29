@@ -66,7 +66,6 @@ public class ScriptSelectTab extends Fragment {
         listView.setClickable(true);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-        ///////////////////////////////////////////////////////////////////////////////////////////////////
         // Set listener for both long click and normal click
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -77,18 +76,14 @@ public class ScriptSelectTab extends Fragment {
                 Toast toast = Toast.makeText(getContext(), String.format("The script %s is removed", allBigsName.get(pos)), Toast.LENGTH_SHORT);
                 toast.show();
                 db.deleteBigByName(allBigsName.get(pos));
-                db.deleteTableByName(allBigsName.get(pos));
-                //////////////
 
                 //listView.setItemChecked(pos, false);
                 for (int i = pos; i < checked.size(); i++) {
-
                     listView.setItemChecked(i, checked.valueAt(i));
                 }
                 listView.setItemChecked(checked.size(), false);
 
                 Log.d("hahhahaha", checked.toString());
-
 
                 allBigsName.remove(pos);
 
