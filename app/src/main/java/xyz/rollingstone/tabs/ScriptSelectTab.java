@@ -25,16 +25,13 @@ import xyz.rollingstone.ActionSQLHelper;
 import xyz.rollingstone.Big;
 import xyz.rollingstone.R;
 
-/**
- * Created by admin on 9/28/2015.
- */
 public class ScriptSelectTab extends Fragment {
-
     EditText input;
     ActionSQLHelper db;
     ArrayAdapter<String> listAdapter;
     List<String> allBigsName; //Bigs stands for Script, me so sry i can't remember the name at that time
     private int addToPosition, old_position = -1,current_position=-1;
+    private boolean isSelected = false;
 
     @Nullable
     @Override
@@ -85,6 +82,7 @@ public class ScriptSelectTab extends Fragment {
                     //use for moving old_position to unreal pos allowing toggle
                     old_position = allBigsName.size();
                     current_position = -1;
+                    isSelected = false;
                 }
                 //for checking item on list view
                 else {
@@ -93,15 +91,19 @@ public class ScriptSelectTab extends Fragment {
                     listView.setItemChecked(pos, true);
                     old_position = pos;
                     current_position = pos;
+                    isSelected = true;
                 }
 
             }
         });
 
+        // init FAB button and create their listener
         ImageButton addBtn = (ImageButton) getView().findViewById(R.id.addButton);
         ImageButton uploadBtn = (ImageButton) getView().findViewById(R.id.uploadButton);
         ImageButton editBtn = (ImageButton) getView().findViewById(R.id.editButton);
 
+
+        // Add Button Listener
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,28 +140,34 @@ public class ScriptSelectTab extends Fragment {
             }
         });
 
+        // Edit Button Listener
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ActionListActivity.class);
-                intent.putExtra(ActionListActivity.EXTRA_TBNAME, allBigsName.get(current_position));
+                if (isSelected) {
+                    Intent intent = new Intent(getContext(), ActionListActivity.class);
+                    intent.putExtra(ActionListActivity.EXTRA_TBNAME, allBigsName.get(current_position));
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getContext(), "Please select the script first", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
-                startActivity(intent);
+        // Upload Button Listener
+        uploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isSelected) {
+                    Toast.makeText(getContext(), "Upload button is clicked", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Please select the script first", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
     }
 
-    public void editOnClick(View view) {
-/*
-        Intent intent = new Intent(getContext(), ActionListActivity.class);
-        intent.putExtra(ActionListActivity.EXTRA_TBNAME, allBigsName.get(position));
-        startActivity(intent);
-*/
-    }
 
-    public void runOnClick(View view) {
-
-    }
 
 }

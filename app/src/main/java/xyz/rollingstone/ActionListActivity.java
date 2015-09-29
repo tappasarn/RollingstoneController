@@ -29,16 +29,12 @@ import java.util.List;
 public class ActionListActivity extends Activity {
     public static final String EXTRA_TBNAME = "table_name";
     private static String tableName;
-    private SQLiteDatabase db;
-    private Cursor allCursor;
     public static final String TAG = "TIME";
     public ListView listActs;
     public List<Action> actionList;
-    public int time_add_counter = 0;
     private ArrayAdapter<String> listAdapter;
     private List<String> displayList;
-    private int addToPosition, old_position = -1, current_position = -1;
-    private boolean isCheck = false;
+    private int old_position = -1, current_position = -1;
     private boolean isSaved = true;
 
     /**
