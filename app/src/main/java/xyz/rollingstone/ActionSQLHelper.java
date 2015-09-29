@@ -194,6 +194,8 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
         // 3. close
         db.close();
 
+        deleteTableByName(name);
+
         //log
         Log.d("deleteBig", name);
 
@@ -336,5 +338,8 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
 
         String sql = String.format("DROP TABLE IF EXISTS %s", tableName);
         db.execSQL(sql);
+
+        //log
+        Log.d("deleteTableByName", tableName);
     }
 }
