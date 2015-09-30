@@ -223,9 +223,10 @@ public class ScriptSelectTab extends Fragment {
 
                     AutoTab autoTab = new AutoTab();
                     autoTab.setArguments(bundle);
+                    //in .replace use id.container instead of the old one to fix bug that removes this own page
                     getFragmentManager()
                             .beginTransaction()
-                            .replace(((ViewGroup)getView().getParent()).getId(), autoTab, "SELECTED")
+                            .replace(R.id.container, autoTab, "SELECTED")
                             .addToBackStack("SELECTED").commit();
 
                     // I'm not sure why you need this, so I commented out for now
