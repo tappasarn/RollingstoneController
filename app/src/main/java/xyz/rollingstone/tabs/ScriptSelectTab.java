@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import xyz.rollingstone.ActionListActivity;
@@ -32,8 +33,11 @@ public class ScriptSelectTab extends Fragment {
     ActionSQLHelper db;
     ArrayAdapter<String> listAdapter;
     List<String> allBigsName; //Bigs stands for Script, me so sry i can't remember the name at that time
+    ArrayList<Boolean> selectedChecker;
+    ArrayList<String> selectedScripts;
     private int addToPosition, old_position = -1, current_position = -1;
     private boolean isSelected = false;
+    int selectedScriptsPosition = 0;
     ListView listView;
 
     @Nullable
@@ -58,6 +62,12 @@ public class ScriptSelectTab extends Fragment {
         listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_activated_1, allBigsName);
         listView.setAdapter(listAdapter);
 
+        selectedScripts = new ArrayList<String>();
+        selectedChecker = new ArrayList<Boolean>();
+        // appending all false to the selected checker so it is saying that nothing has been check yet
+        for (int i=0;i<allBigsName.size();i++){
+            selectedChecker.add(i,false);
+        }
         // Default adding position will be appending to the last of the list
         addToPosition = allBigsName.size();
 
@@ -71,21 +81,23 @@ public class ScriptSelectTab extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
-                SparseBooleanArray checked = listView.getCheckedItemPositions();
-
                 Toast toast = Toast.makeText(getContext(), String.format("The script %s is removed", allBigsName.get(pos)), Toast.LENGTH_SHORT);
                 toast.show();
+                //remove from check list
+                selectedChecker.remove(pos);
+                Log.d("Time checker", selectedChecker.toString());
+
+                //remove from database
                 db.deleteBigByName(allBigsName.get(pos));
 
-                //listView.setItemChecked(pos, false);
-                for (int i = pos; i < checked.size(); i++) {
-                    listView.setItemChecked(i, checked.valueAt(i));
-                }
-                listView.setItemChecked(checked.size(), false);
-
-                Log.d("hahhahaha", checked.toString());
-
+                //remove from showing list
                 allBigsName.remove(pos);
+
+                //loop for changing color
+                for (int i =0;i<selectedChecker.size();i++){
+                    listView.setItemChecked(i, selectedChecker.get(i));
+                }
+                selectedScripts.remove(allBigsName.indexOf(allBigsName.get(pos)));
 
                 listAdapter.notifyDataSetChanged();
                 return true;
@@ -95,25 +107,19 @@ public class ScriptSelectTab extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-                //unchecking item in list view
-                if (old_position == pos) {
-                    Toast toast = Toast.makeText(getContext(), String.format("The script %s is uncheck", allBigsName.get(pos)), Toast.LENGTH_SHORT);
-                    toast.show();
-                    //listView.setItemChecked(pos, false);// no need to use since we use CHOICE_MODE_MULTIPLE
-                    //use for moving old_position to unreal pos allowing toggle
-                    old_position = allBigsName.size();
-                    current_position = -1;
-                    isSelected = false;
+
+                Boolean bool = selectedChecker.get(pos);
+                if (bool == true) {
+                    selectedChecker.set(pos, false);
+                    selectedScripts.remove(allBigsName.indexOf(allBigsName.get(pos)));
+                } else {
+
+                    selectedChecker.set(pos, true);
+                    current_position=pos;
+                    selectedScripts.add(allBigsName.get(pos));
                 }
-                //for checking item on list view
-                else {
-                    Toast toast = Toast.makeText(getContext(), String.format("The script %s is check", allBigsName.get(pos)), Toast.LENGTH_SHORT);
-                    toast.show();
-                    //listView.setItemChecked(pos, true);// no need to use since we use CHOICE_MODE_MULTIPLE
-                    old_position = pos;
-                    current_position = pos;
-                    isSelected = true;
-                }
+                Log.d("Time checker", selectedChecker.toString());
+
 
             }
         });
@@ -143,6 +149,11 @@ public class ScriptSelectTab extends Fragment {
                         Toast.makeText(getContext(), txt, Toast.LENGTH_LONG).show();
                         db.createActionTable(txt);
                         db.addBig(new Big(txt));
+                        //new added
+                        selectedChecker.add(false);
+                        Log.d("Time checker", selectedChecker.toString());
+                        listView.setItemChecked(selectedChecker.size()-1, false);
+                        ////////////////
                         listAdapter.add(txt);
                         listAdapter.notifyDataSetChanged();
                     }
@@ -165,13 +176,26 @@ public class ScriptSelectTab extends Fragment {
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isSelected) {
+                //to check if user select more than 1 script before they start edit
+                int checkNumberCount=0;
+                for(int i = 0; i<selectedChecker.size();i++){
+                    if (selectedChecker.get(i)==true){
+                        checkNumberCount++;
+                    }
+                }
+                //three possible cases
+                if (checkNumberCount==1) {
                     Intent intent = new Intent(getContext(), ActionListActivity.class);
                     intent.putExtra(ActionListActivity.EXTRA_TBNAME, allBigsName.get(current_position));
                     startActivity(intent);
-                } else {
+                }
+                else if (checkNumberCount == 0) {
                     Toast.makeText(getContext(), "Please select the script first", Toast.LENGTH_SHORT).show();
                 }
+                else if(checkNumberCount>1){
+                    Toast.makeText(getContext(), "Please select only one script for edit", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -181,7 +205,7 @@ public class ScriptSelectTab extends Fragment {
             public void onClick(View v) {
                 SparseBooleanArray checked = listView.getCheckedItemPositions();
                 Log.d("KUY", checked.toString());
-
+                Log.d("SELECTED LIST IN ORDER", selectedScripts.toString());
                 int count = 0;
                 if (checked.size() > 0) {
                     int len = listView.getCount();
