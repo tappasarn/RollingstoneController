@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentContainer;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -222,6 +223,10 @@ public class ScriptSelectTab extends Fragment {
 
                     AutoTab autoTab = new AutoTab();
                     autoTab.setArguments(bundle);
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(((ViewGroup)getView().getParent()).getId(), autoTab, "SELECTED")
+                            .addToBackStack("SELECTED").commit();
 
                     // I'm not sure why you need this, so I commented out for now
                     /*int len = listView.getCount();

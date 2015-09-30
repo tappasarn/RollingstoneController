@@ -32,11 +32,6 @@ public class AutoTab extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
-        Bundle bundle = this.getArguments();
-        selectedScripts = bundle.getStringArrayList("SELECTED");
-        Log.d("AutoTab", selectedScripts.toString());
-
         // get the tableName here
         /*tableName = R.string.app_name;
 
@@ -66,5 +61,20 @@ public class AutoTab extends Fragment {
 
         TextView nextnextTextView = (TextView) getView().findViewById(R.id.nextNextAction);
         nextnextTextView.setTextColor(Color.argb(54, 0, 0, 0));
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d("AutoTab", "onActivityCreated called");
+        Bundle bundle = this.getArguments();
+
+        if (bundle != null) {
+            selectedScripts = bundle.getStringArrayList("SELECTED");
+            Log.d("AutoTab", selectedScripts.toString());
+        } else {
+            Log.d("AutoTab", "Nothing is sent yet");
+
+        }
     }
 }
