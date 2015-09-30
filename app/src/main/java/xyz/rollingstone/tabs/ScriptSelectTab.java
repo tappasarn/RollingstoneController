@@ -64,10 +64,12 @@ public class ScriptSelectTab extends Fragment {
 
         selectedScripts = new ArrayList<String>();
         selectedChecker = new ArrayList<Boolean>();
+
         // appending all false to the selected checker so it is saying that nothing has been check yet
-        for (int i=0;i<allBigsName.size();i++){
-            selectedChecker.add(i,false);
+        for (int i = 0; i < allBigsName.size(); i++) {
+            selectedChecker.add(i, false);
         }
+
         // Default adding position will be appending to the last of the list
         addToPosition = allBigsName.size();
 
@@ -83,6 +85,7 @@ public class ScriptSelectTab extends Fragment {
                                            int pos, long id) {
                 Toast toast = Toast.makeText(getContext(), String.format("The script %s is removed", allBigsName.get(pos)), Toast.LENGTH_SHORT);
                 toast.show();
+
                 //remove from check list
                 selectedChecker.remove(pos);
                 Log.d("Time checker", selectedChecker.toString());
@@ -94,7 +97,7 @@ public class ScriptSelectTab extends Fragment {
                 allBigsName.remove(pos);
 
                 //loop for changing color
-                for (int i =0;i<selectedChecker.size();i++){
+                for (int i = 0; i < selectedChecker.size(); i++) {
                     listView.setItemChecked(i, selectedChecker.get(i));
                 }
                 selectedScripts.remove(allBigsName.indexOf(allBigsName.get(pos)));
@@ -105,22 +108,21 @@ public class ScriptSelectTab extends Fragment {
         });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-
                 Boolean bool = selectedChecker.get(pos);
                 if (bool == true) {
                     selectedChecker.set(pos, false);
-                    selectedScripts.remove(allBigsName.indexOf(allBigsName.get(pos)));
+                    selectedScripts.remove(allBigsName.get(pos));
                 } else {
-
                     selectedChecker.set(pos, true);
-                    current_position=pos;
+                    current_position = pos;
                     selectedScripts.add(allBigsName.get(pos));
                 }
+
                 Log.d("Time checker", selectedChecker.toString());
-
-
+                Log.d("Selected Scripts", selectedScripts.toString());
             }
         });
 
@@ -149,11 +151,12 @@ public class ScriptSelectTab extends Fragment {
                         Toast.makeText(getContext(), txt, Toast.LENGTH_LONG).show();
                         db.createActionTable(txt);
                         db.addBig(new Big(txt));
+
                         //new added
                         selectedChecker.add(false);
                         Log.d("Time checker", selectedChecker.toString());
-                        listView.setItemChecked(selectedChecker.size()-1, false);
-                        ////////////////
+
+                        listView.setItemChecked(selectedChecker.size() - 1, false);
                         listAdapter.add(txt);
                         listAdapter.notifyDataSetChanged();
                     }
@@ -177,23 +180,26 @@ public class ScriptSelectTab extends Fragment {
             @Override
             public void onClick(View v) {
                 //to check if user select more than 1 script before they start edit
-                int checkNumberCount=0;
-                for(int i = 0; i<selectedChecker.size();i++){
-                    if (selectedChecker.get(i)==true){
+                int checkNumberCount = 0;
+                for (int i = 0; i < selectedChecker.size(); i++) {
+                    if (selectedChecker.get(i)) {
                         checkNumberCount++;
                     }
                 }
+
+                Log.d("editBtnOnClick", Integer.toString(checkNumberCount));
                 //three possible cases
-                if (checkNumberCount==1) {
+                if (checkNumberCount == 1) {
                     Intent intent = new Intent(getContext(), ActionListActivity.class);
                     intent.putExtra(ActionListActivity.EXTRA_TBNAME, allBigsName.get(current_position));
                     startActivity(intent);
-                }
-                else if (checkNumberCount == 0) {
+                } else if (checkNumberCount == 0) {
                     Toast.makeText(getContext(), "Please select the script first", Toast.LENGTH_SHORT).show();
-                }
-                else if(checkNumberCount>1){
+                } else if (checkNumberCount > 1) {
                     Toast.makeText(getContext(), "Please select only one script for edit", Toast.LENGTH_SHORT).show();
+                } else {
+                    Log.d("editBtnOnClick", "Error occurred here");
+                    Log.d("editBtnOnClick", selectedChecker.toString());
                 }
 
             }
@@ -204,24 +210,36 @@ public class ScriptSelectTab extends Fragment {
             @Override
             public void onClick(View v) {
                 SparseBooleanArray checked = listView.getCheckedItemPositions();
-                Log.d("KUY", checked.toString());
-                Log.d("SELECTED LIST IN ORDER", selectedScripts.toString());
+
+                Log.d("uploadBtn Checked", checked.toString());
+                Log.d("SelectedScript", selectedScripts.toString());
+
                 int count = 0;
                 if (checked.size() > 0) {
-                    int len = listView.getCount();
+
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("SELECTED", selectedScripts);
+
+                    AutoTab autoTab = new AutoTab();
+                    autoTab.setArguments(bundle);
+
+                    // I'm not sure why you need this, so I commented out for now
+                    /*int len = listView.getCount();
                     for (int i = 0; i < len; i++) {
                         Log.d("KUY", String.valueOf(checked.get(i)));
                         if (checked.get(i)) {
                             count = count + 1;
                             String item = allBigsName.get(i);
                             Log.d("KUYName", allBigsName.get(i));
-                            /* do whatever you want with the checked item */
+                            // do whatever you want with the checked item
                         }
-                    }
+                    }*/
                     Toast.makeText(getContext(), String.format("%d", count), Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), "Please select the script first", Toast.LENGTH_SHORT).show();
                 }
+
+
             }
         });
 

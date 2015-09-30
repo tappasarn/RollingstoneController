@@ -18,20 +18,24 @@ import xyz.rollingstone.Action;
 import xyz.rollingstone.ActionSQLHelper;
 import xyz.rollingstone.R;
 
-public class Auto extends Fragment {
+public class AutoTab extends Fragment {
 
     public static String tableName;
     private static List<String> displayList;
+    private static List<String> selectedScripts;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.activity_run_script, container, false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
+
+        Bundle bundle = this.getArguments();
+        selectedScripts = bundle.getStringArrayList("SELECTED");
+        Log.d("AutoTab", selectedScripts.toString());
 
         // get the tableName here
         /*tableName = R.string.app_name;

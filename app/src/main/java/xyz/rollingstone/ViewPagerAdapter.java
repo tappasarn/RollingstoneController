@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import xyz.rollingstone.tabs.AutoTab;
 import xyz.rollingstone.tabs.ManualTab;
 import xyz.rollingstone.tabs.SettingTab;
-import xyz.rollingstone.tabs.Auto;
 import xyz.rollingstone.tabs.ScriptSelectTab;
 
 public class ViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -29,7 +29,7 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch(position) {
             case 0: return new ManualTab();
-            case 1: return new Auto();
+            case 1: return new AutoTab();
             case 2: return new ScriptSelectTab();
             case 3: return new SettingTab();
             default: return new ManualTab();
