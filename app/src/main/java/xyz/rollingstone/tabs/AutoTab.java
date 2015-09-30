@@ -23,6 +23,7 @@ public class AutoTab extends Fragment {
     public static String tableName;
     private static List<String> displayList;
     private static List<String> selectedScripts;
+    public static final String DEBUG = "AutoTab.DEBUG";
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -32,20 +33,6 @@ public class AutoTab extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        // get the tableName here
-        /*tableName = R.string.app_name;
-
-        // connect to db and get all actions from the table
-        ActionSQLHelper db = new ActionSQLHelper(getContext());
-        List<Action> actionList = db.getAllActionsFromTable(tableName);
-        displayList = new ArrayList<String>();
-
-        // reformat an object of Act class to be readable by Noppadol
-
-        for (Action act : actionList) {
-            displayList.add(act.humanize());
-        }
-        */
 
         TextView pastpastTextView = (TextView) getView().findViewById(R.id.pastpastAction);
         pastpastTextView.setTextColor(Color.argb(38, 0, 0, 0));
@@ -66,15 +53,27 @@ public class AutoTab extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        Log.d("AutoTab", "onActivityCreated called");
+        Log.d(DEBUG, "onActivityCreated called");
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
             selectedScripts = bundle.getStringArrayList("SELECTED");
-            Log.d("AutoTab", selectedScripts.toString());
-        } else {
-            Log.d("AutoTab", "Nothing is sent yet");
+            Log.d(DEBUG, selectedScripts.toString());
 
+            ActionSQLHelper db = new ActionSQLHelper(getContext());
+            displayList = new ArrayList<String>();
+
+            for (String script : selectedScripts) {
+                List<Action> actionList = db.getAllActionsFromTable(script);
+                for (Action act : actionList) {
+                    displayList.add(act.humanize());
+                }
+            }
+
+            Log.d(DEBUG, displayList.toString());
+        } else {
+            Log.d(DEBUG, "Nothing is sent yet");
         }
+
     }
 }
