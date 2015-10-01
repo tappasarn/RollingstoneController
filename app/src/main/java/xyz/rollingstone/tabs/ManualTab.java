@@ -75,8 +75,8 @@ public class ManualTab extends Fragment {
                 int msgType = msg.getData().getInt(MSG);
                 // If message type is LIVEVIEW_MSG, this implies that, new bitmap data has been set.
                 // We are free to update Bitmap data in imageView.
-                if( msgType == LIVEVIEW_MSG ) {
-                    imageView.setImageBitmap( imageData );
+                if (msgType == LIVEVIEW_MSG) {
+                    imageView.setImageBitmap(imageData);
                 }
                 return false;
             }
@@ -124,7 +124,6 @@ public class ManualTab extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                Log.d("MT", "Touch");
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
                     Log.d("", "on down received.");
@@ -153,7 +152,7 @@ public class ManualTab extends Fragment {
 
                     // This handles another TouchEvent while virtual joystick is being shown.
                     // Without this dispatchTouchEvent will raise RuntimeException.
-                    if(!isJoystickShown) {
+                    if (!isJoystickShown) {
                         // Obtain MotionEvent object
                         MotionEvent motionEvent = MotionEvent.obtain(
                                 SystemClock.uptimeMillis(),
@@ -167,25 +166,10 @@ public class ManualTab extends Fragment {
                         isJoystickShown = true;
                     }
 
-                    int direction = joystick.get8Direction();
-                    int distance = (int)joystick.getDistance();
-                    distance = distance/6;
-
-                    int base = 0;
-
-                    for (int loop = 0; loop < direction; loop++) {
-                        base += 256;
-                    }
-
-                    base += distance;
-
-                    Log.d("JOY", java.util.Arrays
-                            .toString(String.format("%16s", Integer.toBinaryString(base)).replace(' ', '0').split("(?<=\\G....)")));
-
                 }
 
                 // When user lift up finger from screen, remove joystickLayout
-                if(event.getAction() == MotionEvent.ACTION_UP) {
+                if (event.getAction() == MotionEvent.ACTION_UP) {
 
                     Log.d("", "on up received");
 
@@ -195,14 +179,14 @@ public class ManualTab extends Fragment {
                     frameLayout.removeView(joystickLayout);
 
                     int stopCommand = 0b1000_0000_0000_0000;
-                    Log.d("JOY",java.util.Arrays
+                    Log.d("JOY", java.util.Arrays
                             .toString(String.format("%16s", Integer.toBinaryString(stopCommand)).replace(' ', '0').split("(?<=\\G....)")));
                 }
 
 
                 // Only ACTION_DOWN and ACTION_MOVE needed to be dispatch
                 // to joystickLayout as well
-                if(event.getAction() == MotionEvent.ACTION_MOVE) {
+                if (event.getAction() == MotionEvent.ACTION_MOVE) {
                     // Obtain MotionEvent object
                     MotionEvent motionEvent = MotionEvent.obtain(
                             SystemClock.uptimeMillis(),
@@ -212,7 +196,26 @@ public class ManualTab extends Fragment {
                             (layoutSize / 2) + (event.getY() - yRef),
                             0
                     );
-                    joystickLayout.dispatchTouchEvent(motionEvent);
+
+                        int direction = joystick.get8Direction();
+                        int distance = (int) joystick.getDistance();
+                        distance = distance / 6;
+
+                        int base = 0;
+
+                        for (int loop = 0; loop < direction; loop++) {
+                            base += 256;
+                        }
+
+                        base += distance;
+
+                        joystickLayout.dispatchTouchEvent(motionEvent);
+
+                        Log.d("JOY", Integer.toString(direction));
+                        Log.d("JOY", Integer.toString(distance));
+                        Log.d("JOY", java.util.Arrays
+                                .toString(String.format("%16s", Integer.toBinaryString(base)).replace(' ', '0').split("(?<=\\G....)")));
+
                 }
 
 
@@ -245,7 +248,7 @@ public class ManualTab extends Fragment {
     public void onResume() {
         super.onResume();
         Log.d(DEBUG, "onResume called. Starting updater thread if none exist ..");
-        if( ! updater.isAlive() ) {
+        if (!updater.isAlive()) {
 
             // Get IP and PORT from sharedPreferenceuse in LiveViewUpdaterSocket
             String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
