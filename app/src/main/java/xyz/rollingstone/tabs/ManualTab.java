@@ -124,6 +124,7 @@ public class ManualTab extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
+                Log.d("MT", "Touch");
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
                     Log.d("", "on down received.");
@@ -166,6 +167,21 @@ public class ManualTab extends Fragment {
                         isJoystickShown = true;
                     }
 
+                    int direction = joystick.get8Direction();
+                    int distance = (int)joystick.getDistance();
+                    distance = distance/6;
+
+                    int base = 0;
+
+                    for (int loop = 0; loop < direction; loop++) {
+                        base += 256;
+                    }
+
+                    base += distance;
+
+                    Log.d("JOY", java.util.Arrays
+                            .toString(String.format("%16s", Integer.toBinaryString(base)).replace(' ', '0').split("(?<=\\G....)")));
+
                 }
 
                 // When user lift up finger from screen, remove joystickLayout
@@ -177,6 +193,10 @@ public class ManualTab extends Fragment {
 
                     // Remove joystick from root view
                     frameLayout.removeView(joystickLayout);
+
+                    int stopCommand = 0b1000_0000_0000_0000;
+                    Log.d("JOY",java.util.Arrays
+                            .toString(String.format("%16s", Integer.toBinaryString(stopCommand)).replace(' ', '0').split("(?<=\\G....)")));
                 }
 
 
