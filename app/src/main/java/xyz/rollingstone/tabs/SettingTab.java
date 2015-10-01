@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -58,6 +59,12 @@ public class SettingTab extends Fragment {
         this.namePatternEditText = (EditText) getView().findViewById(R.id.name_pattern_editText);
         this.settingSaveBtn = (Button) getView().findViewById(R.id.settingSaveBtn);
 
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.res_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        this.resolutionSpinner.setAdapter(adapter);
+
         /*
             Populate values of robot&server IP and PORT into EditTexts if the values exist
          */
@@ -86,6 +93,7 @@ public class SettingTab extends Fragment {
             serverPortEditText.setText(String.valueOf(serverPORT));
         }
 
+        Log.d("SettingTab", Integer.toString(spinnerPosition));
         if (spinnerPosition != -1) {
             resolutionSpinner.setSelection(spinnerPosition);
         }
@@ -94,10 +102,6 @@ public class SettingTab extends Fragment {
             namePatternEditText.setText(String.valueOf(namePattern));
         }
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.res_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        this.resolutionSpinner.setAdapter(adapter);
 
         // Add event listener for save button
         this.settingSaveBtn.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +109,8 @@ public class SettingTab extends Fragment {
             public void onClick(View v) {
 
                 try {
+
+                    Log.d("SettingTab", Integer.toString(resolutionSpinner.getSelectedItemPosition()));
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(MainActivity.LIVEVIEW_IP, robotIpEditText.getText().toString());
@@ -133,8 +139,11 @@ public class SettingTab extends Fragment {
 
     }
 
-    public static void hideSoftKeyboard(Activity activity) {
+    public void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
+        IBinder window = this.settingSaveBtn.getWindowToken();
+        if (window != null) {
+            inputMethodManager.hideSoftInputFromWindow(window, 0);
+        }
     }
 }
