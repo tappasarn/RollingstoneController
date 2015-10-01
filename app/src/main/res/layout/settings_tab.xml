@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Liveview Settings"
+        android:text="Robot Settings"
         android:id="@+id/textView3"
         android:layout_marginBottom="10px" />
 
@@ -30,7 +30,7 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/ipEditText"
+        android:id="@+id/robot_ip_editText"
         android:layout_marginBottom="10px" />
 
     <TextView
@@ -43,7 +43,73 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/portEditText"
+        android:id="@+id/robot_port_editText"
+        android:layout_marginBottom="10px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Server Settings"
+        android:layout_marginBottom="10px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="IP Address"
+        android:id="@+id/textView6" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/server_ip_editText"
+        android:layout_marginBottom="10px" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Port"
+        android:id="@+id/textView7" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/server_port_editText"
+        android:layout_marginBottom="10px" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Image Settings"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_marginBottom="10px"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Resolution (at server)"
+        android:id="@+id/textView8"
+        android:layout_marginBottom="10px" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/resolutionSpinner" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Name Pattern (Ex. out_%d.jpg)"
+        android:id="@+id/textView9" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/name_pattern_editText"
         android:layout_marginBottom="10px" />
 
     <Button
@@ -51,4 +117,5 @@
         android:layout_height="wrap_content"
         android:text="SAVE"
         android:id="@+id/settingSaveBtn" />
+
 </LinearLayout>

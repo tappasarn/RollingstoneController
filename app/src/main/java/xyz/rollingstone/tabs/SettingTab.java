@@ -6,12 +6,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import xyz.rollingstone.MainActivity;
@@ -21,8 +24,9 @@ public class SettingTab extends Fragment {
 
     private SharedPreferences sharedPreferences;
 
-    private EditText ipEditText, portEditText;
+    private EditText robotIpEditText, robotPortEditText, serverIpEditText, serverPortEditText, namePatternEditText;
     private Button settingSaveBtn;
+    private Spinner resolutionSpinner;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,7 +39,7 @@ public class SettingTab extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.settings_tab,container,false);
+        return inflater.inflate(R.layout.settings_tab, container, false);
     }
 
     @Override
@@ -43,9 +47,57 @@ public class SettingTab extends Fragment {
         super.onStart();
 
         // Locate UI Elements
-        this.ipEditText = (EditText) getView().findViewById(R.id.ipEditText);
-        this.portEditText = (EditText) getView().findViewById(R.id.portEditText);
+        this.robotIpEditText = (EditText) getView().findViewById(R.id.robot_ip_editText);
+        this.robotPortEditText = (EditText) getView().findViewById(R.id.robot_port_editText);
+
+        this.serverIpEditText = (EditText) getView().findViewById(R.id.server_ip_editText);
+        this.serverPortEditText = (EditText) getView().findViewById(R.id.server_port_editText);
+
+        this.resolutionSpinner = (Spinner) getView().findViewById(R.id.resolutionSpinner);
+
+        this.namePatternEditText = (EditText) getView().findViewById(R.id.name_pattern_editText);
         this.settingSaveBtn = (Button) getView().findViewById(R.id.settingSaveBtn);
+
+        /*
+            Populate values of robot&server IP and PORT into EditTexts if the values exist
+         */
+        String robotIP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        int robotPORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
+
+        String serverIP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        int serverPORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
+
+        int spinnerPosition = sharedPreferences.getInt(MainActivity.RES_POS, -1);
+        String namePattern = sharedPreferences.getString(MainActivity.NAME_PATT, null);
+
+        if (robotIP != null) {
+            robotIpEditText.setText(robotIP);
+        }
+
+        if (robotPORT != -1) {
+            robotPortEditText.setText(String.valueOf(robotPORT));
+        }
+
+        if (serverIP != null) {
+            serverIpEditText.setText(serverIP);
+        }
+
+        if (serverPORT != -1) {
+            serverPortEditText.setText(String.valueOf(serverPORT));
+        }
+
+        if (spinnerPosition != -1) {
+            resolutionSpinner.setSelection(spinnerPosition);
+        }
+
+        if (namePattern != null) {
+            namePatternEditText.setText(String.valueOf(namePattern));
+        }
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.res_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        this.resolutionSpinner.setAdapter(adapter);
 
         // Add event listener for save button
         this.settingSaveBtn.setOnClickListener(new View.OnClickListener() {
@@ -55,8 +107,17 @@ public class SettingTab extends Fragment {
                 try {
 
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(MainActivity.LIVEVIEW_IP, ipEditText.getText().toString());
-                    editor.putInt(MainActivity.LIVEVIEW_PORT, Integer.parseInt(portEditText.getText().toString()));
+                    editor.putString(MainActivity.LIVEVIEW_IP, robotIpEditText.getText().toString());
+                    editor.putInt(MainActivity.LIVEVIEW_PORT, Integer.parseInt(robotPortEditText.getText().toString()));
+                    editor.putString(MainActivity.SERVER_IP, serverIpEditText.getText().toString());
+                    editor.putInt(MainActivity.SERVER_PORT, Integer.parseInt(serverPortEditText.getText().toString()));
+
+                    // Position
+                    editor.putInt(MainActivity.RES_POS, resolutionSpinner.getSelectedItemPosition());
+
+                    // namePattern out_%d.jpg
+                    editor.putString(MainActivity.NAME_PATT, namePatternEditText.getText().toString());
+
                     editor.commit();
 
                     hideSoftKeyboard(getActivity());
@@ -70,24 +131,10 @@ public class SettingTab extends Fragment {
             }
         });
 
-        /*
-            Populate values of IP and PORT into EditTexts if the values exist
-         */
-        String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
-        int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
-
-        if( IP != null ) {
-            ipEditText.setText(IP);
-        }
-
-        if( PORT != -1 ) {
-            portEditText.setText(String.valueOf(PORT));
-        }
-
     }
 
     public static void hideSoftKeyboard(Activity activity) {
-        InputMethodManager inputMethodManager = (InputMethodManager)  activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 }

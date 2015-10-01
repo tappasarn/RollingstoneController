@@ -2,4 +2,9 @@
     <string name="app_name">RollingStone</string>
     <string name="Rolling_Stone">Rolling Stone</string>
     <string name="action_settings">Settings</string>
+    <string-array name="res_array">
+        <item>480p</item>
+        <item>720p</item>
+        <item>1080p</item>
+    </string-array>
 </resources>

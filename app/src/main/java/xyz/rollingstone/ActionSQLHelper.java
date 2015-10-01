@@ -201,7 +201,6 @@ public class ActionSQLHelper extends SQLiteOpenHelper {
 
     }
 
-
     public List<String> getAllBigsName() {
         List<String> bigsName = new LinkedList<String>();
 
