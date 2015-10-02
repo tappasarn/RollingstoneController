@@ -57,6 +57,9 @@ public class ManualTab extends Fragment {
     // True if joystick is displaying, otherwise false
     private boolean isJoystickShown = false;
 
+    // To send a command to robot
+    private SocketHelper socketHelper;
+
     /*
         Handler for UI thread
             This allows LiveViewUpdater to set new imageData and trigger update
@@ -103,8 +106,12 @@ public class ManualTab extends Fragment {
         joystickLayout = (RelativeLayout) getView().findViewById(R.id.joystick);
 
         // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
-        String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
-        int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+        final String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        final int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+
+        // Socket helper
+        socketHelper = new SocketHelper(IP, PORT+1);
+        Log.d("Socket Created", socketHelper.toString());
 
         // Create our joystick
         joystick = new JoyStick(getContext(), joystickLayout, R.drawable.joystick_button);
@@ -178,9 +185,12 @@ public class ManualTab extends Fragment {
                     // Remove joystick from root view
                     frameLayout.removeView(joystickLayout);
 
-                    int stopCommand = 0b1000_0000_0000_0000;
+                    // send stop command to the robot and Log it for debugging
+                    socketHelper = new SocketHelper(IP, PORT+1);
+                    socketHelper.execute(0b1000_0000_0000_0000);
+
                     Log.d("JOY", java.util.Arrays
-                            .toString(String.format("%16s", Integer.toBinaryString(stopCommand)).replace(' ', '0').split("(?<=\\G....)")));
+                            .toString(String.format("%16s", Integer.toBinaryString(0b1000_0000_0000_0000)).replace(' ', '0').split("(?<=\\G....)")));
                 }
 
 
@@ -197,27 +207,30 @@ public class ManualTab extends Fragment {
                             0
                     );
 
-                        int direction = joystick.get8Direction();
-                        int distance = (int) joystick.getDistance();
-                        distance = distance / 6;
+                    int direction = joystick.get8Direction();
+                    int distance = (int) joystick.getDistance();
+                    distance = distance / 6;
 
-                        int base = 0;
+                    int base = 0;
 
-                        for (int loop = 0; loop < direction; loop++) {
-                            base += 256;
-                        }
+                    for (int loop = 0; loop < direction; loop++) {
+                        base += 256;
+                    }
 
-                        base += distance;
+                    base += distance;
 
-                        joystickLayout.dispatchTouchEvent(motionEvent);
+                    joystickLayout.dispatchTouchEvent(motionEvent);
 
-                        Log.d("JOY", Integer.toString(direction));
-                        Log.d("JOY", Integer.toString(distance));
-                        Log.d("JOY", java.util.Arrays
-                                .toString(String.format("%16s", Integer.toBinaryString(base)).replace(' ', '0').split("(?<=\\G....)")));
+                    // send directiion and distance to the robot and Log it for debugging
+
+                    socketHelper = new SocketHelper(IP, PORT+1);
+                    socketHelper.execute(base);
+                    Log.d("JOY", Integer.toString(direction));
+                    Log.d("JOY", Integer.toString(distance));
+                    Log.d("JOY", java.util.Arrays
+                            .toString(String.format("%16s", Integer.toBinaryString(base)).replace(' ', '0').split("(?<=\\G....)")));
 
                 }
-
 
                 return true;
             }
@@ -253,6 +266,7 @@ public class ManualTab extends Fragment {
             // Get IP and PORT from sharedPreferenceuse in LiveViewUpdaterSocket
             String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
             int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+
 
             updater = new LiveViewUpdaterSocket(this, IP, PORT);
             updater.start();
