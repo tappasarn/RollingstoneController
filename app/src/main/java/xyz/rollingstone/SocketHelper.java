@@ -1,4 +1,4 @@
-package xyz.rollingstone.tabs;
+package xyz.rollingstone;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -34,23 +34,13 @@ public class SocketHelper extends AsyncTask<Integer, Void, Void> {
         }
     }
 
-    public void send(int input) {
+    public void send(int highByte, int lowByte) {
         this.openSocket();
         Log.d("socketHelper", this.toString());
         try {
             this.out = new PrintWriter(this.socket.getOutputStream(), true);
-            out.println(input);
-            this.socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void anotherSend(int input) {
-        Log.d("socketHelper", this.toString());
-        try {
-            this.out = new PrintWriter(this.socket.getOutputStream(), true);
-            out.println(input);
+            out.write(highByte);
+            out.write(lowByte);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -64,9 +54,10 @@ public class SocketHelper extends AsyncTask<Integer, Void, Void> {
         }
     }
 
-    public String receive(int input) {
-        this.openSocket();
-        String answer = "none";
+    public String receive() {
+//        this.openSocket();
+        String answer = "0";
+
         try {
             this.input = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
             answer = this.input.readLine();
@@ -83,15 +74,18 @@ public class SocketHelper extends AsyncTask<Integer, Void, Void> {
 
     @Override
     protected Void doInBackground(Integer... params) {
-        Log.d("socketHelper receive", Integer.toString(params[0]));
-        this.send(params[0]);
+        Log.d("socketHelperSend", String.format("%16s", Integer.toBinaryString(params[0])).replace(' ', '0'));
+        this.send(params[0], params[1]);
 
+        String answer = this.receive();
+        Log.d("socketHelperReceive", String.format("%16s", Integer.toBinaryString(Integer.parseInt(answer))).replace(' ', '0'));
         return null;
     }
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        super.onPreExecute();
+        super.onPostExecute(aVoid);
+
         this.closeSocket();
     }
 

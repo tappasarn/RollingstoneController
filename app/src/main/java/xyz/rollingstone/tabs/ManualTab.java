@@ -19,9 +19,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import xyz.rollingstone.CommandPacketBuilder;
 import xyz.rollingstone.JoyStick;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
+import xyz.rollingstone.SocketHelper;
 import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
 
 public class ManualTab extends Fragment {
@@ -59,6 +61,10 @@ public class ManualTab extends Fragment {
 
     // To send a command to robot
     private SocketHelper socketHelper;
+    private Integer commandId = 0;
+
+    private CommandPacketBuilder commandPacketBuilder;
+
 
     /*
         Handler for UI thread
@@ -211,24 +217,26 @@ public class ManualTab extends Fragment {
                     int distance = (int) joystick.getDistance();
                     distance = distance / 6;
 
-                    int base = 0;
-
-                    for (int loop = 0; loop < direction; loop++) {
-                        base += 256;
-                    }
-
-                    base += distance;
-
                     joystickLayout.dispatchTouchEvent(motionEvent);
 
-                    // send directiion and distance to the robot and Log it for debugging
+                    commandPacketBuilder = new CommandPacketBuilder();
+                    commandPacketBuilder.setType(0); // set type = REQ
+                    commandPacketBuilder.setId(commandId);
+                    commandPacketBuilder.setCommand(direction);
+                    commandPacketBuilder.setValue(distance);
 
+                    //execute the correct value
+                    int[] command = commandPacketBuilder.Create();
+
+                    // send direction and distance to the robot and Log it for debugging
                     socketHelper = new SocketHelper(IP, PORT+1);
-                    socketHelper.execute(base);
-                    Log.d("JOY", Integer.toString(direction));
-                    Log.d("JOY", Integer.toString(distance));
-                    Log.d("JOY", java.util.Arrays
-                            .toString(String.format("%16s", Integer.toBinaryString(base)).replace(' ', '0').split("(?<=\\G....)")));
+                    socketHelper.execute(command[0], command[1]);
+
+                    Log.d("JOYsend", java.util.Arrays
+                            .toString(String.format("%16s", Integer.toBinaryString(command[0])).replace(' ', '0').split("(?<=\\G....)")));
+
+                    Log.d("JOYsend", java.util.Arrays
+                            .toString(String.format("%16s", Integer.toBinaryString(command[1])).replace(' ', '0').split("(?<=\\G....)")));
 
                 }
 
