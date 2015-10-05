@@ -61,10 +61,13 @@ public class ManualTab extends Fragment {
 
     // To send a command to robot
     private SocketHelper socketHelper;
+    // To count the commandId
     private Integer commandId = 0;
-
+    // Use to get value from the app and and build it into proper way
     private CommandPacketBuilder commandPacketBuilder;
 
+    // to determine whether the id is occupied or not
+    private int[] availableId = {0, 0, 0, 0};
 
     /*
         Handler for UI thread
@@ -114,10 +117,6 @@ public class ManualTab extends Fragment {
         // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
         final String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
         final int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
-
-        // Socket helper
-        socketHelper = new SocketHelper(IP, PORT+1);
-        Log.d("Socket Created", socketHelper.toString());
 
         // Create our joystick
         joystick = new JoyStick(getContext(), joystickLayout, R.drawable.joystick_button);
@@ -191,11 +190,26 @@ public class ManualTab extends Fragment {
                     // Remove joystick from root view
                     frameLayout.removeView(joystickLayout);
 
-                    // send stop command to the robot and Log it for debugging
-                    socketHelper = new SocketHelper(IP, PORT+1);
-//                    socketHelper.execute(0b1000_0000, 0b0000_0000);
-                    socketHelper.execute(0b0000_0000, 0b0000_0000);
-                    Log.d("JOY", "EMERGENCY STOP");
+                    // need to check whether the id is usable
+                    if (availableId[commandId] == 0) {
+                        commandPacketBuilder = new CommandPacketBuilder();
+                        commandPacketBuilder.setType(0); // set type = REQ
+
+                        commandPacketBuilder.setId(commandId);
+                        availableId[commandId] = 1;
+                        commandId = (commandId + 1) % 4;
+
+                        commandPacketBuilder.setCommand(0);
+                        commandPacketBuilder.setValue(0);
+
+                        //execute the correct value
+                        int[] command = commandPacketBuilder.Create();
+
+                        // send direction and distance to the robot and Log it for debugging
+                        socketHelper = new SocketHelper(getActivity(),IP, PORT + 1, availableId);
+                        socketHelper.execute(command[0], command[1]);
+                        Log.d("JOY", "EMERGENCY STOP");
+                    }
                 }
 
 
@@ -218,20 +232,26 @@ public class ManualTab extends Fragment {
 
                     joystickLayout.dispatchTouchEvent(motionEvent);
 
-                    commandPacketBuilder = new CommandPacketBuilder();
-                    commandPacketBuilder.setType(0); // set type = REQ
-
                     // need to check whether the id is usable
-                    commandPacketBuilder.setId(commandId++ % 4);
-                    commandPacketBuilder.setCommand(direction);
-                    commandPacketBuilder.setValue(distance);
+                    if (availableId[commandId] == 0) {
+                        commandPacketBuilder = new CommandPacketBuilder();
+                        commandPacketBuilder.setType(0); // set type = REQ
 
-                    //execute the correct value
-                    int[] command = commandPacketBuilder.Create();
+                        commandPacketBuilder.setId(commandId);
+                        availableId[commandId] = 1;
+                        commandId = (commandId + 1) % 4;
 
-                    // send direction and distance to the robot and Log it for debugging
-                    socketHelper = new SocketHelper(IP, PORT+1);
-                    socketHelper.execute(command[0], command[1]);
+                        commandPacketBuilder.setCommand(direction);
+                        commandPacketBuilder.setValue(distance);
+
+                        //execute the correct value
+                        int[] command = commandPacketBuilder.Create();
+
+                        // send direction and distance to the robot and Log it for debugging
+                        socketHelper = new SocketHelper(getActivity(),IP, PORT + 1, availableId);
+                        socketHelper.execute(command[0], command[1]);
+                    }
+
                 }
 
                 return true;
@@ -268,7 +288,6 @@ public class ManualTab extends Fragment {
             // Get IP and PORT from sharedPreferenceuse in LiveViewUpdaterSocket
             String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
             int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
-
 
             updater = new LiveViewUpdaterSocket(this, IP, PORT);
             updater.start();
