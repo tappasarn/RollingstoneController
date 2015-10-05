@@ -193,10 +193,9 @@ public class ManualTab extends Fragment {
 
                     // send stop command to the robot and Log it for debugging
                     socketHelper = new SocketHelper(IP, PORT+1);
-                    socketHelper.execute(0b1000_0000_0000_0000);
-
-                    Log.d("JOY", java.util.Arrays
-                            .toString(String.format("%16s", Integer.toBinaryString(0b1000_0000_0000_0000)).replace(' ', '0').split("(?<=\\G....)")));
+//                    socketHelper.execute(0b1000_0000, 0b0000_0000);
+                    socketHelper.execute(0b0000_0000, 0b0000_0000);
+                    Log.d("JOY", "EMERGENCY STOP");
                 }
 
 
@@ -221,7 +220,9 @@ public class ManualTab extends Fragment {
 
                     commandPacketBuilder = new CommandPacketBuilder();
                     commandPacketBuilder.setType(0); // set type = REQ
-                    commandPacketBuilder.setId(commandId);
+
+                    // need to check whether the id is usable
+                    commandPacketBuilder.setId(commandId++ % 4);
                     commandPacketBuilder.setCommand(direction);
                     commandPacketBuilder.setValue(distance);
 
@@ -231,13 +232,6 @@ public class ManualTab extends Fragment {
                     // send direction and distance to the robot and Log it for debugging
                     socketHelper = new SocketHelper(IP, PORT+1);
                     socketHelper.execute(command[0], command[1]);
-
-                    Log.d("JOYsend", java.util.Arrays
-                            .toString(String.format("%16s", Integer.toBinaryString(command[0])).replace(' ', '0').split("(?<=\\G....)")));
-
-                    Log.d("JOYsend", java.util.Arrays
-                            .toString(String.format("%16s", Integer.toBinaryString(command[1])).replace(' ', '0').split("(?<=\\G....)")));
-
                 }
 
                 return true;
