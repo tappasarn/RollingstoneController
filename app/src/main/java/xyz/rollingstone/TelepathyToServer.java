@@ -65,7 +65,7 @@ public class TelepathyToServer extends AsyncTask<Integer, Void, Void> {
         try {
             this.closeSocket();
         } catch (Exception e) {
-            Log.d("TelepathyToRobot", "Trying to close the socket, the server is already closed");
+            Log.d(TAG, "Trying to close the socket, the server is already closed");
         }
     }
 
@@ -75,19 +75,16 @@ public class TelepathyToServer extends AsyncTask<Integer, Void, Void> {
             this.sendBanana(params[0]);
             Log.d("SendToServer", String.format("%8s", Integer.toBinaryString(params[0])).replace(' ', '0'));
 
-            /*
-            byte[] ans;
-            ans = this.receive();
+            banana = new Banana(this.receive()[0]);
+            banana.squeeze();
 
-            int intAnswer;
-            intAnswer = unsignedByteToInt(ans[0]);
-            */
+            Log.d("Receive", banana.toString());
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
             Log.d(TAG, "Please check your Server ip");
         } catch (ConnectException e) {
-            Log.d(TAG, "failed to connect to" + this.serverAddress + " port " + this.port + "ETIMEDOUT (Connection timed out)");
+            Log.d(TAG, "failed to connect to " + this.serverAddress + " port " + this.port + " ETIMEDOUT (Connection timed out)");
         } catch (NullPointerException e) {
             e.printStackTrace();
             Log.d(TAG, "NullPointerException The server is closed");

@@ -7,11 +7,22 @@ public class Banana {
     private int type;
     private boolean on;
     private int resolution;
+    private int fromPipe;
 
     public Banana(int type, boolean on, int resolution) {
         this.type = type;
         this.on = on;
         this.resolution = resolution;
+    }
+
+    public Banana(byte fromPipe) {
+        this.fromPipe = unsignedByteToInt(fromPipe);
+    }
+
+    public void squeeze(){
+        this.type = (this.fromPipe & 0b1000_0000) == 0b1000_0000 ? 0:1;
+        this.on = (this.fromPipe & 0b0010_0000) >> 5 == 0 ? false:true;
+        this.resolution = (this.fromPipe & 0b000_11_000) >> 3;
     }
 
     public int fruit() {
@@ -21,6 +32,13 @@ public class Banana {
         return word;
     }
 
+    @Override
+    public String toString() {
+        return "Banana [type=" + type + ", on=" + on + ", resolution=" + resolution + "]";
+    }
 
+    public static int unsignedByteToInt(byte b) {
+        return (int) b & 0xFF;
+    }
 
 }

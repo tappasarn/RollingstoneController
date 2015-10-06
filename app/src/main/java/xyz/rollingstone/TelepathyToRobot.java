@@ -95,7 +95,7 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
             e.printStackTrace();
             Log.d(TAG, "Please check your ip");
         } catch (ConnectException e) {
-            Log.d(TAG, "failed to connect to" + this.serverAddress + " port " + this.port + "ETIMEDOUT (Connection timed out)");
+            Log.d(TAG, "failed to connect to " + this.serverAddress + " port " + this.port + " ETIMEDOUT (Connection timed out)");
         } catch (NullPointerException e) {
             e.printStackTrace();
             Log.d(TAG, "NullPointerException The server is closed");
