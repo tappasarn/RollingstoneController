@@ -23,20 +23,18 @@ import java.util.concurrent.TimeoutException;
  * Created by Common Room on 10/1/2015.
  */
 
-public class SocketHelper extends AsyncTask<Integer, Void, Void> {
+public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
     private String serverAddress;
     private int port;
     private Socket socket;
-    private BufferedReader input;
-    private PrintWriter out;
     private OutputStream outputStream;
     private InputStream inputStream;
     private CommandPacketReader commandPacketReader;
     private int[] availableId;
     private FragmentActivity fragmentActivity;
-    public static final String TAG = "SocketHelper.DEBUG";
+    public static final String TAG = "TelepathyToRobot.DEBUG";
 
-    public SocketHelper(FragmentActivity fa, String serverAddress, int port, int[] availableId) {
+    public TelepathyToRobot(FragmentActivity fa, String serverAddress, int port, int[] availableId) {
         this.fragmentActivity = fa;
         this.serverAddress = serverAddress;
         this.port = port;
@@ -120,18 +118,18 @@ public class SocketHelper extends AsyncTask<Integer, Void, Void> {
         try {
             this.closeSocket();
         } catch (Exception e) {
-            Log.d("SocketHelper", "Trying to close the socket, the server is already closed");
+            Log.d("TelepathyToRobot", "Trying to close the socket, the server is already closed");
         }
     }
 
     @Override
     public String toString() {
-        return "SocketHelper{" +
+        return "TelepathyToRobot{" +
                 "serverAddress='" + serverAddress + '\'' +
                 ", port=" + port +
                 ", socket=" + socket +
-                ", input=" + input +
-                ", out=" + out +
+                ", input=" + inputStream +
+                ", out=" + outputStream +
                 '}';
     }
 

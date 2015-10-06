@@ -23,7 +23,7 @@ import xyz.rollingstone.CommandPacketBuilder;
 import xyz.rollingstone.JoyStick;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
-import xyz.rollingstone.SocketHelper;
+import xyz.rollingstone.TelepathyToRobot;
 import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
 
 public class ManualTab extends Fragment {
@@ -60,7 +60,7 @@ public class ManualTab extends Fragment {
     private boolean isJoystickShown = false;
 
     // To send a command to robot
-    private SocketHelper socketHelper;
+    private TelepathyToRobot telepathyToRobot;
     // To count the commandId
     private Integer commandId = 0;
     // Use to get value from the app and and build it into proper way
@@ -206,8 +206,8 @@ public class ManualTab extends Fragment {
                         int[] command = commandPacketBuilder.Create();
 
                         // send direction and distance to the robot and Log it for debugging
-                        socketHelper = new SocketHelper(getActivity(),IP, PORT + 1, availableId);
-                        socketHelper.execute(command[0], command[1]);
+                        telepathyToRobot = new TelepathyToRobot(getActivity(),IP, PORT + 1, availableId);
+                        telepathyToRobot.execute(command[0], command[1]);
                         Log.d("JOY", "EMERGENCY STOP");
                     }
                 }
@@ -248,8 +248,8 @@ public class ManualTab extends Fragment {
                         int[] command = commandPacketBuilder.Create();
 
                         // send direction and distance to the robot and Log it for debugging
-                        socketHelper = new SocketHelper(getActivity(),IP, PORT + 1, availableId);
-                        socketHelper.execute(command[0], command[1]);
+                        telepathyToRobot = new TelepathyToRobot(getActivity(),IP, PORT + 1, availableId);
+                        telepathyToRobot.execute(command[0], command[1]);
                     }
 
                 }
