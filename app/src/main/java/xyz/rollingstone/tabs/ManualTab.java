@@ -138,7 +138,7 @@ public class ManualTab extends Fragment {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-                    Log.d("", "on down received.");
+                    Log.d("JOY", "on down received.");
 
                     float xPos = event.getX();
                     float yPos = event.getY();
@@ -183,7 +183,7 @@ public class ManualTab extends Fragment {
                 // When user lift up finger from screen, remove joystickLayout
                 if (event.getAction() == MotionEvent.ACTION_UP) {
 
-                    Log.d("", "on up received");
+                    Log.d("JOY", "on up received");
 
                     isJoystickShown = false;
 

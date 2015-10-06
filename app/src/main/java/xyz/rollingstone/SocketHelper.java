@@ -13,8 +13,11 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Common Room on 10/1/2015.
@@ -31,7 +34,7 @@ public class SocketHelper extends AsyncTask<Integer, Void, Void> {
     private CommandPacketReader commandPacketReader;
     private int[] availableId;
     private FragmentActivity fragmentActivity;
-
+    public static final String TAG = "SocketHelper.DEBUG";
 
     public SocketHelper(FragmentActivity fa, String serverAddress, int port, int[] availableId) {
         this.fragmentActivity = fa;
@@ -40,90 +43,70 @@ public class SocketHelper extends AsyncTask<Integer, Void, Void> {
         this.availableId = availableId;
     }
 
-    public void openSocket() {
-        try {
-            this.socket = new Socket(this.serverAddress, this.port);
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.fragmentActivity.runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(fragmentActivity, "The server is closed", Toast.LENGTH_SHORT).show();
-                }
-            });
-            Log.d("Opensocket", "mayb the server is closed");
-        }
+    public void openSocket() throws UnknownHostException, IOException {
+        this.socket = new Socket(this.serverAddress, this.port);
     }
 
-    public void send(int highByte, int lowByte) {
+    public void send(int highByte, int lowByte) throws IOException, Exception {
         this.openSocket();
-        Log.d("socketHelper", this.toString());
-        try {
-            this.outputStream = this.socket.getOutputStream();
-            outputStream.write(highByte);
-            outputStream.write(lowByte);
-            outputStream.flush();
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.fragmentActivity.runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(fragmentActivity, "The server is closed", Toast.LENGTH_SHORT).show();
-                }
-            });
-            Log.d("SendSock", "mayb the server is closed");
-        }
+        this.outputStream = this.socket.getOutputStream();
+        outputStream.write(highByte);
+        outputStream.write(lowByte);
+        outputStream.flush();
+
     }
 
-    public void closeSocket() {
-        try {
-            this.socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public void closeSocket() throws Exception {
+        this.socket.close();
     }
 
-    public byte[] receive() {
+    public byte[] receive() throws SocketTimeoutException, SocketException, IOException, TimeoutException, NullPointerException {
         byte[] ans = new byte[2];
-        try {
-            this.socket.setSoTimeout(1000);
-            this.inputStream = this.socket.getInputStream();
-            this.inputStream.read(ans, 0, 2);
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            this.fragmentActivity.runOnUiThread(new Runnable() {
-                public void run() {
-                    Toast.makeText(fragmentActivity, "Time out", Toast.LENGTH_SHORT).show();
-                }
-            });
-            Log.d("receiveSock", "Timeout");
-            this.availableId[commandPacketReader.getId()] = 0;
-        }
+        this.socket.setSoTimeout(1000);
+        this.inputStream = this.socket.getInputStream();
+        this.inputStream.read(ans, 0, 2);
+
         return ans;
     }
 
     @Override
     protected Void doInBackground(Integer... params) {
 
-        Log.d("socketHelperSend1", String.format("%8s", Integer.toBinaryString(params[0])).replace(' ', '0'));
-        Log.d("socketHelperSend2", String.format("%8s", Integer.toBinaryString(params[1])).replace(' ', '0'));
-        this.send(params[0], params[1]);
+        try {
+            this.send(params[0], params[1]);
+            Log.d("socketHelperSend1", String.format("%8s", Integer.toBinaryString(params[0])).replace(' ', '0'));
+            Log.d("socketHelperSend2", String.format("%8s", Integer.toBinaryString(params[1])).replace(' ', '0'));
 
-        byte[] ans = new byte[2];
-        ans = this.receive();
+            byte[] ans = new byte[2];
+            ans = this.receive();
 
-        int[] intArray = new int[2];
-        for (int index = 0; index < ans.length; index++) {
-            intArray[index] = unsignedByteToInt(ans[index]);
+            int[] intArray = new int[2];
+            for (int index = 0; index < ans.length; index++) {
+                intArray[index] = unsignedByteToInt(ans[index]);
+            }
+
+            commandPacketReader = new CommandPacketReader(intArray);
+
+            this.availableId[commandPacketReader.getId()] = 0;
+
+            Log.d("socketHelperRecv1", String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
+            Log.d("socketHelperRecv2", String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
+
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+            Log.d(TAG, "Please check your ip");
+        } catch (ConnectException e) {
+            Log.d(TAG, "failed to connect to" + this.serverAddress + " port " + this.port + "ETIMEDOUT (Connection timed out)");
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            Log.d(TAG, "NullPointerException The server is closed");
+        } catch (Exception e) {
+            Log.d(TAG, "The server is already closed");
+        } finally {
+            return null;
         }
 
-        commandPacketReader = new CommandPacketReader(intArray);
-
-        this.availableId[commandPacketReader.getId()] = 0;
-
-        Log.d("socketHelperRecv1", String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
-        Log.d("socketHelperRecv2", String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
-
-        return null;
     }
 
     @Override
@@ -134,8 +117,11 @@ public class SocketHelper extends AsyncTask<Integer, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-
-        this.closeSocket();
+        try {
+            this.closeSocket();
+        } catch (Exception e) {
+            Log.d("SocketHelper", "Trying to close the socket, the server is already closed");
+        }
     }
 
     @Override
