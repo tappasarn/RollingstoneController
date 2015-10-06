@@ -55,8 +55,6 @@ public class SettingTab extends Fragment {
         this.serverPortEditText = (EditText) getView().findViewById(R.id.server_port_editText);
 
         this.resolutionSpinner = (Spinner) getView().findViewById(R.id.resolutionSpinner);
-
-        this.namePatternEditText = (EditText) getView().findViewById(R.id.name_pattern_editText);
         this.settingSaveBtn = (Button) getView().findViewById(R.id.settingSaveBtn);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
@@ -71,8 +69,8 @@ public class SettingTab extends Fragment {
         String robotIP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
         int robotPORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
 
-        String serverIP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
-        int serverPORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
+        String serverIP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
+        int serverPORT = sharedPreferences.getInt(MainActivity.SERVER_PORT, -1);
 
         int spinnerPosition = sharedPreferences.getInt(MainActivity.RES_POS, -1);
         String namePattern = sharedPreferences.getString(MainActivity.NAME_PATT, null);
@@ -98,10 +96,6 @@ public class SettingTab extends Fragment {
             resolutionSpinner.setSelection(spinnerPosition);
         }
 
-        if (namePattern != null) {
-            namePatternEditText.setText(String.valueOf(namePattern));
-        }
-
 
         // Add event listener for save button
         this.settingSaveBtn.setOnClickListener(new View.OnClickListener() {
@@ -120,9 +114,6 @@ public class SettingTab extends Fragment {
 
                     // Position
                     editor.putInt(MainActivity.RES_POS, resolutionSpinner.getSelectedItemPosition());
-
-                    // namePattern out_%d.jpg
-                    editor.putString(MainActivity.NAME_PATT, namePatternEditText.getText().toString());
 
                     editor.commit();
 
