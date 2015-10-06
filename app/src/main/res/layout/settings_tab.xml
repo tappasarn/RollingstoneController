@@ -105,18 +105,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name Pattern (Ex. out_%d.jpg)"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <EditText
-            android:id="@+id/name_pattern_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <Button
             android:id="@+id/settingSaveBtn"
             android:layout_width="wrap_content"
