@@ -1,7 +1,10 @@
 package xyz.rollingstone;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -14,6 +17,16 @@ public class MainActivity extends ActionBarActivity {
     private SlidingTabLayout tabs;
     private CharSequence titles[] = {"Manual", "List", "Add", "Settings"};
     private int numTabs = 4;
+    private boolean toggle = false;
+    private SharedPreferences sharedPreferences;
+
+    private Banana banana;
+    private static TelepathyToServer telepathyToServer;
+
+    private String serverIP;
+    private int serverPORT;
+    private int resolution;
+
 
     public static final String PREFERENCES = "xyz.rollingstone.preferences";
     public static final String LIVEVIEW_IP = "xyz.rollingstone.liveview.ip";
@@ -21,7 +34,6 @@ public class MainActivity extends ActionBarActivity {
     public static final String SERVER_IP = "xyz.rollingstone.server.ip";
     public static final String SERVER_PORT = "xyz.rollingstone.server.port";
     public static final String RES_POS = "xyz.rollingstone.resolution.pos";
-    public static final String NAME_PATT = "xyz.rollingstone.resolution.p";
     //res_pos 0 = 480p, 1 = 720p, 2 = 1080p
 
     @Override
@@ -53,16 +65,15 @@ public class MainActivity extends ActionBarActivity {
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
-    }
+        sharedPreferences = this.getSharedPreferences(
+                MainActivity.PREFERENCES, Context.MODE_PRIVATE);
 
-    /*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
+        serverIP = this.sharedPreferences.getString(MainActivity.SERVER_IP, null);
+        serverPORT = this.sharedPreferences.getInt(MainActivity.SERVER_PORT, -1);
+        resolution = this.sharedPreferences.getInt(MainActivity.RES_POS, -1);
+
+
     }
-    */
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -83,10 +94,13 @@ public class MainActivity extends ActionBarActivity {
         int keyCode = event.getKeyCode();
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
-                Toast.makeText(this, "VOLUME UP", Toast.LENGTH_SHORT).show();
-                return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                Toast.makeText(this, "VOLUME DOWN", Toast.LENGTH_SHORT).show();
+                toggle = !toggle;
+                banana = new Banana(0,toggle,resolution);
+                telepathyToServer = new TelepathyToServer(serverIP, serverPORT);
+                telepathyToServer.execute(banana.fruit());
+                Log.d("VOL", banana.toString());
+                Toast.makeText(this, "VIDEO RECORDING is " + toggle, Toast.LENGTH_SHORT).show();
                 return true;
             default:
                 return super.dispatchKeyEvent(event);

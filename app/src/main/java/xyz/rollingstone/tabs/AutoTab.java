@@ -90,6 +90,7 @@ public class AutoTab extends Fragment {
             Log.d("NO LIST", "Nothing is sent yet");
         }
 
+        /*
         final Switch recordSwitch= (Switch) getView().findViewById(R.id.recSwitch);
 
         final String serverIP = this.sharedPreferences.getString(MainActivity.SERVER_IP, null);
@@ -112,7 +113,7 @@ public class AutoTab extends Fragment {
             }
         });
 
-
+*/
     }
 
 }

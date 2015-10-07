@@ -76,6 +76,8 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
             Log.d("socketHelperSend1", String.format("%8s", Integer.toBinaryString(params[0])).replace(' ', '0'));
             Log.d("socketHelperSend2", String.format("%8s", Integer.toBinaryString(params[1])).replace(' ', '0'));
 
+
+            // get raw byte then convert into int
             byte[] ans = new byte[2];
             ans = this.receive();
 
@@ -86,6 +88,7 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
 
             commandPacketReader = new CommandPacketReader(intArray);
 
+            // clear the id
             this.availableId[commandPacketReader.getId()] = 0;
 
             Log.d("socketHelperRecv1", String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
