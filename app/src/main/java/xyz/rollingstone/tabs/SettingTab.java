@@ -70,7 +70,7 @@ public class SettingTab extends Fragment {
         String robotIP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
         int robotPORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
 
-        int ControlPort = sharedPreferences.getInt(MainActivity.CONTROL_PORT,-1);
+        int controlPort = sharedPreferences.getInt(MainActivity.CONTROL_PORT,-1);
 
         String serverIP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
         int serverPORT = sharedPreferences.getInt(MainActivity.SERVER_PORT, -1);
@@ -85,8 +85,8 @@ public class SettingTab extends Fragment {
             robotPortEditText.setText(String.valueOf(robotPORT));
         }
 
-        if (ControlPort != -1){
-            controlPortEditText.setText(String.valueOf(ControlPort));
+        if (controlPort != -1){
+            controlPortEditText.setText(String.valueOf(controlPort));
         }
 
         if (serverIP != null) {

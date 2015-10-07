@@ -209,8 +209,6 @@ public class ManualTab extends Fragment {
                         int[] command = commandPacketBuilder.Create();
 
                         // send direction and distance to the robot and Log it for debugging
-                        // TODO set port here
-
                         telepathyToRobot = new TelepathyToRobot(getActivity(),IP, CONTROLPORT, availableId);
                         telepathyToRobot.execute(command[0], command[1]);
                         Log.d("JOY", "EMERGENCY STOP");
@@ -253,7 +251,6 @@ public class ManualTab extends Fragment {
                         int[] command = commandPacketBuilder.Create();
 
                         // send direction and distance to the robot and Log it for debugging
-                        // TODO set PORT here
                         telepathyToRobot = new TelepathyToRobot(getActivity(),IP, CONTROLPORT, availableId);
                         telepathyToRobot.execute(command[0], command[1]);
                     }
