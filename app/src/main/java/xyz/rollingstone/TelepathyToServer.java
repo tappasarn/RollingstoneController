@@ -15,6 +15,7 @@ import java.util.concurrent.TimeoutException;
 
 /**
  * Created by Common Room on 10/6/2015.
+ * Basically share the same code as TelepathyToRobot, consider merging soon
  */
 public class TelepathyToServer extends AsyncTask<Integer, Void, Void> {
     private String serverAddress;
@@ -47,6 +48,8 @@ public class TelepathyToServer extends AsyncTask<Integer, Void, Void> {
 
     public byte[] receive() throws SocketTimeoutException, SocketException, IOException, TimeoutException, NullPointerException {
         byte[] ans = new byte[1];
+
+        //not sure if this setTimeOut works
         this.socket.setSoTimeout(1000);
         this.inputStream = this.socket.getInputStream();
         this.inputStream.read(ans, 0, 1);
@@ -75,6 +78,7 @@ public class TelepathyToServer extends AsyncTask<Integer, Void, Void> {
             this.sendBanana(params[0]);
             Log.d("SendToServer", String.format("%8s", Integer.toBinaryString(params[0])).replace(' ', '0'));
 
+            // put raw byte into banana class and retrieve command
             banana = new Banana(this.receive()[0]);
             banana.squeeze();
 

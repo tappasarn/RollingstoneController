@@ -73,7 +73,6 @@ public class SettingTab extends Fragment {
         int serverPORT = sharedPreferences.getInt(MainActivity.SERVER_PORT, -1);
 
         int spinnerPosition = sharedPreferences.getInt(MainActivity.RES_POS, -1);
-        String namePattern = sharedPreferences.getString(MainActivity.NAME_PATT, null);
 
         if (robotIP != null) {
             robotIpEditText.setText(robotIP);
