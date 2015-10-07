@@ -25,7 +25,7 @@ public class SettingTab extends Fragment {
 
     private SharedPreferences sharedPreferences;
 
-    private EditText robotIpEditText, robotPortEditText, serverIpEditText, serverPortEditText, namePatternEditText;
+    private EditText robotIpEditText, robotPortEditText, serverIpEditText, serverPortEditText, namePatternEditText, controlPortEditText;
     private Button settingSaveBtn;
     private Spinner resolutionSpinner;
 
@@ -50,6 +50,7 @@ public class SettingTab extends Fragment {
         // Locate UI Elements
         this.robotIpEditText = (EditText) getView().findViewById(R.id.robot_ip_editText);
         this.robotPortEditText = (EditText) getView().findViewById(R.id.robot_port_editText);
+        this.controlPortEditText = (EditText) getView().findViewById(R.id.control_port_editText);
 
         this.serverIpEditText = (EditText) getView().findViewById(R.id.server_ip_editText);
         this.serverPortEditText = (EditText) getView().findViewById(R.id.server_port_editText);
@@ -69,6 +70,8 @@ public class SettingTab extends Fragment {
         String robotIP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
         int robotPORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
 
+        int ControlPort = sharedPreferences.getInt(MainActivity.CONTROL_PORT,-1);
+
         String serverIP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
         int serverPORT = sharedPreferences.getInt(MainActivity.SERVER_PORT, -1);
 
@@ -80,6 +83,10 @@ public class SettingTab extends Fragment {
 
         if (robotPORT != -1) {
             robotPortEditText.setText(String.valueOf(robotPORT));
+        }
+
+        if (ControlPort != -1){
+            controlPortEditText.setText(String.valueOf(ControlPort));
         }
 
         if (serverIP != null) {
@@ -110,6 +117,7 @@ public class SettingTab extends Fragment {
                     editor.putInt(MainActivity.LIVEVIEW_PORT, Integer.parseInt(robotPortEditText.getText().toString()));
                     editor.putString(MainActivity.SERVER_IP, serverIpEditText.getText().toString());
                     editor.putInt(MainActivity.SERVER_PORT, Integer.parseInt(serverPortEditText.getText().toString()));
+                    editor.putInt(MainActivity.CONTROL_PORT, Integer.parseInt(controlPortEditText.getText().toString()));
 
                     // Position
                     editor.putInt(MainActivity.RES_POS, resolutionSpinner.getSelectedItemPosition());
