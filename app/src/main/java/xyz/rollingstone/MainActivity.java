@@ -43,7 +43,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, titles fot the Tabs and Number Of Tabs.
-        adapter =  new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs);
 
         // Assigning ViewPager View and setting the adapter
         pager = (CustomViewPager) findViewById(R.id.pager);
@@ -71,8 +71,6 @@ public class MainActivity extends ActionBarActivity {
         serverIP = this.sharedPreferences.getString(MainActivity.SERVER_IP, null);
         serverPORT = this.sharedPreferences.getInt(MainActivity.SERVER_PORT, -1);
         resolution = this.sharedPreferences.getInt(MainActivity.RES_POS, -1);
-
-
     }
 
     @Override
@@ -89,22 +87,27 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+
+    //Override to specifically handle the volume buttons
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_VOLUME_UP:
-            case KeyEvent.KEYCODE_VOLUME_DOWN:
+
+        // if the volume up or down is pressed, then pass value of (REQ on/off, resolution) connect to the server
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
+            if (event.getAction() == KeyEvent.ACTION_UP) {
                 toggle = !toggle;
-                banana = new Banana(0,toggle,resolution);
+                Toast.makeText(this, "VIDEO RECORDING is " + toggle, Toast.LENGTH_SHORT).show();
+                banana = new Banana(0, toggle, resolution);
                 telepathyToServer = new TelepathyToServer(serverIP, serverPORT);
                 telepathyToServer.execute(banana.fruit());
                 Log.d("VOL", banana.toString());
-                Toast.makeText(this, "VIDEO RECORDING is " + toggle, Toast.LENGTH_SHORT).show();
                 return true;
-            default:
-                return super.dispatchKeyEvent(event);
+            }
+        } else {
+            return super.dispatchKeyEvent(event);
         }
+        return true;
     }
 
 }
