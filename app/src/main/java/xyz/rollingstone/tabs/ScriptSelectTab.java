@@ -3,11 +3,9 @@ package xyz.rollingstone.tabs;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentContainer;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -44,7 +41,7 @@ public class ScriptSelectTab extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_select_script, container, false);
+        return inflater.inflate(R.layout.script_select_tab, container, false);
     }
 
     @Override

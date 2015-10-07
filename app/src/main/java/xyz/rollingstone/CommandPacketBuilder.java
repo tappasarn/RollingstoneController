@@ -1,5 +1,7 @@
 package xyz.rollingstone;
 
+import android.util.Log;
+
 import java.util.HashMap;
 
 public class CommandPacketBuilder {
@@ -65,6 +67,29 @@ public class CommandPacketBuilder {
 
     public CommandPacketBuilder() {
         super();
+    }
+
+    public CommandPacketBuilder(Action action) {
+        super();
+
+        String direction = action.getDirection();
+        switch (direction) {
+            case "FORWARD":
+                this.command = 1;
+                break;
+            case "BACKWARD":
+                this.command = 5;
+                break;
+            case "LEFT":
+                this.command = 7;
+                break;
+            case "RIGHT":
+                this.command = 3;
+                break;
+            default:
+                Log.d("CmdPacketBuilder.ERROR", "PLEASE CHECK THE ACTION YOU USED");
+        }
+        this.value = action.getLength();
     }
 
     public int[] Create() {
