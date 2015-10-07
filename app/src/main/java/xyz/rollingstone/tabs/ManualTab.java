@@ -118,6 +118,9 @@ public class ManualTab extends Fragment {
         final String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
         final int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
 
+        //Get Port from sharedPreference use for control
+        final int CONTROLPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT,0);
+
         // Create our joystick
         joystick = new JoyStick(getContext(), joystickLayout, R.drawable.joystick_button);
         joystick.setStickSize(stickSize, stickSize);
@@ -206,7 +209,9 @@ public class ManualTab extends Fragment {
                         int[] command = commandPacketBuilder.Create();
 
                         // send direction and distance to the robot and Log it for debugging
-                        telepathyToRobot = new TelepathyToRobot(getActivity(),IP, PORT + 1, availableId);
+                        // TODO set port here
+
+                        telepathyToRobot = new TelepathyToRobot(getActivity(),IP, CONTROLPORT, availableId);
                         telepathyToRobot.execute(command[0], command[1]);
                         Log.d("JOY", "EMERGENCY STOP");
                     }
@@ -248,7 +253,8 @@ public class ManualTab extends Fragment {
                         int[] command = commandPacketBuilder.Create();
 
                         // send direction and distance to the robot and Log it for debugging
-                        telepathyToRobot = new TelepathyToRobot(getActivity(),IP, PORT + 1, availableId);
+                        // TODO set PORT here
+                        telepathyToRobot = new TelepathyToRobot(getActivity(),IP, CONTROLPORT, availableId);
                         telepathyToRobot.execute(command[0], command[1]);
                     }
 
