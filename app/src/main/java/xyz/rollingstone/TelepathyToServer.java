@@ -2,6 +2,7 @@ package xyz.rollingstone;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,6 +13,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by Common Room on 10/6/2015.
@@ -23,8 +25,9 @@ public class TelepathyToServer extends AsyncTask<Integer, Void, Void> {
     private Socket socket;
     private OutputStream outputStream;
     private InputStream inputStream;
-    private Banana banana;
+    private Banana receivedBanana;
     public static final String TAG = "TeleToServer.DEBUG";
+    private int mask = 0b00_1_11_111;
 
     public TelepathyToServer(String serverAddress, int port) {
         this.serverAddress = serverAddress;
@@ -79,10 +82,15 @@ public class TelepathyToServer extends AsyncTask<Integer, Void, Void> {
             Log.d("SendToServer", String.format("%8s", Integer.toBinaryString(params[0])).replace(' ', '0'));
 
             // put raw byte into banana class and retrieve command
-            banana = new Banana(this.receive()[0]);
-            banana.squeeze();
+            receivedBanana = new Banana(this.receive()[0]);
 
-            Log.d("Receive", banana.toString());
+            if ((params[0] & mask) == (receivedBanana.fruit() & mask)) {
+                Log.d(TAG, "Yeah, we got the correct REQ/ACK");
+                Log.d(TAG, receivedBanana.toString());
+            } else {
+                Log.d(TAG, "an error occured while communicate with the server. Please try again");
+                Log.d(TAG, receivedBanana.toString());
+            }
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -99,6 +107,7 @@ public class TelepathyToServer extends AsyncTask<Integer, Void, Void> {
         }
 
     }
+
     public static int unsignedByteToInt(byte b) {
         return (int) b & 0xFF;
     }

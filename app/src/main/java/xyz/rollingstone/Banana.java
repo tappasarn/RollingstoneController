@@ -1,7 +1,11 @@
 package xyz.rollingstone;
 
 /**
- * Created by Common Room on 10/6/2015.
+ * Banana class is used to communicate with the server
+ *
+ *  __| _ |    __    |___ (Bits)
+ * REQ|ON |RESOLUTION|
+ * ACK|OFF|          |
  */
 public class Banana {
     private int type;
@@ -18,6 +22,7 @@ public class Banana {
     // get raw byte to be ready to convert to command
     public Banana(byte fromPipe) {
         this.fromPipe = unsignedByteToInt(fromPipe);
+        this.squeeze();
     }
 
     // convert raw byte to command

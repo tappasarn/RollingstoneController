@@ -97,11 +97,9 @@ public class MainActivity extends ActionBarActivity {
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             if (event.getAction() == KeyEvent.ACTION_UP) {
                 toggle = !toggle;
-                Toast.makeText(this, "VIDEO RECORDING is " + toggle, Toast.LENGTH_SHORT).show();
                 banana = new Banana(0, toggle, resolution);
                 telepathyToServer = new TelepathyToServer(serverIP, serverPORT);
                 telepathyToServer.execute(banana.fruit());
-                Log.d("VOL", banana.toString());
                 return true;
             }
         } else {
