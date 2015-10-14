@@ -19,12 +19,12 @@ import java.util.List;
 
 import xyz.rollingstone.Action;
 import xyz.rollingstone.ActionSQLHelper;
-import xyz.rollingstone.Banana;
-import xyz.rollingstone.CommandPacketBuilder;
+import xyz.rollingstone.packet.Banana;
+import xyz.rollingstone.packet.CommandPacketBuilder;
 import xyz.rollingstone.HeartBeat;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
-import xyz.rollingstone.TelepathyToServer;
+import xyz.rollingstone.tele.TelepathyToServer;
 
 public class AutoTab extends Fragment {
 

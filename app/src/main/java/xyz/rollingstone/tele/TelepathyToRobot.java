@@ -1,23 +1,20 @@
-package xyz.rollingstone;
+package xyz.rollingstone.tele;
 
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.net.ConnectException;
 import java.net.Socket;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeoutException;
+
+import xyz.rollingstone.packet.CommandPacketReader;
 
 /**
  * Created by Common Room on 10/1/2015.
@@ -81,12 +78,7 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
             byte[] ans = new byte[2];
             ans = this.receive();
 
-            int[] intArray = new int[2];
-            for (int index = 0; index < ans.length; index++) {
-                intArray[index] = unsignedByteToInt(ans[index]);
-            }
-
-            commandPacketReader = new CommandPacketReader(intArray);
+            commandPacketReader = new CommandPacketReader(ans);
 
             // clear the id
             this.availableId[commandPacketReader.getId()] = 0;

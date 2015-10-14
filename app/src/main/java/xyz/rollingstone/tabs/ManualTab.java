@@ -19,11 +19,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import xyz.rollingstone.CommandPacketBuilder;
+import xyz.rollingstone.packet.CommandPacketBuilder;
 import xyz.rollingstone.JoyStick;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
-import xyz.rollingstone.TelepathyToRobot;
+import xyz.rollingstone.tele.TelepathyToRobot;
 import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
 
 public class ManualTab extends Fragment {

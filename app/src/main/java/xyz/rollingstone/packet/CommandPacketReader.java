@@ -1,4 +1,4 @@
-package xyz.rollingstone;
+package xyz.rollingstone.packet;
 
 public class CommandPacketReader {
 

@@ -4,10 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Toast;
+
+import xyz.rollingstone.packet.Banana;
+import xyz.rollingstone.tele.TelepathyToServer;
 
 public class MainActivity extends ActionBarActivity {
 

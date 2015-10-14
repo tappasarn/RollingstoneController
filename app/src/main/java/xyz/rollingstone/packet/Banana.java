@@ -1,4 +1,4 @@
-package xyz.rollingstone;
+package xyz.rollingstone.packet;
 
 /**
  * Banana class is used to communicate with the server

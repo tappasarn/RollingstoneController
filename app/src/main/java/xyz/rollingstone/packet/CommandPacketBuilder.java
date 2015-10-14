@@ -1,8 +1,10 @@
-package xyz.rollingstone;
+package xyz.rollingstone.packet;
 
 import android.util.Log;
 
 import java.util.HashMap;
+
+import xyz.rollingstone.Action;
 
 public class CommandPacketBuilder {
 

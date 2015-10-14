@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+import xyz.rollingstone.packet.CommandPacketReader;
+
 /**
  * Created by Deeprom on 14/10/2558.
  */
