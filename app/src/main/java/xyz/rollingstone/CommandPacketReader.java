@@ -8,10 +8,18 @@ public class CommandPacketReader {
     private int id;
     private int command;
     private int value;
+    private int fromPipe;
 
     public CommandPacketReader(int[] packet) {
         this.highByte = packet[0];
         this.lowByte = packet[1];
+
+        this.read();
+    }
+
+    public CommandPacketReader(byte[] fromPipe) {
+        this.highByte = unsignedByteToInt(fromPipe[0]);
+        this.lowByte = unsignedByteToInt(fromPipe[1]);
 
         this.read();
     }
@@ -48,6 +56,10 @@ public class CommandPacketReader {
             this.type = 0;
         } else if ((this.highByte & 0b0100_0000) == 0b0100_0000) {
             this.type = 1;
+        } else if ((this.highByte & 0b1100_0000) == 0b0000_0000) {
+            this.type = 2;
+        } else if ((this.highByte & 0b1100_0000) == 0b1100_0000) {
+            this.type = 3;
         }
 
 //      handle IDs
@@ -63,4 +75,9 @@ public class CommandPacketReader {
         this.value = this.lowByte;
 
     }
+
+    public static int unsignedByteToInt(byte b) {
+        return (int) b & 0xFF;
+    }
+
 }

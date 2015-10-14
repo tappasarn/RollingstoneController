@@ -21,6 +21,7 @@ import xyz.rollingstone.Action;
 import xyz.rollingstone.ActionSQLHelper;
 import xyz.rollingstone.Banana;
 import xyz.rollingstone.CommandPacketBuilder;
+import xyz.rollingstone.HeartBeat;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
 import xyz.rollingstone.TelepathyToServer;
@@ -38,6 +39,12 @@ public class AutoTab extends Fragment {
     private SharedPreferences sharedPreferences;
     private Button startButton;
 
+    private TextView pastpastTextView;
+    private TextView pastTextView;
+    private TextView currentTextView;
+    private TextView nextTextView;
+    private TextView nextnextTextView;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.auto_tab, container, false);
@@ -52,25 +59,27 @@ public class AutoTab extends Fragment {
                 MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         this.startButton = (Button) getView().findViewById(R.id.startButton);
 
+        final String robotIP = this.sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        final int robotPORT = this.sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
+
         /*
             To Adjust the color of TextView
          */
-        TextView pastpastTextView = (TextView) getView().findViewById(R.id.pastpastAction);
+        pastpastTextView = (TextView) getView().findViewById(R.id.pastpastAction);
         pastpastTextView.setTextColor(Color.argb(38, 0, 0, 0));
 
-        TextView pastTextView = ((TextView) getView().findViewById(R.id.pastAction));
+        pastTextView = ((TextView) getView().findViewById(R.id.pastAction));
         pastTextView.setTextColor(Color.argb(38, 0, 0, 0));
 
-        TextView currentTextView = (TextView) getView().findViewById(R.id.currentAction);
+        currentTextView = (TextView) getView().findViewById(R.id.currentAction);
         currentTextView.setTextColor(Color.argb(87, 0, 0, 0));
 
-        TextView nextTextView = (TextView) getView().findViewById(R.id.nextAction);
+        nextTextView = (TextView) getView().findViewById(R.id.nextAction);
         nextTextView.setTextColor(Color.argb(54, 0, 0, 0));
 
-        TextView nextnextTextView = (TextView) getView().findViewById(R.id.nextNextAction);
+        nextnextTextView = (TextView) getView().findViewById(R.id.nextNextAction);
         nextnextTextView.setTextColor(Color.argb(54, 0, 0, 0));
 
-        Log.d(DEBUG, "onActivityCreated called");
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
@@ -101,15 +110,16 @@ public class AutoTab extends Fragment {
 
                     packetList.add(commandPacketBuilder.Create());
                 }
-
             }
-
+            /*
             Log.d("IF GOT LIST", displayList.toString());
             Log.d("IF GOT LIST", packetList.toString());
+            */
+            HeartBeat HB = new HeartBeat(robotIP, robotPORT, robotPORT+1, packetList);
+            HB.execute();
         } else {
             Log.d("NO LIST", "Nothing is sent yet");
         }
-
 
     }
 

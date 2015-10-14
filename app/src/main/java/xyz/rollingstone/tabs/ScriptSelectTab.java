@@ -48,8 +48,6 @@ public class ScriptSelectTab extends Fragment {
     public void onStart() {
         super.onStart();
 
-        Log.d("", "onStart is called.");
-
         listView = (ListView) getView().findViewById(R.id.list);
 
         db = new ActionSQLHelper(getContext());
@@ -86,7 +84,7 @@ public class ScriptSelectTab extends Fragment {
 
                 //remove from check list
                 selectedChecker.remove(pos);
-                Log.d("Time checker", selectedChecker.toString());
+                //Log.d("Time checker", selectedChecker.toString());
 
                 //remove from database
                 db.deleteBigByName(allBigsName.get(pos));
@@ -118,9 +116,10 @@ public class ScriptSelectTab extends Fragment {
                     current_position = pos;
                     selectedScripts.add(allBigsName.get(pos));
                 }
-
+                /*
                 Log.d("Time checker", selectedChecker.toString());
                 Log.d("Selected Scripts", selectedScripts.toString());
+                */
             }
         });
 
@@ -152,7 +151,7 @@ public class ScriptSelectTab extends Fragment {
 
                         //new added
                         selectedChecker.add(false);
-                        Log.d("Time checker", selectedChecker.toString());
+                        //Log.d("Time checker", selectedChecker.toString());
 
                         listView.setItemChecked(selectedChecker.size() - 1, false);
                         listAdapter.add(txt);
@@ -185,7 +184,7 @@ public class ScriptSelectTab extends Fragment {
                     }
                 }
 
-                Log.d("editBtnOnClick", Integer.toString(checkNumberCount));
+                //Log.d("editBtnOnClick", Integer.toString(checkNumberCount));
                 //three possible cases
                 if (checkNumberCount == 1) {
                     Intent intent = new Intent(getContext(), ActionListActivity.class);

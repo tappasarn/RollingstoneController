@@ -100,10 +100,16 @@ public class CommandPacketBuilder {
 //	    handle packet types
 //	    10XXXXXX - REQ
 //	    01XXXXXX - ACK
+//      00XXXXXX - ERR
+//      11XXXXXX - OK
         if (this.type == 0) {
             highByte |= 0b1000_0000;
         } else if (this.type == 1) {
             highByte |= 0b0100_0000;
+        } else if (this.type == 2) {
+            highByte |= 0b0000_0000;
+        } else if (this.type == 3) {
+            highByte |= 0b1100_0000;
         }
 
 //		handle IDs
