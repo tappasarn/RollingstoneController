@@ -3,9 +3,12 @@ package xyz.rollingstone;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Toast;
 
 import xyz.rollingstone.packet.Banana;
 import xyz.rollingstone.tele.TelepathyToServer;
@@ -28,6 +31,7 @@ public class MainActivity extends ActionBarActivity {
     private int serverPORT;
     private int resolution;
 
+    private Handler handler;
 
     public static final String PREFERENCES = "xyz.rollingstone.preferences";
     public static final String LIVEVIEW_IP = "xyz.rollingstone.liveview.ip";
@@ -38,6 +42,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String CONTROL_PORT = "xyz.rollingstone.control.port";
     //res_pos 0 = 480p, 1 = 720p, 2 = 1080p
 
+    public static final String TAG = "VULUME";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -73,6 +78,17 @@ public class MainActivity extends ActionBarActivity {
         serverIP = this.sharedPreferences.getString(MainActivity.SERVER_IP, null);
         serverPORT = this.sharedPreferences.getInt(MainActivity.SERVER_PORT, -1);
         resolution = this.sharedPreferences.getInt(MainActivity.RES_POS, -1);
+
+        handler = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                String messages = (String) msg.getData().getSerializable("status");
+                if (messages == "NO") {
+                    toggle = !toggle;
+                }
+                Toast.makeText(getApplicationContext(), String.valueOf(toggle), Toast.LENGTH_LONG).show();
+            }
+        };
+
     }
 
     @Override
@@ -98,9 +114,10 @@ public class MainActivity extends ActionBarActivity {
         // if the volume up or down is pressed, then pass value of (REQ on/off, resolution) connect to the server
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             if (event.getAction() == KeyEvent.ACTION_UP) {
+                Log.d(TAG,"KEY REC");
                 toggle = !toggle;
                 banana = new Banana(0, toggle, resolution);
-                telepathyToServer = new TelepathyToServer(serverIP, serverPORT);
+                telepathyToServer = new TelepathyToServer(serverIP, serverPORT, handler);
                 telepathyToServer.execute(banana.fruit());
                 return true;
             }

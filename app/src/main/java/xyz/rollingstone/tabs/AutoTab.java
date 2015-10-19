@@ -118,7 +118,7 @@ public class AutoTab extends Fragment {
             HeartBeat HB = new HeartBeat(robotIP, robotPORT, robotPORT+1, packetList);
             HB.execute();
         } else {
-            Log.d("NO LIST", "Nothing is sent yet");
+            Log.d(DEBUG, "No Automated Script set yet");
         }
 
     }
