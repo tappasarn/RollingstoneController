@@ -88,7 +88,10 @@ public class AutoTab extends Fragment {
             selectedScripts = bundle.getStringArrayList("SELECTED");
             Log.d(DEBUG, selectedScripts.toString());
             Toast.makeText(getActivity(), bundle.getStringArrayList("SELECTED").toString(), Toast.LENGTH_SHORT).show();
+<<<<<<< HEAD
+=======
 
+>>>>>>> master
             ActionSQLHelper db = new ActionSQLHelper(getActivity());
             displayList = new ArrayList<String>();
             anotherDisplayList = new ArrayList<String>();

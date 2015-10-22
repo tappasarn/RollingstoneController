@@ -1,7 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
+
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"
@@ -13,39 +15,49 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageView" />
 
-    <RelativeLayout
+    <FrameLayout
         android:layout_weight="0.25"
         android:layout_width="match_parent"
         android:layout_height="0dp">
 
-        <ImageButton
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_add_white_24dp"
-            android:background="@drawable/circle"
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/addButton"
-            android:layout_marginRight="34dp"
-            android:layout_centerVertical="true"
-            android:layout_toLeftOf="@+id/uploadButton"
-            android:layout_toStartOf="@+id/uploadButton"
-            android:layout_marginEnd="34dp" />
+            android:layout_marginLeft="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|left"
+            android:src="@drawable/ic_plus"
+            android:elevation="2dp"
+            app:borderWidth="0dp"
+            app:backgroundTint="@color/addButton"
+            app:fabSize="normal" />
 
-        <ImageButton
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_publish_white_24dp"
-            android:background="@drawable/circle_upload"
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/uploadButton"
-            android:layout_alignTop="@+id/editButton"
-            android:layout_centerHorizontal="true"
-            android:onClick="runOnClick"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center"
+            android:src="@drawable/ic_publish"
+            android:elevation="2dp"
+            app:borderWidth="0dp"
+            app:backgroundTint="@color/uploadButton"
+            app:fabSize="normal" />
 
-        <ImageButton
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/ic_create_white_24dp"
-            android:background="@drawable/circle_edit"
+        <android.support.design.widget.FloatingActionButton
             android:id="@+id/editButton"
+<<<<<<< HEAD:app/src/main/res/layout/activity_select_script.xml
+            android:layout_marginRight="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:src="@drawable/ic_edit"
+            android:elevation="2dp"
+            app:borderWidth="0dp"
+            app:backgroundTint="@color/editButton"
+            app:fabSize="normal" />
+
+    </FrameLayout>
+=======
             android:layout_alignTop="@+id/addButton"
             android:layout_toRightOf="@+id/uploadButton"
             android:layout_toEndOf="@+id/uploadButton"
@@ -54,4 +66,5 @@
             android:onClick="editOnClick"/>
 
     </RelativeLayout>
+>>>>>>> master:app/src/main/res/layout/script_select_tab.xml
 </LinearLayout>
