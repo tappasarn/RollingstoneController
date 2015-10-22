@@ -19,11 +19,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import xyz.rollingstone.CommandPacketBuilder;
+import xyz.rollingstone.packet.CommandPacketBuilder;
 import xyz.rollingstone.JoyStick;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
-import xyz.rollingstone.TelepathyToRobot;
+import xyz.rollingstone.tele.TelepathyToRobot;
 import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
 
 public class ManualTab extends Fragment {
@@ -122,7 +122,7 @@ public class ManualTab extends Fragment {
         final int CONTROLPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT,0);
 
         // Create our joystick
-        joystick = new JoyStick(getContext(), joystickLayout, R.drawable.joystick_button);
+        joystick = new JoyStick(getActivity(), joystickLayout, R.drawable.joystick_button);
         joystick.setStickSize(stickSize, stickSize);
         joystick.setLayoutSize(layoutSize, layoutSize);
         joystick.setLayoutAlpha(150);

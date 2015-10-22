@@ -41,10 +41,16 @@ public class ActionListActivity extends Activity {
     /**
      * need to set a RADIO id for checking of selection bcuz Android is too stupid
      */
+    /*
     public static final int RADIO_ID_FORWARD = 2131492945;
     public static final int RADIO_ID_LEFT = 2131492946;
     public static final int RADIO_ID_RIGHT = 2131492947;
     public static final int RADIO_ID_BACK = 2131492948;
+    */
+    public static final int RADIO_ID_FORWARD = 2131558481;
+    public static final int RADIO_ID_LEFT = 2131558482;
+    public static final int RADIO_ID_RIGHT = 2131558483;
+    public static final int RADIO_ID_BACK = 2131558484;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -148,6 +154,7 @@ public class ActionListActivity extends Activity {
 
         RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
         int id = rg.getCheckedRadioButtonId();
+        Log.d("Radio Checked", Integer.toString(id));
         Log.d("Radio", Integer.toString(current_position));
         NumberPicker np = (NumberPicker) findViewById(R.id.numberPicker);
 

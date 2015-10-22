@@ -1,6 +1,19 @@
-package xyz.rollingstone;
+package xyz.rollingstone.packet;
+
+import android.util.Log;
 
 import java.util.HashMap;
+
+import xyz.rollingstone.Action;
+
+/**
+ * CommandPacketBuilder
+ *
+ *  __| __ |    ____   | ____ ____ | (Bits)
+ * REQ| ID |  COMMAND  |   VALUE   |
+ * ACK|    |           |           |
+ * [-----HIGH BYTE-----][--LOW BYTE-]
+ */
 
 public class CommandPacketBuilder {
 
@@ -67,6 +80,29 @@ public class CommandPacketBuilder {
         super();
     }
 
+    public CommandPacketBuilder(Action action) {
+        super();
+
+        String direction = action.getDirection();
+        switch (direction) {
+            case "FORWARD":
+                this.command = 1;
+                break;
+            case "BACKWARD":
+                this.command = 5;
+                break;
+            case "LEFT":
+                this.command = 7;
+                break;
+            case "RIGHT":
+                this.command = 3;
+                break;
+            default:
+                Log.d("CmdPacketBuilder.ERROR", "PLEASE CHECK THE ACTION YOU USED");
+        }
+        this.value = action.getLength();
+    }
+
     public int[] Create() {
 
         int highByte = 0b0000_0000;
@@ -75,10 +111,16 @@ public class CommandPacketBuilder {
 //	    handle packet types
 //	    10XXXXXX - REQ
 //	    01XXXXXX - ACK
+//      00XXXXXX - ERR
+//      11XXXXXX - OK
         if (this.type == 0) {
             highByte |= 0b1000_0000;
         } else if (this.type == 1) {
             highByte |= 0b0100_0000;
+        } else if (this.type == 2) {
+            highByte |= 0b0000_0000;
+        } else if (this.type == 3) {
+            highByte |= 0b1100_0000;
         }
 
 //		handle IDs

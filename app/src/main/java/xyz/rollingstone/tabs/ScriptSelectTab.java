@@ -3,11 +3,9 @@ package xyz.rollingstone.tabs;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentContainer;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -15,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -44,23 +41,21 @@ public class ScriptSelectTab extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_select_script, container, false);
+        return inflater.inflate(R.layout.script_select_tab, container, false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
 
-        Log.d("", "onStart is called.");
-
         listView = (ListView) getView().findViewById(R.id.list);
 
-        db = new ActionSQLHelper(getContext());
+        db = new ActionSQLHelper(getActivity());
 
         // CRUD goes here
         allBigsName = db.getAllBigsName();
 
-        listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_activated_1, allBigsName);
+        listAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_activated_1, allBigsName);
         listView.setAdapter(listAdapter);
 
         selectedScripts = new ArrayList<String>();
@@ -84,12 +79,12 @@ public class ScriptSelectTab extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
-                Toast toast = Toast.makeText(getContext(), String.format("The script %s is removed", allBigsName.get(pos)), Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getActivity(), String.format("The script %s is removed", allBigsName.get(pos)), Toast.LENGTH_SHORT);
                 toast.show();
 
                 //remove from check list
                 selectedChecker.remove(pos);
-                Log.d("Time checker", selectedChecker.toString());
+                //Log.d("Time checker", selectedChecker.toString());
 
                 //remove from database
                 db.deleteBigByName(allBigsName.get(pos));
@@ -121,9 +116,10 @@ public class ScriptSelectTab extends Fragment {
                     current_position = pos;
                     selectedScripts.add(allBigsName.get(pos));
                 }
-
+                /*
                 Log.d("Time checker", selectedChecker.toString());
                 Log.d("Selected Scripts", selectedScripts.toString());
+                */
             }
         });
 
@@ -137,11 +133,11 @@ public class ScriptSelectTab extends Fragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Add ActionList");
                 builder.setMessage("Please specify the name");
 
-                input = new EditText(getContext());
+                input = new EditText(getActivity());
                 builder.setView(input);
 
                 // set positive button
@@ -149,13 +145,13 @@ public class ScriptSelectTab extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String txt = input.getText().toString();
-                        Toast.makeText(getContext(), txt, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), txt, Toast.LENGTH_LONG).show();
                         db.createActionTable(txt);
                         db.addBig(new Big(txt));
 
                         //new added
                         selectedChecker.add(false);
-                        Log.d("Time checker", selectedChecker.toString());
+                        //Log.d("Time checker", selectedChecker.toString());
 
                         listView.setItemChecked(selectedChecker.size() - 1, false);
                         listAdapter.add(txt);
@@ -188,16 +184,16 @@ public class ScriptSelectTab extends Fragment {
                     }
                 }
 
-                Log.d("editBtnOnClick", Integer.toString(checkNumberCount));
+                //Log.d("editBtnOnClick", Integer.toString(checkNumberCount));
                 //three possible cases
                 if (checkNumberCount == 1) {
-                    Intent intent = new Intent(getContext(), ActionListActivity.class);
+                    Intent intent = new Intent(getActivity(), ActionListActivity.class);
                     intent.putExtra(ActionListActivity.EXTRA_TBNAME, allBigsName.get(current_position));
                     startActivity(intent);
                 } else if (checkNumberCount == 0) {
-                    Toast.makeText(getContext(), "Please select the script first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
                 } else if (checkNumberCount > 1) {
-                    Toast.makeText(getContext(), "Please select only one script for edit", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please select only one script for edit", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d("editBtnOnClick", "Error occurred here");
                     Log.d("editBtnOnClick", selectedChecker.toString());
@@ -240,9 +236,9 @@ public class ScriptSelectTab extends Fragment {
                             // do whatever you want with the checked item
                         }
                     }*/
-                    Toast.makeText(getContext(), String.format("%d", count), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), String.format("%d", count), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Please select the script first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
                 }
 
 

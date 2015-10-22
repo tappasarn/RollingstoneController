@@ -6,14 +6,11 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,24 +19,35 @@ import java.util.List;
 
 import xyz.rollingstone.Action;
 import xyz.rollingstone.ActionSQLHelper;
-import xyz.rollingstone.Banana;
+import xyz.rollingstone.packet.Banana;
+import xyz.rollingstone.packet.CommandPacketBuilder;
+import xyz.rollingstone.HeartBeat;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
-import xyz.rollingstone.TelepathyToServer;
+import xyz.rollingstone.tele.TelepathyToServer;
 
 public class AutoTab extends Fragment {
 
     public static String tableName;
     private static List<String> displayList;
+    private static List<String> anotherDisplayList;
+    private static List<int[]> packetList;
     private static List<String> selectedScripts;
     public static final String DEBUG = "AutoTab.DEBUG";
     private Banana banana;
     private static TelepathyToServer telepathyToServer;
     private SharedPreferences sharedPreferences;
+    private Button startButton;
+
+    private TextView pastpastTextView;
+    private TextView pastTextView;
+    private TextView currentTextView;
+    private TextView nextTextView;
+    private TextView nextnextTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_run_script, container, false);
+        return inflater.inflate(R.layout.auto_tab, container, false);
     }
 
 
@@ -49,71 +57,66 @@ public class AutoTab extends Fragment {
         super.onStart();
         this.sharedPreferences = getActivity().getSharedPreferences(
                 MainActivity.PREFERENCES, Context.MODE_PRIVATE);
+        this.startButton = (Button) getView().findViewById(R.id.startButton);
 
-        //Toast.makeText(getContext(), String.format("page 2 born"), Toast.LENGTH_SHORT).show();
-        TextView pastpastTextView = (TextView) getView().findViewById(R.id.pastpastAction);
+        final String robotIP = this.sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        final int robotPORT = this.sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
+
+        /*
+            To Adjust the color of TextView
+         */
+        pastpastTextView = (TextView) getView().findViewById(R.id.pastpastAction);
         pastpastTextView.setTextColor(Color.argb(38, 0, 0, 0));
 
-        TextView pastTextView = ((TextView) getView().findViewById(R.id.pastAction));
+        pastTextView = ((TextView) getView().findViewById(R.id.pastAction));
         pastTextView.setTextColor(Color.argb(38, 0, 0, 0));
 
-        TextView currentTextView = (TextView) getView().findViewById(R.id.currentAction);
+        currentTextView = (TextView) getView().findViewById(R.id.currentAction);
         currentTextView.setTextColor(Color.argb(87, 0, 0, 0));
 
-        TextView nextTextView = (TextView) getView().findViewById(R.id.nextAction);
+        nextTextView = (TextView) getView().findViewById(R.id.nextAction);
         nextTextView.setTextColor(Color.argb(54, 0, 0, 0));
 
-        TextView nextnextTextView = (TextView) getView().findViewById(R.id.nextNextAction);
+        nextnextTextView = (TextView) getView().findViewById(R.id.nextNextAction);
         nextnextTextView.setTextColor(Color.argb(54, 0, 0, 0));
 
-        //things from below are move to this area/////////
-
-        Log.d(DEBUG, "onActivityCreated called");
         Bundle bundle = this.getArguments();
 
         if (bundle != null) {
+
+            /* if there is at least 1 selected script, get the table which has the same name as them */
             selectedScripts = bundle.getStringArrayList("SELECTED");
             Log.d(DEBUG, selectedScripts.toString());
-            Toast.makeText(getContext(), bundle.getStringArrayList("SELECTED").toString(), Toast.LENGTH_SHORT).show();
-            ActionSQLHelper db = new ActionSQLHelper(getContext());
-            displayList = new ArrayList<String>();
+            Toast.makeText(getActivity(), bundle.getStringArrayList("SELECTED").toString(), Toast.LENGTH_SHORT).show();
 
+            ActionSQLHelper db = new ActionSQLHelper(getActivity());
+            displayList = new ArrayList<String>();
+            anotherDisplayList = new ArrayList<String>();
+
+            packetList = new ArrayList<int[]>();
+            CommandPacketBuilder commandPacketBuilder;
+
+            /* loop through every script, we are using 2 Lists here, 1 for keeping display data to be displayed on UI,
+              * another one is to keep the commandPacketList to be sent to the robot
+               * */
             for (String script : selectedScripts) {
                 List<Action> actionList = db.getAllActionsFromTable(script);
+
                 for (Action act : actionList) {
                     displayList.add(act.humanize());
+                    commandPacketBuilder = new CommandPacketBuilder(act);
+                    commandPacketBuilder.setType(0);
+                    commandPacketBuilder.setId(0);
+
+                    packetList.add(commandPacketBuilder.Create());
                 }
             }
-
-            Log.d("IF GOT LIST", displayList.toString());
+            HeartBeat HB = new HeartBeat(robotIP, robotPORT, robotPORT+1, packetList);
+            HB.execute();
         } else {
-            Log.d("NO LIST", "Nothing is sent yet");
+            Log.d(DEBUG, "No Automated Script set yet");
         }
 
-        /*
-        final Switch recordSwitch= (Switch) getView().findViewById(R.id.recSwitch);
-
-        final String serverIP = this.sharedPreferences.getString(MainActivity.SERVER_IP, null);
-        final int serverPORT = this.sharedPreferences.getInt(MainActivity.SERVER_PORT, -1);
-        final int resolution = this.sharedPreferences.getInt(MainActivity.RES_POS, -1);
-
-
-        recordSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
-                if (isChecked) {
-                    banana = new Banana(0,isChecked,resolution);
-                } else {
-                    banana = new Banana(0,isChecked,resolution);
-                }
-
-                telepathyToServer = new TelepathyToServer(serverIP, serverPORT);
-                telepathyToServer.execute(banana.fruit());
-            }
-        });
-
-*/
     }
 
 }
