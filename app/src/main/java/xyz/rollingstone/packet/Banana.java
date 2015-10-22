@@ -1,4 +1,4 @@
-package xyz.rollingstone;
+package xyz.rollingstone.packet;
 
 /**
  * Banana class is used to communicate with the server
@@ -6,7 +6,9 @@ package xyz.rollingstone;
  *  __| _ |    __    |___ (Bits)
  * REQ|ON |RESOLUTION|
  * ACK|OFF|          |
+ * [-------A BYTE--------]
  */
+
 public class Banana {
     private int type;
     private boolean on;

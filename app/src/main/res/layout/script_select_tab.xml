@@ -45,6 +45,7 @@
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/editButton"
+<<<<<<< HEAD:app/src/main/res/layout/activity_select_script.xml
             android:layout_marginRight="50dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -56,4 +57,14 @@
             app:fabSize="normal" />
 
     </FrameLayout>
+=======
+            android:layout_alignTop="@+id/addButton"
+            android:layout_toRightOf="@+id/uploadButton"
+            android:layout_toEndOf="@+id/uploadButton"
+            android:layout_marginLeft="34dp"
+            android:layout_marginStart="34dp"
+            android:onClick="editOnClick"/>
+
+    </RelativeLayout>
+>>>>>>> master:app/src/main/res/layout/script_select_tab.xml
 </LinearLayout>

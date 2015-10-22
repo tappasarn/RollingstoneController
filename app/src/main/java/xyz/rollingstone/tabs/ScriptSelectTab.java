@@ -1,13 +1,12 @@
 package xyz.rollingstone.tabs;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
+import android.support.v4.app.Fragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
@@ -43,14 +42,12 @@ public class ScriptSelectTab extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_select_script, container, false);
+        return inflater.inflate(R.layout.script_select_tab, container, false);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        Log.d("", "onStart is called.");
 
         listView = (ListView) getView().findViewById(R.id.list);
 
@@ -88,7 +85,7 @@ public class ScriptSelectTab extends Fragment {
 
                 //remove from check list
                 selectedChecker.remove(pos);
-                Log.d("Time checker", selectedChecker.toString());
+                //Log.d("Time checker", selectedChecker.toString());
 
                 //remove from database
                 db.deleteBigByName(allBigsName.get(pos));
@@ -120,9 +117,10 @@ public class ScriptSelectTab extends Fragment {
                     current_position = pos;
                     selectedScripts.add(allBigsName.get(pos));
                 }
-
+                /*
                 Log.d("Time checker", selectedChecker.toString());
                 Log.d("Selected Scripts", selectedScripts.toString());
+                */
             }
         });
 
@@ -144,18 +142,21 @@ public class ScriptSelectTab extends Fragment {
                 scriptNameEditText = new EditText(getActivity());
                 builder.setView(scriptNameEditText);
 
+
                 // set positive button
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         String txt = scriptNameEditText.getText().toString();
+
                         Toast.makeText(getActivity(), txt, Toast.LENGTH_LONG).show();
                         db.createActionTable(txt);
                         db.addBig(new Big(txt));
 
                         //new added
                         selectedChecker.add(false);
-                        Log.d("Time checker", selectedChecker.toString());
+                        //Log.d("Time checker", selectedChecker.toString());
 
                         listView.setItemChecked(selectedChecker.size() - 1, false);
                         listAdapter.add(txt);
@@ -188,7 +189,7 @@ public class ScriptSelectTab extends Fragment {
                     }
                 }
 
-                Log.d("editBtnOnClick", Integer.toString(checkNumberCount));
+                //Log.d("editBtnOnClick", Integer.toString(checkNumberCount));
                 //three possible cases
                 if (checkNumberCount == 1) {
                     Intent intent = new Intent(getActivity(), ActionListActivity.class);

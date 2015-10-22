@@ -25,7 +25,7 @@ public class SettingTab extends Fragment {
 
     private SharedPreferences sharedPreferences;
 
-    private EditText robotIpEditText, robotPortEditText, serverIpEditText, serverPortEditText, namePatternEditText, controlPortEditText;
+    private EditText robotIpEditText, robotPortEditText, serverIpEditText, serverPortEditText, controlPortEditText;
     private Button settingSaveBtn;
     private Spinner resolutionSpinner;
 
