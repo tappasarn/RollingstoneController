@@ -58,7 +58,7 @@ public class SettingTab extends Fragment {
         this.resolutionSpinner = (Spinner) getView().findViewById(R.id.resolutionSpinner);
         this.settingSaveBtn = (Button) getView().findViewById(R.id.settingSaveBtn);
 
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
                 R.array.res_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
