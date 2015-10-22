@@ -54,7 +54,7 @@ public class ScriptSelectTab extends Fragment {
 
         listView = (ListView) getView().findViewById(R.id.list);
 
-        db = new ActionSQLHelper(getActivity().getApplicationContext());
+        db = new ActionSQLHelper(getActivity());
 
         // CRUD goes here
         allBigsName = db.getAllBigsName();
