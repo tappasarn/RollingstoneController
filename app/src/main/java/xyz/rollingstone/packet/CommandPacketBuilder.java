@@ -6,6 +6,15 @@ import java.util.HashMap;
 
 import xyz.rollingstone.Action;
 
+/**
+ * CommandPacketBuilder
+ *
+ *  __| __ |    ____   | ____ ____ | (Bits)
+ * REQ| ID |  COMMAND  |   VALUE   |
+ * ACK|    |           |           |
+ * [-----HIGH BYTE-----][--LOW BYTE-]
+ */
+
 public class CommandPacketBuilder {
 
     private int type;

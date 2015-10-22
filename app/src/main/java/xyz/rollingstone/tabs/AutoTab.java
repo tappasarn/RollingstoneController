@@ -87,9 +87,9 @@ public class AutoTab extends Fragment {
             /* if there is at least 1 selected script, get the table which has the same name as them */
             selectedScripts = bundle.getStringArrayList("SELECTED");
             Log.d(DEBUG, selectedScripts.toString());
-            Toast.makeText(getContext(), bundle.getStringArrayList("SELECTED").toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), bundle.getStringArrayList("SELECTED").toString(), Toast.LENGTH_SHORT).show();
 
-            ActionSQLHelper db = new ActionSQLHelper(getContext());
+            ActionSQLHelper db = new ActionSQLHelper(getActivity());
             displayList = new ArrayList<String>();
             anotherDisplayList = new ArrayList<String>();
 
@@ -111,10 +111,6 @@ public class AutoTab extends Fragment {
                     packetList.add(commandPacketBuilder.Create());
                 }
             }
-            /*
-            Log.d("IF GOT LIST", displayList.toString());
-            Log.d("IF GOT LIST", packetList.toString());
-            */
             HeartBeat HB = new HeartBeat(robotIP, robotPORT, robotPORT+1, packetList);
             HB.execute();
         } else {

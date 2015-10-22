@@ -122,7 +122,7 @@ public class ManualTab extends Fragment {
         final int CONTROLPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT,0);
 
         // Create our joystick
-        joystick = new JoyStick(getContext(), joystickLayout, R.drawable.joystick_button);
+        joystick = new JoyStick(getActivity(), joystickLayout, R.drawable.joystick_button);
         joystick.setStickSize(stickSize, stickSize);
         joystick.setLayoutSize(layoutSize, layoutSize);
         joystick.setLayoutAlpha(150);

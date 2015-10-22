@@ -88,14 +88,14 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
-            Log.d(TAG, "Please check your ip");
+            Log.d(TAG, e.getMessage());
         } catch (ConnectException e) {
-            Log.d(TAG, "failed to connect to " + this.serverAddress + " port " + this.port + " ETIMEDOUT (Connection timed out)");
+            Log.d(TAG, e.getMessage());
         } catch (NullPointerException e) {
             e.printStackTrace();
-            Log.d(TAG, "NullPointerException The server is closed");
+            Log.d(TAG, e.getMessage());
         } catch (Exception e) {
-            Log.d(TAG, "The server is already closed");
+            Log.d(TAG, e.getMessage());
         } finally {
             return null;
         }

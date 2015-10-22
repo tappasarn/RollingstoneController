@@ -6,7 +6,9 @@ package xyz.rollingstone.packet;
  *  __| _ |    __    |___ (Bits)
  * REQ|ON |RESOLUTION|
  * ACK|OFF|          |
+ * [-------A BYTE--------]
  */
+
 public class Banana {
     private int type;
     private boolean on;

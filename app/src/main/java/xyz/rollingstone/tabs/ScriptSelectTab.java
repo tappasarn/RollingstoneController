@@ -50,12 +50,12 @@ public class ScriptSelectTab extends Fragment {
 
         listView = (ListView) getView().findViewById(R.id.list);
 
-        db = new ActionSQLHelper(getContext());
+        db = new ActionSQLHelper(getActivity());
 
         // CRUD goes here
         allBigsName = db.getAllBigsName();
 
-        listAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_activated_1, allBigsName);
+        listAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_activated_1, allBigsName);
         listView.setAdapter(listAdapter);
 
         selectedScripts = new ArrayList<String>();
@@ -79,7 +79,7 @@ public class ScriptSelectTab extends Fragment {
             @Override
             public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
                                            int pos, long id) {
-                Toast toast = Toast.makeText(getContext(), String.format("The script %s is removed", allBigsName.get(pos)), Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getActivity(), String.format("The script %s is removed", allBigsName.get(pos)), Toast.LENGTH_SHORT);
                 toast.show();
 
                 //remove from check list
@@ -133,11 +133,11 @@ public class ScriptSelectTab extends Fragment {
         addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Add ActionList");
                 builder.setMessage("Please specify the name");
 
-                input = new EditText(getContext());
+                input = new EditText(getActivity());
                 builder.setView(input);
 
                 // set positive button
@@ -145,7 +145,7 @@ public class ScriptSelectTab extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String txt = input.getText().toString();
-                        Toast.makeText(getContext(), txt, Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActivity(), txt, Toast.LENGTH_LONG).show();
                         db.createActionTable(txt);
                         db.addBig(new Big(txt));
 
@@ -187,13 +187,13 @@ public class ScriptSelectTab extends Fragment {
                 //Log.d("editBtnOnClick", Integer.toString(checkNumberCount));
                 //three possible cases
                 if (checkNumberCount == 1) {
-                    Intent intent = new Intent(getContext(), ActionListActivity.class);
+                    Intent intent = new Intent(getActivity(), ActionListActivity.class);
                     intent.putExtra(ActionListActivity.EXTRA_TBNAME, allBigsName.get(current_position));
                     startActivity(intent);
                 } else if (checkNumberCount == 0) {
-                    Toast.makeText(getContext(), "Please select the script first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
                 } else if (checkNumberCount > 1) {
-                    Toast.makeText(getContext(), "Please select only one script for edit", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please select only one script for edit", Toast.LENGTH_SHORT).show();
                 } else {
                     Log.d("editBtnOnClick", "Error occurred here");
                     Log.d("editBtnOnClick", selectedChecker.toString());
@@ -236,9 +236,9 @@ public class ScriptSelectTab extends Fragment {
                             // do whatever you want with the checked item
                         }
                     }*/
-                    Toast.makeText(getContext(), String.format("%d", count), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), String.format("%d", count), Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(getContext(), "Please select the script first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
                 }
 
 

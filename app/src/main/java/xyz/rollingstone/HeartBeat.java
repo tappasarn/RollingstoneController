@@ -19,7 +19,13 @@ import java.util.concurrent.TimeoutException;
 import xyz.rollingstone.packet.CommandPacketReader;
 
 /**
- * Created by Deeprom on 14/10/2558.
+ * HeartBeat now using only a byte
+ * __  |___ ___|
+ * REQ | OTHER |
+ * ACK |
+ * OK  |
+ * ERR |
+ * [--A BYTE--]
  */
 public class HeartBeat extends AsyncTask<Void, Void, Void> {
     private String serverAddress;
@@ -180,14 +186,14 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
                             } catch (UnknownHostException e) {
                                 e.printStackTrace();
-                                Log.d(TAG2, "Please check your ip");
+                                Log.d(TAG2, e.getMessage());
                             } catch (ConnectException e) {
-                                Log.d(TAG2, "failed to connect to " + this.serverAddress + " port " + this.heartBeatPort + " ETIMEDOUT (Connection timed out)");
+                                Log.d(TAG2, e.getMessage());
                             } catch (NullPointerException e) {
                                 e.printStackTrace();
-                                Log.d(TAG2, "NullPointerException The server is closed");
+                                Log.d(TAG2, e.getMessage());
                             } catch (Exception e) {
-                                Log.d(TAG2, "Time Out");
+                                Log.d(TAG2, e.getMessage());
                             }
                         }
                     } else {
@@ -198,14 +204,14 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                     Thread.sleep(1000);
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
-                    Log.d(TAG, "try " + count + " out of " + maxTries + " Please check your ip");
+                    Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
                 } catch (ConnectException e) {
-                    Log.d(TAG, "try " + count + " out of " + maxTries + " failed to connect to " + this.serverAddress + " port " + this.port + " ETIMEDOUT (Connection timed out)");
+                    Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
                 } catch (NullPointerException e) {
                     e.printStackTrace();
-                    Log.d(TAG, "try " + count + " out of " + maxTries + " NullPointerException The server is closed");
+                    Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
                 } catch (Exception e) {
-                    Log.d(TAG, "try " + count + " out of " + maxTries + " The server is already closed");
+                    Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
                 } finally {
                     if (++count == maxTries) {
                         Log.d(TAG, "Max tries exceeded");
