@@ -1,4 +1,5 @@
 package xyz.rollingstone;
+
 /**
  * main idea is to make change only on displayList then if user click save, just extract from
  * displayList and push them all in database
@@ -8,8 +9,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,8 +28,9 @@ import java.util.List;
 public class ActionListActivity extends Activity {
 
     public static final String EXTRA_TBNAME = "table_name";
-    private static String tableName;
     public static final String TAG = "TIME";
+
+    private static String tableName;
     public ListView listActs;
     public List<Action> actionList;
     private ArrayAdapter<String> listAdapter;
