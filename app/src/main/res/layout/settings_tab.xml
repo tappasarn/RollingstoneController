@@ -2,8 +2,10 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fillViewport="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    style="@style/Base.V21.Theme.AppCompat">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -12,99 +14,171 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20px"
-            android:text="RollingStone Settings"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
-
-        <TextView
             android:id="@+id/textView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10px"
             android:text="Robot Settings"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:autoText="false"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="IP Address"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <EditText
-            android:id="@+id/robot_ip_editText"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10px" />
+            android:layout_height="39dp">
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Port"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IP Address"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_gravity="center_vertical|left"
+                android:layout_weight="0.5" />
 
-        <EditText
-            android:id="@+id/robot_port_editText"
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="LiveView Port"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_gravity="center_vertical|right"
+                android:layout_weight="0.5"
+                android:layout_marginLeft="25dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10px" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView11"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Control Port"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <EditText
+                android:id="@+id/robot_ip_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_weight="0.5"
+                android:layout_gravity="center_vertical|left" />
 
-        <EditText
-            android:id="@+id/control_port_editText"
+            <EditText
+                android:id="@+id/robot_port_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_weight="0.5"
+                android:layout_gravity="center_vertical|right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10px" />
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Control Port"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_weight="0.5"
+                android:layout_gravity="center_vertical|left" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="HeartBeat Port"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_weight="0.5"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="25dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/control_port_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_weight="0.5"
+                android:layout_gravity="center_vertical|left" />
+
+            <EditText
+                android:id="@+id/heartbeat_port_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_gravity="center_vertical|right"
+                android:layout_weight="0.5" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10px"
             android:text="Server Settings"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            />
 
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="IP Address"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <EditText
-            android:id="@+id/server_ip_editText"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10px" />
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Port"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IP Address"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_weight="0.5"
+                android:layout_gravity="center_vertical|left" />
 
-        <EditText
-            android:id="@+id/server_port_editText"
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Port"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:layout_weight="0.7"
+                android:layout_marginLeft="5dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10px" />
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/server_ip_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_weight="0.5"
+                android:layout_gravity="center_vertical|left" />
+
+            <EditText
+                android:id="@+id/server_port_editText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10px"
+                android:layout_weight="0.5"
+                android:layout_gravity="center_vertical|right" />
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10px"
             android:text="Image Settings"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            style="Base.TextAppearance.AppCompat.Display1"
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:id="@+id/textView8"
@@ -116,13 +190,18 @@
         <Spinner
             android:id="@+id/resolutionSpinner"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/editButton"
+            android:backgroundTintMode="multiply" />
 
         <Button
             android:id="@+id/settingSaveBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="SAVE" />
+            android:text="SAVE"
+            android:layout_gravity="bottom|right"
+            />
 
     </LinearLayout>
 </ScrollView>

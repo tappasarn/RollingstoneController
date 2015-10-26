@@ -54,6 +54,15 @@ public class Action {
                 '}';
     }
     public String humanize(){
-        return direction + " " + length + " m";
+        /*
+            If it's LEFT or RIGHT, only direction is needed since the length is always zero
+         */
+        if (direction.equals("FORWARD") || direction.equals("BACK")) {
+            return direction + " " + length + " m";
+        } else if (direction.equals("LEFT") || direction.equals("RIGHT")) {
+            return direction;
+        } else {
+            return "ERROR";
+        }
     }
 }

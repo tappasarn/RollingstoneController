@@ -142,7 +142,6 @@ public class ScriptSelectTab extends Fragment {
                 scriptNameEditText = new EditText(getActivity());
                 builder.setView(scriptNameEditText);
 
-
                 // set positive button
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
@@ -150,17 +149,25 @@ public class ScriptSelectTab extends Fragment {
 
                         String txt = scriptNameEditText.getText().toString();
 
-                        Toast.makeText(getActivity(), txt, Toast.LENGTH_LONG).show();
-                        db.createActionTable(txt);
-                        db.addBig(new Big(txt));
+                        /**
+                         * TODO: implement reserved keyword blocking
+                         */
+                        if (txt.equals("")) {
+                            Toast.makeText(getActivity(), "Please Input Script Name", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        } else {
+                            Toast.makeText(getActivity(), txt, Toast.LENGTH_LONG).show();
+                            db.createActionTable(txt);
+                            db.addBig(new Big(txt));
 
-                        //new added
-                        selectedChecker.add(false);
-                        //Log.d("Time checker", selectedChecker.toString());
+                            //new added
+                            selectedChecker.add(false);
+                            //Log.d("Time checker", selectedChecker.toString());
 
-                        listView.setItemChecked(selectedChecker.size() - 1, false);
-                        listAdapter.add(txt);
-                        listAdapter.notifyDataSetChanged();
+                            listView.setItemChecked(selectedChecker.size() - 1, false);
+                            listAdapter.add(txt);
+                            listAdapter.notifyDataSetChanged();
+                        }
                     }
                 });
 
