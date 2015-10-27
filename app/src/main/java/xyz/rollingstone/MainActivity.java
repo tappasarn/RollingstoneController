@@ -71,6 +71,9 @@ public class MainActivity extends ActionBarActivity {
             }
         });
 
+        // Setting Custom Tab View for Tab Layout
+        tabs.setCustomTabView(R.layout.tabview, R.id.tab_name);
+
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
