@@ -1,12 +1,11 @@
 package xyz.rollingstone.tabs;
 
 import android.app.AlertDialog;
-import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.util.Log;
@@ -21,7 +20,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import xyz.rollingstone.ActionListActivity;
@@ -37,13 +35,12 @@ public class ScriptSelectTab extends Fragment {
     List<String> allBigsName; //Bigs stands for Script, me so sry i can't remember the name at that time
     ArrayList<Boolean> selectedChecker;
     ArrayList<String> selectedScripts;
-    private int addToPosition, old_position = -1, current_position = -1;
-    private boolean isSelected = false;
     int selectedScriptsPosition = 0;
     ListView listView;
     String[] reservedList = new String[]{"ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "AS", "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY", "CASCADE", "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "COMMIT", "CONFLICT", "CONSTRAINT", "CREATE", "CROSS", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "DATABASE", "DEFAULT", "DEFERRABLE", "DEFERRED", "DELETE", "DESC", "DETACH", "DISTINCT", "DROP", "EACH", "ELSE", "END", "ESCAPE", "EXCEPT", "EXCLUSIVE", "EXISTS", "EXPLAIN", "FAIL", "FOR", "FOREIGN", "FROM", "FULL", "GLOB", "GROUP", "HAVING", "IF", "IGNORE", "IMMEDIATE", "IN", "INDEX", "INDEXED", "INITIALLY", "INNER", "INSERT", "INSTEAD", "INTERSECT", "INTO", "IS", "ISNULL", "JOIN", "KEY", "LEFT", "LIKE", "LIMIT", "MATCH", "NATURAL", "NO", "NOT", "NOTNULL", "NULL", "OF", "OFFSET", "ON", "OR", "ORDER", "OUTER", "PLAN", "PRAGMA", "PRIMARY", "QUERY", "RAISE", "RECURSIVE", "REFERENCES", "REGEXP", "REINDEX", "RELEASE", "RENAME", "REPLACE", "RESTRICT", "RIGHT", "ROLLBACK", "ROW", "SAVEPOINT", "SELECT", "SET", "TABLE", "TEMP", "TEMPORARY", "THEN", "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM", "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE", "WITH", "WITHOUT"};
+    private int addToPosition, old_position = -1, current_position = -1;
+    private boolean isSelected = false;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.script_select_tab, container, false);
@@ -136,149 +133,145 @@ public class ScriptSelectTab extends Fragment {
 
         // Add Button Listener
         addBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                                      @Override
+                                      public void onClick(View v) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Add ActionList");
-                builder.setMessage("Please specify the name");
+                                          AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                          builder.setTitle("Add ActionList");
+                                          builder.setMessage("Please specify the name");
 
-                scriptNameEditText = new EditText(getActivity());
-                builder.setView(scriptNameEditText);
-                InputFilter filter = new InputFilter() {
-                    public CharSequence filter(CharSequence source, int start, int end,
-                                               Spanned dest, int dstart, int dend) {
-                        if (!source.toString().matches("[a-zA-Z.? ]*")) {
-                            Toast aviso = Toast.makeText(getActivity(), "Numbers & Special characters are not allowed", Toast.LENGTH_LONG);
-                            aviso.show();
-                            return "";
-                        }
-                        return null;
-                    }
-                };
-                scriptNameEditText.setFilters(new InputFilter[]{filter});
-                // set positive button
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                                          scriptNameEditText = new EditText(getActivity());
+                                          builder.setView(scriptNameEditText);
+                                          InputFilter filter = new InputFilter() {
+                                              public CharSequence filter(CharSequence source, int start, int end,
+                                                                         Spanned dest, int dstart, int dend) {
+                                                  if (!source.toString().matches("[a-zA-Z.? ]*")) {
+                                                      Toast aviso = Toast.makeText(getActivity(), "Numbers & Special characters are not allowed", Toast.LENGTH_LONG);
+                                                      aviso.show();
+                                                      return "";
+                                                  }
+                                                  return null;
+                                              }
+                                          };
+                                          scriptNameEditText.setFilters(new InputFilter[]{filter});
+                                          // set positive button
+                                          builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                      @Override
+                                                      public void onClick(DialogInterface dialog, int which) {
 
-                        String txt = scriptNameEditText.getText().toString();
+                                                          String txt = scriptNameEditText.getText().toString();
 
-                        boolean match = false;
-                        for (String reserve : reservedList) {
-                            if (reserve.toLowerCase().equals(txt.toLowerCase())){
-                                match = true;
-                            }
-                        }
-                        if (txt.equals("")) {
-                            Toast.makeText(getActivity(), "Please Input Script Name", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        } else if (match) {
-                            Toast.makeText(getActivity(), "Please Don't Use Reserved Words", Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
-                        } else {
-                            Toast.makeText(getActivity(), "Script " + txt + " is added", Toast.LENGTH_LONG).show();
-                            db.createActionTable(txt);
-                            db.addBig(new Big(txt));
+                                                          boolean match = false;
+                                                          for (String reserve : reservedList) {
+                                                              if (reserve.toLowerCase().equals(txt.toLowerCase())) {
+                                                                  match = true;
+                                                              }
+                                                          }
+                                                          if (txt.equals("")) {
+                                                              Toast.makeText(getActivity(), "Please Input Script Name", Toast.LENGTH_SHORT).show();
+                                                              dialog.dismiss();
+                                                          } else if (match) {
+                                                              Toast.makeText(getActivity(), "Please Don't Use Reserved Words", Toast.LENGTH_SHORT).show();
+                                                              dialog.dismiss();
+                                                          } else {
+                                                              Toast.makeText(getActivity(), "Script " + txt + " is added", Toast.LENGTH_LONG).show();
+                                                              db.createActionTable(txt);
+                                                              db.addBig(new Big(txt));
 
-                            //new added
-                            selectedChecker.add(false);
+                                                              //new added
+                                                              selectedChecker.add(false);
 
-                            listView.setItemChecked(selectedChecker.size() - 1, false);
-                            listAdapter.add(txt);
-                            listAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
+                                                              listView.setItemChecked(selectedChecker.size() - 1, false);
+                                                              listAdapter.add(txt);
+                                                              listAdapter.notifyDataSetChanged();
+                                                          }
+                                                      }
+                                                  }
 
-            );
+                                          );
 
-            // set negative Button
-            builder.setNegativeButton("Cancel",new DialogInterface.OnClickListener()
+                                          // set negative Button
+                                          builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener()
 
-            {
-                @Override
-                public void onClick (DialogInterface dialog,int which){
-                dialog.dismiss();
-            }
-            }
+                                                  {
+                                                      @Override
+                                                      public void onClick(DialogInterface dialog, int which) {
+                                                          dialog.dismiss();
+                                                      }
+                                                  }
 
-            );
+                                          );
 
-            AlertDialog alertDialog = builder.create();
-            alertDialog.show();
-        }
+                                          AlertDialog alertDialog = builder.create();
+                                          alertDialog.show();
+                                      }
+                                  }
+
+        );
+
+        // Edit Button Listener
+        editBtn.setOnClickListener(new View.OnClickListener() {
+                                       @Override
+                                       public void onClick(View v) {
+                                           //to check if user select more than 1 script before they start edit
+                                           int checkNumberCount = 0;
+                                           for (int i = 0; i < selectedChecker.size(); i++) {
+                                               if (selectedChecker.get(i)) {
+                                                   checkNumberCount++;
+                                               }
+                                           }
+
+                                           //Log.d("editBtnOnClick", Integer.toString(checkNumberCount));
+                                           //three possible cases
+                                           if (checkNumberCount == 1) {
+                                               Intent intent = new Intent(getActivity(), ActionListActivity.class);
+                                               intent.putExtra(ActionListActivity.EXTRA_TBNAME, allBigsName.get(current_position));
+                                               startActivity(intent);
+                                           } else if (checkNumberCount == 0) {
+                                               Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
+                                           } else if (checkNumberCount > 1) {
+                                               Toast.makeText(getActivity(), "Please select only one script for edit", Toast.LENGTH_SHORT).show();
+                                           } else {
+                                               Log.d("editBtnOnClick", "Error occurred here");
+                                               Log.d("editBtnOnClick", selectedChecker.toString());
+                                           }
+
+                                       }
+                                   }
+
+        );
+
+        // Upload Button Listener
+        uploadBtn.setOnClickListener(new View.OnClickListener() {
+                                         @Override
+                                         public void onClick(View v) {
+                                             SparseBooleanArray checked = listView.getCheckedItemPositions();
+
+                                             Log.d("uploadBtn Checked", checked.toString());
+                                             Log.d("SelectedScript", selectedScripts.toString());
+
+                                             int count = 0;
+                                             if (checked.size() > 0) {
+
+                                                 Bundle bundle = new Bundle();
+                                                 bundle.putStringArrayList("SELECTED", selectedScripts);
+
+                                                 AutoTab autoTab = new AutoTab();
+                                                 autoTab.setArguments(bundle);
+                                                 // in .replace use id.container instead of the old one to fix bug that removes this own page
+                                                 getFragmentManager()
+                                                         .beginTransaction()
+                                                         .replace(R.id.container, autoTab, "SELECTED")
+                                                         .addToBackStack("SELECTED").commit();
+
+                                                 Toast.makeText(getActivity(), String.format("%d", count), Toast.LENGTH_SHORT).show();
+                                             } else {
+                                                 Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
+                                             }
+
+                                         }
+                                     }
+
+        );
     }
-
-    );
-
-    // Edit Button Listener
-    editBtn.setOnClickListener(new View.OnClickListener()
-
-    {
-        @Override
-        public void onClick (View v){
-        //to check if user select more than 1 script before they start edit
-        int checkNumberCount = 0;
-        for (int i = 0; i < selectedChecker.size(); i++) {
-            if (selectedChecker.get(i)) {
-                checkNumberCount++;
-            }
-        }
-
-        //Log.d("editBtnOnClick", Integer.toString(checkNumberCount));
-        //three possible cases
-        if (checkNumberCount == 1) {
-            Intent intent = new Intent(getActivity(), ActionListActivity.class);
-            intent.putExtra(ActionListActivity.EXTRA_TBNAME, allBigsName.get(current_position));
-            startActivity(intent);
-        } else if (checkNumberCount == 0) {
-            Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
-        } else if (checkNumberCount > 1) {
-            Toast.makeText(getActivity(), "Please select only one script for edit", Toast.LENGTH_SHORT).show();
-        } else {
-            Log.d("editBtnOnClick", "Error occurred here");
-            Log.d("editBtnOnClick", selectedChecker.toString());
-        }
-
-    }
-    }
-
-    );
-
-    // Upload Button Listener
-    uploadBtn.setOnClickListener(new View.OnClickListener()
-
-    {
-        @Override
-        public void onClick (View v){
-        SparseBooleanArray checked = listView.getCheckedItemPositions();
-
-        Log.d("uploadBtn Checked", checked.toString());
-        Log.d("SelectedScript", selectedScripts.toString());
-
-        int count = 0;
-        if (checked.size() > 0) {
-
-            Bundle bundle = new Bundle();
-            bundle.putStringArrayList("SELECTED", selectedScripts);
-
-            AutoTab autoTab = new AutoTab();
-            autoTab.setArguments(bundle);
-            // in .replace use id.container instead of the old one to fix bug that removes this own page
-            getFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.container, autoTab, "SELECTED")
-                    .addToBackStack("SELECTED").commit();
-
-            Toast.makeText(getActivity(), String.format("%d", count), Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-    }
-
-    );
-}
 }
