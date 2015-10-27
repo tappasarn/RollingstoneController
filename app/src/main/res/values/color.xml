@@ -4,6 +4,8 @@
     <color name="ColorPrimaryDark">#0277BD</color>
     <color name="tabsClickColor">#F06292</color>
 
+
+
     <!-- Colors for fab buttons -->
     <color name="addButton">#3F51B5</color>
     <color name="uploadButton">#009688</color>

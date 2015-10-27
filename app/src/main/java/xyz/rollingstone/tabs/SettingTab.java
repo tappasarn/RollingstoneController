@@ -70,8 +70,8 @@ public class SettingTab extends Fragment {
          */
         String robotIP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
         int robotPORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
-        int controlPort = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
-        int heartbeatPort = sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
+        int controlPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+        int heartbeatPORT = sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
 
         String serverIP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
         int serverPORT = sharedPreferences.getInt(MainActivity.SERVER_PORT, -1);
@@ -86,12 +86,12 @@ public class SettingTab extends Fragment {
             robotPortEditText.setText(String.valueOf(robotPORT));
         }
 
-        if (controlPort != -1) {
-            controlPortEditText.setText(String.valueOf(controlPort));
+        if (controlPORT != -1) {
+            controlPortEditText.setText(String.valueOf(controlPORT));
         }
 
-        if (heartbeatPort != -1) {
-            heartbeatPortEditText.setText(String.valueOf(heartbeatPort));
+        if (heartbeatPORT != -1) {
+            heartbeatPortEditText.setText(String.valueOf(heartbeatPORT));
         }
 
         if (serverIP != null) {
@@ -102,7 +102,6 @@ public class SettingTab extends Fragment {
             serverPortEditText.setText(String.valueOf(serverPORT));
         }
 
-        Log.d("SettingTab", Integer.toString(spinnerPosition));
         if (spinnerPosition != -1) {
             resolutionSpinner.setSelection(spinnerPosition);
         }
@@ -114,14 +113,12 @@ public class SettingTab extends Fragment {
             public void onClick(View v) {
 
                 try {
-
-                    Log.d("SettingTab", Integer.toString(resolutionSpinner.getSelectedItemPosition()));
-
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(MainActivity.LIVEVIEW_IP, robotIpEditText.getText().toString());
                     editor.putInt(MainActivity.LIVEVIEW_PORT, Integer.parseInt(robotPortEditText.getText().toString()));
                     editor.putString(MainActivity.SERVER_IP, serverIpEditText.getText().toString());
                     editor.putInt(MainActivity.SERVER_PORT, Integer.parseInt(serverPortEditText.getText().toString()));
+
                     editor.putInt(MainActivity.CONTROL_PORT, Integer.parseInt(controlPortEditText.getText().toString()));
                     editor.putInt(MainActivity.HEARTBEAT_PORT, Integer.parseInt(heartbeatPortEditText.getText().toString()));
 

@@ -1,6 +1,7 @@
 package xyz.rollingstone;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.media.Image;
 import android.support.v4.view.PagerAdapter;
@@ -199,21 +200,16 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 lp.weight = 1;
             }
 
-            tabTitleView.setText(adapter.getPageTitle(i));
             tabView.setOnClickListener(tabClickListener);
-
 
             ImageView imgView = (ImageView) tabView.findViewById(R.id.icon_image);
 
             switch (i) {
-                case 0: imgView.setImageResource(R.drawable.ic_edit); break;
-                case 1: imgView.setImageResource(R.drawable.ic_plus); break;
-                case 2: imgView.setImageResource(R.drawable.ic_edit); break;
+                case 0: imgView.setImageResource(R.drawable.ic_gamepad_black_24dp); break;
+                case 1: imgView.setImageResource(R.drawable.ic_navigation_black_24dp); break;
+                case 2: imgView.setImageResource(R.drawable.ic_assignment_black_24dp); break;
+                case 3: imgView.setImageResource(R.drawable.ic_settings_black_24dp); break;
             }
-
-
-
-
 
 
             String desc = mContentDescriptions.get(i, null);
@@ -225,8 +221,13 @@ public class SlidingTabLayout extends HorizontalScrollView {
             if (i == mViewPager.getCurrentItem()) {
                 tabView.setSelected(true);
             }
+
+            imgView.setColorFilter(R.color.addButton, PorterDuff.Mode.MULTIPLY);
+
+            /*
             tabTitleView.setTextColor(getResources().getColorStateList(R.color.selector));
             tabTitleView.setTextSize(14);
+            */
         }
 
     }
