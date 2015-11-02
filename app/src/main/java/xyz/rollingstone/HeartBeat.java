@@ -56,14 +56,6 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
         this.packetList = packetList;
     }
 
-    public void setTVList(TextView a, TextView b, TextView c, TextView d, TextView e) {
-        this.TVList[0] = a;
-        this.TVList[1] = b;
-        this.TVList[2] = c;
-        this.TVList[3] = d;
-        this.TVList[4] = e;
-    }
-
     public void openSocket() throws UnknownHostException, IOException {
         this.socket = new Socket(this.serverAddress, this.port);
     }
@@ -167,8 +159,8 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                     if (commandPacketReader.getType() == 1) { // if get the type of ACK back
                         boolean getHeartBeatYet = false;
 
-                        // loop sending HeartBeat every 5*1000 with unknown unit until get the ACK
-                        // if the ack is received, exit this loop and continue with next command
+                        // loop sending HeartBeat every 5*1000 with unknown unit until get ACK
+                        // if the ACK is received, exit this loop and continue with next command
                         while (!getHeartBeatYet) {
                             try {
                                 this.sendHeartBeat(0b1000_0000);

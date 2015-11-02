@@ -148,8 +148,6 @@ public class ManualTab extends Fragment {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
 
-                    Log.d("JOY", "on down received.");
-
                     float xPos = event.getX();
                     float yPos = event.getY();
 
@@ -193,8 +191,6 @@ public class ManualTab extends Fragment {
                 // When user lift up finger from screen, remove joystickLayout
                 if (event.getAction() == MotionEvent.ACTION_UP) {
 
-                    Log.d("JOY", "on up received");
-
                     isJoystickShown = false;
 
                     // Remove joystick from root view
@@ -218,7 +214,6 @@ public class ManualTab extends Fragment {
                         // send direction and distance to the robot and Log it for debugging
                         telepathyToRobot = new TelepathyToRobot(getActivity(), IP, CONTROL_PORT, availableId);
                         telepathyToRobot.execute(command[0], command[1]);
-                        Log.d("JOY", "EMERGENCY STOP");
                     }
                 }
 
@@ -238,8 +233,6 @@ public class ManualTab extends Fragment {
 
                     int direction = joystick.get8Direction();
                     int distance = Math.min(map((int) joystick.getDistance(), 0, 215, 0, 100), 100);
-
-                    Log.d("DEBUG", "Distance : " + distance);
 
                     joystickLayout.dispatchTouchEvent(motionEvent);
 
