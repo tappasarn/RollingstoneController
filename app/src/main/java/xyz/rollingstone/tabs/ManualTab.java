@@ -115,7 +115,7 @@ public class ManualTab extends Fragment {
         joystickLayout = (RelativeLayout) getView().findViewById(R.id.joystick);
 
         // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
-        final String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        final String SERVER_IP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
         final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
 
         //Get Port from sharedPreference use for control
@@ -271,7 +271,7 @@ public class ManualTab extends Fragment {
         });
 
         // Creating new thread for refreshing ImageView
-        updater = new LiveViewUpdaterSocket(this, IP, LIVEVIEW_PORT);
+        updater = new LiveViewUpdaterSocket(this, SERVER_IP, LIVEVIEW_PORT);
         updater.start();
 
     }
@@ -290,10 +290,10 @@ public class ManualTab extends Fragment {
         if (!updater.isAlive()) {
 
             // Get IP and PORT from sharedPreferences in LiveViewUpdaterSocket
-            String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+            String SERVER_IP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
             int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
 
-            updater = new LiveViewUpdaterSocket(this, IP, PORT);
+            updater = new LiveViewUpdaterSocket(this, SERVER_IP, PORT);
             updater.start();
         }
     }

@@ -10,6 +10,8 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import xyz.rollingstone.packet.Banana;
 import xyz.rollingstone.tele.TelepathyToServer;
 
@@ -43,6 +45,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String HEARTBEAT_PORT = "xyz.rollingstone.heartbeat.port";
     // res_pos 0 = 480p, 1 = 720p, 2 = 1080p
 
+    public static ArrayList<String> selectedScripts;
     public static final String TAG = "VULUME";
 
     @Override

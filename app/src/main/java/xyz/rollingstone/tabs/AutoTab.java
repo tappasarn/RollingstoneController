@@ -87,12 +87,10 @@ public class AutoTab extends Fragment {
         nextnextTextView = (TextView) getView().findViewById(R.id.nextNextAction);
         nextnextTextView.setTextColor(Color.argb(54, 0, 0, 0));
 
-        Bundle bundle = this.getArguments();
-
-        if (bundle != null) {
+        if (MainActivity.selectedScripts != null) {
 
             /* if there is at least 1 selected script, get the table which has the same name as them */
-            selectedScripts = bundle.getStringArrayList("SELECTED");
+            selectedScripts = MainActivity.selectedScripts;
             ActionSQLHelper db = new ActionSQLHelper(getActivity());
             displayList = new ArrayList<String>();
             anotherDisplayList = new ArrayList<String>();
@@ -112,6 +110,11 @@ public class AutoTab extends Fragment {
                     commandPacketBuilder.setType(0);
                     commandPacketBuilder.setId(0);
 
+                    int[] dummy = new int[2];
+                    dummy = commandPacketBuilder.Create();
+                    Log.d(DEBUG, "Dummy1" + String.format("%8s", Integer.toBinaryString(dummy[0])).replace(' ', '0'));
+                    Log.d(DEBUG, "Dummy2" + String.format("%8s", Integer.toBinaryString(dummy[1])).replace(' ', '0'));
+
                     packetList.add(commandPacketBuilder.Create());
                 }
             }
@@ -121,9 +124,20 @@ public class AutoTab extends Fragment {
              */
             pastpastTextView.setText("");
             pastTextView.setText("");
-            currentTextView.setText(displayList.get(currentIndex));
-            nextTextView.setText(displayList.get(currentIndex + 1));
-            nextnextTextView.setText(displayList.get(currentIndex + 2));
+            currentTextView.setText("");
+            nextTextView.setText("");
+            nextnextTextView.setText("");
+
+            if (selectedScripts.size() > 0) {
+                currentTextView.setText(displayList.get(currentIndex));
+                nextTextView.setText(displayList.get(currentIndex + 1));
+                nextnextTextView.setText(displayList.get(currentIndex + 2));
+                startButton.setEnabled(true);
+            } else {
+                currentTextView.setText("Script has no action");
+                startButton.setEnabled(false);
+            }
+
 
             handler = new Handler() {
                 public void handleMessage(android.os.Message msg) {
@@ -150,6 +164,19 @@ public class AutoTab extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        final String robotIP = this.sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        final int controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+        final int heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
+    }
+
+    /**
+     * use to slide the command to show what is executing
+     *
+     * @return
+     */
     public int actionSlider() {
         if (currentIndex - 1 < 0) {
             pastpastTextView.setText("");
@@ -157,21 +184,21 @@ public class AutoTab extends Fragment {
             pastpastTextView.setText(displayList.get(currentIndex - 1));
         }
 
-        pastTextView.setText(displayList.get(currentIndex));
-
-        if (currentIndex + 1 > displayList.size()-1) {
+        if (currentIndex + 1 > displayList.size() - 1) {
             currentTextView.setText(displayList.get(currentIndex));
+            pastTextView.setText("");
         } else {
+            pastTextView.setText(displayList.get(currentIndex));
             currentTextView.setText(displayList.get(currentIndex + 1));
         }
 
-        if (currentIndex + 2 > displayList.size()-1) {
+        if (currentIndex + 2 > displayList.size() - 1) {
             nextTextView.setText("");
         } else {
             nextTextView.setText(displayList.get(currentIndex + 2));
         }
 
-        if (currentIndex + 3 > displayList.size()-1) {
+        if (currentIndex + 3 > displayList.size() - 1) {
             nextnextTextView.setText("");
         } else {
             nextnextTextView.setText(displayList.get(currentIndex + 3));

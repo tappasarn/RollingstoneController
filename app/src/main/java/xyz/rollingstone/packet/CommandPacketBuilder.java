@@ -8,8 +8,8 @@ import xyz.rollingstone.Action;
 
 /**
  * CommandPacketBuilder
- *
- *  __| __ |    ____   | ____ ____ | (Bits)
+ * <p/>
+ * __| __ |    ____   | ____ ____ | (Bits)
  * REQ| ID |  COMMAND  |   VALUE   |
  * ACK|    |           |           |
  * [-----HIGH BYTE-----][--LOW BYTE-]
@@ -88,14 +88,14 @@ public class CommandPacketBuilder {
             case "FORWARD":
                 this.command = 1;
                 break;
+            case "RIGHT":
+                this.command = 3;
+                break;
             case "BACK":
                 this.command = 5;
                 break;
             case "LEFT":
                 this.command = 7;
-                break;
-            case "RIGHT":
-                this.command = 3;
                 break;
             default:
                 Log.d("CmdPacketBuilder.ERROR", "PLEASE CHECK THE ACTION YOU USED");

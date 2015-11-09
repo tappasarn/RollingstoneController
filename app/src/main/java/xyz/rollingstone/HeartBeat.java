@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
+import xyz.rollingstone.packet.CommandPacketBuilder;
 import xyz.rollingstone.packet.CommandPacketReader;
 
 /**
@@ -115,7 +116,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
         byte[] ans = new byte[1];
 
-        this.heartBeatSocket.setSoTimeout(5*1000);
+        this.heartBeatSocket.setSoTimeout(5*100000);
         this.heartBeatinputStream = this.heartBeatSocket.getInputStream();
         this.heartBeatinputStream.read(ans, 0, 1);
         return ans;
@@ -154,16 +155,21 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
                     // send a command to the robot
                     this.sendCommand(HiLo[0], HiLo[1]);
-                    Log.d(TAG, String.format("%8s", Integer.toBinaryString(HiLo[0])).replace(' ', '0'));
-                    Log.d(TAG, String.format("%8s", Integer.toBinaryString(HiLo[1])).replace(' ', '0'));
+                    Log.d(TAG, "Send1 = " + String.format("%8s", Integer.toBinaryString(HiLo[0])).replace(' ', '0'));
+                    Log.d(TAG, "Send2 = " + String.format("%8s", Integer.toBinaryString(HiLo[1])).replace(' ', '0'));
+                    CommandPacketReader commandPacketReader1 = new CommandPacketReader(HiLo);
+
+                    Log.d(TAG, "TYPE = " + commandPacketReader1.getType());
+                    Log.d(TAG, "COMMAND = " + commandPacketReader1.getCommand());
+                    Log.d(TAG, "VALUE = " + commandPacketReader1.getValue());
 
                     // get answer as raw byte then convert into int
                     byte[] ans;
                     ans = this.receive();
 
                     commandPacketReader = new CommandPacketReader(ans);
-                    Log.d(TAG, String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
-                    Log.d(TAG, String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
+                    Log.d(TAG, "Recv1 = " + String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
+                    Log.d(TAG, "Recv2 = " + String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
 
                     // just to remind
                     //	    10XXXXXX - REQ
@@ -184,11 +190,12 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                                 // just to convert byte to (unsigned)int
                                 int heartBeatAnswerInteger = (int) heartBeatAnswer[0] & 0xFF;
 
-                                Log.d(TAG2, String.format("%8s", Integer.toBinaryString(heartBeatAnswerInteger)).replace(' ', '0'));
+                                Log.d(TAG2, "The HB answer " + String.format("%8s", Integer.toBinaryString(heartBeatAnswerInteger)).replace(' ', '0'));
                                 if ((heartBeatAnswerInteger & 0b0100_0000) == 0b0100_0000) {
                                     Log.d(TAG2, "ACK from the robot");
                                     getHeartBeatYet = true;
-                                    count = 0;
+                                    //Do this to break the tryNotExceed Loop and send the next command
+                                    tryNotExceed = false;
 
                                     Message msg = Message.obtain();
                                     Bundle b = new Bundle();
@@ -212,9 +219,8 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                     } else {
                         Log.d(TAG, "error occurred");
                     }
-
                     // just delaying for my pleasure
-                    Thread.sleep(1000);
+                    Thread.sleep(5000);
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                     Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
@@ -223,7 +229,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                 } catch (Exception e) {
                     Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
                 } finally {
-                    if (++count == maxTries) {
+                    if (++count >= maxTries) {
                         Log.d(TAG, "Max tries exceeded");
                         tryNotExceed = false;
 
@@ -234,9 +240,8 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                         handler.sendMessage(msg);
                     }
                 }
-            }
-            if (!tryNotExceed) {
-                break;
+
+                //END tryNotExceed
             }
         }
         Log.d(TAG, "DONE");

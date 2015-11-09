@@ -25,6 +25,7 @@ import java.util.List;
 import xyz.rollingstone.ActionListActivity;
 import xyz.rollingstone.ActionSQLHelper;
 import xyz.rollingstone.Big;
+import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
 
 public class ScriptSelectTab extends Fragment {
@@ -256,6 +257,7 @@ public class ScriptSelectTab extends Fragment {
                                                  Bundle bundle = new Bundle();
                                                  bundle.putStringArrayList("SELECTED", selectedScripts);
 
+                                                 MainActivity.selectedScripts = selectedScripts;
                                                  AutoTab autoTab = new AutoTab();
                                                  autoTab.setArguments(bundle);
                                                  // in .replace use id.container instead of the old one to fix bug that removes this own page
