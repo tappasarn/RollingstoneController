@@ -127,15 +127,18 @@ public class AutoTab extends Fragment {
             currentTextView.setText("");
             nextTextView.setText("");
             nextnextTextView.setText("");
+            startButton.setEnabled(false);
 
-            if (selectedScripts.size() > 0) {
+            if (displayList.size() > 2) {
                 currentTextView.setText(displayList.get(currentIndex));
                 nextTextView.setText(displayList.get(currentIndex + 1));
                 nextnextTextView.setText(displayList.get(currentIndex + 2));
                 startButton.setEnabled(true);
+            } else if (displayList.size() == 1){
+                currentTextView.setText(displayList.get(currentIndex));
+                startButton.setEnabled(true);
             } else {
-                currentTextView.setText("Script has no action");
-                startButton.setEnabled(false);
+                currentTextView.setText("Script has no action/ no script is selected");
             }
 
 

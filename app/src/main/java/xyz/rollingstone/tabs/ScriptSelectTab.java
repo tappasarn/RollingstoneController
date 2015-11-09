@@ -87,7 +87,7 @@ public class ScriptSelectTab extends Fragment {
 
                 //remove from check list
                 selectedChecker.remove(pos);
-                //Log.d("Time checker", selectedChecker.toString());
+                Log.d("Time checker", selectedChecker.toString());
 
                 //remove from database
                 db.deleteBigByName(allBigsName.get(pos));
@@ -99,9 +99,11 @@ public class ScriptSelectTab extends Fragment {
                 for (int i = 0; i < selectedChecker.size(); i++) {
                     listView.setItemChecked(i, selectedChecker.get(i));
                 }
+
                 selectedScripts.remove(allBigsName.indexOf(allBigsName.get(pos)));
 
                 listAdapter.notifyDataSetChanged();
+
                 return true;
             }
         });
@@ -131,6 +133,7 @@ public class ScriptSelectTab extends Fragment {
         FloatingActionButton addBtn = (FloatingActionButton) getView().findViewById(R.id.addButton);
         FloatingActionButton uploadBtn = (FloatingActionButton) getView().findViewById(R.id.uploadButton);
         FloatingActionButton editBtn = (FloatingActionButton) getView().findViewById(R.id.editButton);
+        FloatingActionButton deleteBtn = (FloatingActionButton) getView().findViewById(R.id.deleteButton);
 
         // Add Button Listener
         addBtn.setOnClickListener(new View.OnClickListener() {
@@ -161,18 +164,30 @@ public class ScriptSelectTab extends Fragment {
                                                       public void onClick(DialogInterface dialog, int which) {
 
                                                           String txt = scriptNameEditText.getText().toString();
+                                                          List<String> allBigsName = db.getAllBigsName();
 
-                                                          boolean match = false;
+                                                          boolean reservedWordMatch = false;
+                                                          boolean dbNameExist = false;
                                                           for (String reserve : reservedList) {
                                                               if (reserve.toLowerCase().equals(txt.toLowerCase())) {
-                                                                  match = true;
+                                                                  reservedWordMatch = true;
                                                               }
                                                           }
+                                                          for (String dbName : allBigsName) {
+                                                              if (dbName.toLowerCase().equals(txt.toLowerCase())) {
+                                                                  dbNameExist = true;
+                                                              }
+                                                          }
+
+
                                                           if (txt.equals("")) {
                                                               Toast.makeText(getActivity(), "Please Input Script Name", Toast.LENGTH_SHORT).show();
                                                               dialog.dismiss();
-                                                          } else if (match) {
+                                                          } else if (reservedWordMatch) {
                                                               Toast.makeText(getActivity(), "Please Don't Use Reserved Words", Toast.LENGTH_SHORT).show();
+                                                              dialog.dismiss();
+                                                          } else if (dbNameExist) {
+                                                              Toast.makeText(getActivity(), "Script Exist", Toast.LENGTH_SHORT).show();
                                                               dialog.dismiss();
                                                           } else {
                                                               Toast.makeText(getActivity(), "Script " + txt + " is added", Toast.LENGTH_LONG).show();
@@ -244,36 +259,71 @@ public class ScriptSelectTab extends Fragment {
 
         // Upload Button Listener
         uploadBtn.setOnClickListener(new View.OnClickListener() {
-                                         @Override
-                                         public void onClick(View v) {
-                                             SparseBooleanArray checked = listView.getCheckedItemPositions();
+            @Override
+            public void onClick(View v) {
+                SparseBooleanArray checked = listView.getCheckedItemPositions();
 
-                                             Log.d("uploadBtn Checked", checked.toString());
-                                             Log.d("SelectedScript", selectedScripts.toString());
+                /*
+                    Log.d("uploadBtn Checked", checked.toString());
+                    Log.d("SelectedScript", selectedScripts.toString());
+                */
 
-                                             int count = 0;
-                                             if (checked.size() > 0) {
+                if (selectedScripts.size() > 0) {
 
-                                                 Bundle bundle = new Bundle();
-                                                 bundle.putStringArrayList("SELECTED", selectedScripts);
+                    Bundle bundle = new Bundle();
+                    bundle.putStringArrayList("SELECTED", selectedScripts);
 
-                                                 MainActivity.selectedScripts = selectedScripts;
-                                                 AutoTab autoTab = new AutoTab();
-                                                 autoTab.setArguments(bundle);
-                                                 // in .replace use id.container instead of the old one to fix bug that removes this own page
-                                                 getFragmentManager()
-                                                         .beginTransaction()
-                                                         .replace(R.id.container, autoTab, "SELECTED")
-                                                         .addToBackStack("SELECTED").commit();
+                    MainActivity.selectedScripts = selectedScripts;
+                    AutoTab autoTab = new AutoTab();
+                    autoTab.setArguments(bundle);
+                    // in .replace use id.container instead of the old one to fix bug that removes this own page
+                    getFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.container, autoTab, "SELECTED")
+                            .addToBackStack("SELECTED").commit();
 
-                                                 Toast.makeText(getActivity(), String.format("%d", count), Toast.LENGTH_SHORT).show();
-                                             } else {
-                                                 Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
-                                             }
+                } else {
+                    Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
+                }
 
-                                         }
-                                     }
+            }
+        });
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        );
+                SparseBooleanArray checked = listView.getCheckedItemPositions();
+                /*
+                    Log.d("deleteBtn Checked", checked.toString());
+                    Log.d("SelectedScript", selectedScripts.toString());
+                */
+                if (selectedScripts.size() > 0) {
+                    for (String script : selectedScripts) {
+                        db.deleteBigByName(script);
+                        allBigsName.remove(script);
+                    }
+
+                    // allocate these tappasarn things
+                    selectedScripts = new ArrayList<String>();
+                    selectedChecker = new ArrayList<Boolean>();
+
+                    // appending all false to the selected checker so it is saying that nothing has been check yet
+                    for (int i = 0; i < allBigsName.size(); i++) {
+                        selectedChecker.add(i, false);
+                    }
+
+                    //loop for changing color back to unchecked
+                    for (int i = 0; i < selectedChecker.size(); i++) {
+                        listView.setItemChecked(i, false);
+                    }
+
+                    listAdapter.notifyDataSetChanged();
+                    Toast.makeText(getActivity(), selectedScripts.toString() + " are deleted", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }

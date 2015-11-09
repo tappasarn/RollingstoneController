@@ -16,6 +16,11 @@
         android:layout_height="95dp"
         android:layout_gravity="center_vertical|bottom">
 
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></LinearLayout>
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addButton"
             android:layout_width="wrap_content"
@@ -25,15 +30,15 @@
             app:borderWidth="0dp"
             app:backgroundTint="@color/addButton"
             app:fabSize="normal"
-            android:layout_gravity="center_vertical|left"
-            android:layout_marginLeft="50dp" />
+            android:layout_marginLeft="25dp"
+            android:layout_gravity="center_vertical" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/editButton"
-            android:layout_marginRight="50dp"
+            android:layout_marginRight="115dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|right"
+            android:layout_gravity="center|right"
             android:src="@drawable/ic_edit"
             android:elevation="2dp"
             app:borderWidth="0dp"
@@ -44,11 +49,26 @@
             android:id="@+id/uploadButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center"
-            android:src="@drawable/ic_publish"
+            android:src="@drawable/ic_directions_run_white_24dp"
             android:elevation="2dp"
             app:borderWidth="0dp"
             app:backgroundTint="@color/uploadButton"
-            app:fabSize="normal" />
+            app:fabSize="normal"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="115dp"
+            android:layout_gravity="center_vertical" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_delete_white_24dp"
+            android:elevation="2dp"
+            app:borderWidth="0dp"
+            app:backgroundTint="@color/ColorPrimary"
+            app:fabSize="normal"
+            android:layout_gravity="center|right"
+            android:layout_marginRight="25dp" />
+
     </FrameLayout>
 </FrameLayout>
