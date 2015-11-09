@@ -28,7 +28,7 @@ import java.util.List;
 public class ActionListActivity extends Activity {
 
     public static final String EXTRA_TBNAME = "table_name";
-    public static final String TAG = "TIME";
+    public static final String TAG = "ActionEditor.DEBUG";
 
     private static String tableName;
     public ListView listActs;
@@ -37,20 +37,8 @@ public class ActionListActivity extends Activity {
     private List<String> displayList;
     private int old_position = -1, current_position = -1;
     private boolean isSaved = true;
-
-    /**
-     * need to set a RADIO id for checking of selection bcuz Android is too stupid
-     */
-    /*
-    public static final int RADIO_ID_FORWARD = 2131492945;
-    public static final int RADIO_ID_LEFT = 2131492946;
-    public static final int RADIO_ID_RIGHT = 2131492947;
-    public static final int RADIO_ID_BACK = 2131492948;
-    */
-    public static final int RADIO_ID_FORWARD = 2131558481;
-    public static final int RADIO_ID_LEFT = 2131558482;
-    public static final int RADIO_ID_RIGHT = 2131558483;
-    public static final int RADIO_ID_BACK = 2131558484;
+    private RadioGroup rg;
+    private NumberPicker np;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +88,7 @@ public class ActionListActivity extends Activity {
                     // -1 is used for append the list
                     if (current_position >= displayList.size()) {
                         listActs.setItemChecked(current_position, false);
-                        current_position = - 1;
+                        current_position = -1;
                     }
 
                     return true;
@@ -110,15 +98,16 @@ public class ActionListActivity extends Activity {
             listActs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long id) {
-
+                    /*
                     Log.d(TAG, String.format("old_position = %d pos = %d", old_position, pos));
                     Log.d(TAG, String.format("Checked = %d", listActs.getSelectedItemPosition()));
-
+                    */
                     //unchecking item in list view
                     if (old_position == pos) {
-
+                        /*
                         Toast toast = Toast.makeText(ActionListActivity.this, String.format("The script %s is uncheck", displayList.get(pos)), Toast.LENGTH_SHORT);
                         toast.show();
+                        */
                         listActs.setItemChecked(pos, false);
 
                         //use for moving old_position to unreal pos allowing toggle
@@ -128,8 +117,10 @@ public class ActionListActivity extends Activity {
                     }
                     //for checking item on list view
                     else {
+                        /*
                         Toast toast = Toast.makeText(ActionListActivity.this, String.format("The script %s is check", displayList.get(pos)), Toast.LENGTH_SHORT);
                         toast.show();
+                        */
                         listActs.setItemChecked(pos, true);
                         old_position = pos; // for compare position of the next check
                         current_position = pos; //setting the current position
@@ -143,10 +134,24 @@ public class ActionListActivity extends Activity {
             toast.show();
         }
 
-        NumberPicker np = (NumberPicker) findViewById(R.id.numberPicker);
+        np = (NumberPicker) findViewById(R.id.numberPicker);
         np.setMaxValue(10);
         np.setMinValue(1);
         np.setWrapSelectorWheel(false);
+
+        rg = (RadioGroup) findViewById(R.id.radioGroup);
+
+        rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+            // disable number picker if Left or Right is pressed
+            if (checkedId == R.id.LeftRadioButton || checkedId == R.id.RightRadioButton) {
+                np.setEnabled(false);
+            } else {
+                np.setEnabled(true);
+            }
+            }
+        });
     }
 
     // working on displaying data only,
@@ -154,39 +159,32 @@ public class ActionListActivity extends Activity {
 
         RadioGroup rg = (RadioGroup) findViewById(R.id.radioGroup);
         int id = rg.getCheckedRadioButtonId();
-        Log.d("Radio Checked", Integer.toString(id));
-        Log.d("Radio", Integer.toString(current_position));
         NumberPicker np = (NumberPicker) findViewById(R.id.numberPicker);
 
-        StringBuilder commandBuilder = new StringBuilder();
         Action act = new Action();
 
         switch (id) {
-            case RADIO_ID_FORWARD:
+            case R.id.ForwardRadioButton:
                 act.setDirection("FORWARD");
-                commandBuilder.append("FORWARD");
+                act.setLength(np.getValue());
                 break;
-            case RADIO_ID_LEFT:
+            case R.id.LeftRadioButton:
                 act.setDirection("LEFT");
-                commandBuilder.append("LEFT");
+                act.setLength(0);
                 break;
-            case RADIO_ID_RIGHT:
+            case R.id.RightRadioButton:
                 act.setDirection("RIGHT");
-                commandBuilder.append("RIGHT");
+                act.setLength(0);
                 break;
-            case RADIO_ID_BACK:
+            case R.id.BackRadioButton:
                 act.setDirection("BACK");
-                commandBuilder.append("BACK");
+                act.setLength(np.getValue());
                 break;
             default:
                 Toast toast = Toast.makeText(ActionListActivity.this, "Please select the direction", Toast.LENGTH_SHORT);
                 toast.show();
                 return;
         }
-
-        commandBuilder.append(" ");
-        commandBuilder.append(np.getValue() + "m");
-        act.setLength(np.getValue());
 
         if (current_position != -1) {
             displayList.add(current_position + 1, act.humanize());
@@ -196,7 +194,7 @@ public class ActionListActivity extends Activity {
         }
 
         listAdapter.notifyDataSetChanged();
-        Toast toast = Toast.makeText(ActionListActivity.this, commandBuilder.toString(), Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(ActionListActivity.this, act.humanize(), Toast.LENGTH_SHORT);
         toast.show();
         isSaved = false;
 
@@ -215,8 +213,13 @@ public class ActionListActivity extends Activity {
         for (String str : displayList) {
             Action act = new Action();
             String block[] = str.split("\\s+");
-            act.setDirection(block[0]);
-            act.setLength(Integer.parseInt(block[1]));
+            if (block[0].equals("FORWARD") || block[0].equals("BACK")) {
+                act.setDirection(block[0]);
+                act.setLength(Integer.parseInt(block[1]));
+            } else {
+                act.setDirection(block[0]);
+                act.setLength(0);
+            }
             db.addActionToTable(tableName, act);
         }
         Toast.makeText(ActionListActivity.this, String.format("Save %s successfully", tableName), Toast.LENGTH_SHORT).show();

@@ -116,10 +116,10 @@ public class ManualTab extends Fragment {
 
         // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
         final String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
-        final int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+        final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
 
         //Get Port from sharedPreference use for control
-        final int CONTROLPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT,0);
+        final int CONTROL_PORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, 0);
 
         // Create our joystick
         joystick = new JoyStick(getActivity(), joystickLayout, R.drawable.joystick_button);
@@ -138,10 +138,15 @@ public class ManualTab extends Fragment {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
+                final String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+                final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+
+                //Get Port from sharedPreference use for control
+                final int CONTROL_PORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, 0);
+
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-
-                    Log.d("JOY", "on down received.");
 
                     float xPos = event.getX();
                     float yPos = event.getY();
@@ -186,8 +191,6 @@ public class ManualTab extends Fragment {
                 // When user lift up finger from screen, remove joystickLayout
                 if (event.getAction() == MotionEvent.ACTION_UP) {
 
-                    Log.d("JOY", "on up received");
-
                     isJoystickShown = false;
 
                     // Remove joystick from root view
@@ -209,9 +212,8 @@ public class ManualTab extends Fragment {
                         int[] command = commandPacketBuilder.Create();
 
                         // send direction and distance to the robot and Log it for debugging
-                        telepathyToRobot = new TelepathyToRobot(getActivity(),IP, CONTROLPORT, availableId);
+                        telepathyToRobot = new TelepathyToRobot(getActivity(), IP, CONTROL_PORT, availableId);
                         telepathyToRobot.execute(command[0], command[1]);
-                        Log.d("JOY", "EMERGENCY STOP");
                     }
                 }
 
@@ -232,8 +234,6 @@ public class ManualTab extends Fragment {
                     int direction = joystick.get8Direction();
                     int distance = Math.min(map((int) joystick.getDistance(), 0, 215, 0, 100), 100);
 
-                    Log.d("DEBUG", "Distance : " + distance);
-
                     joystickLayout.dispatchTouchEvent(motionEvent);
 
                     // need to check whether the id is usable
@@ -252,7 +252,7 @@ public class ManualTab extends Fragment {
                         int[] command = commandPacketBuilder.Create();
 
                         // send direction and distance to the robot and Log it for debugging
-                        telepathyToRobot = new TelepathyToRobot(getActivity(),IP, CONTROLPORT, availableId);
+                        telepathyToRobot = new TelepathyToRobot(getActivity(), IP, CONTROL_PORT, availableId);
                         telepathyToRobot.execute(command[0], command[1]);
                     }
 
@@ -271,7 +271,7 @@ public class ManualTab extends Fragment {
         });
 
         // Creating new thread for refreshing ImageView
-        updater = new LiveViewUpdaterSocket(this, IP, PORT);
+        updater = new LiveViewUpdaterSocket(this, IP, LIVEVIEW_PORT);
         updater.start();
 
     }
@@ -309,8 +309,7 @@ public class ManualTab extends Fragment {
     }
 
     // Function to map value from one range to another range
-    private int map(int x, int in_min, int in_max, int out_min, int out_max)
-    {
+    private int map(int x, int in_min, int in_max, int out_min, int out_max) {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
