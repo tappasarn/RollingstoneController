@@ -3,7 +3,9 @@
     <color name="ColorPrimary">#039BE5</color>
     <color name="ColorPrimaryDark">#0277BD</color>
     <color name="tabsClickColor">#F06292</color>
-    <color name="add_button">#2196F3</color>
-    <color name="run_button">#009688</color>
-    <color name="edit_button">#E91E63</color>
+
+    <!-- Colors for dab buttons -->
+    <color name="addButton">#2196F3</color>
+    <color name="uploadButton">#009688</color>
+    <color name="editButton">#E91E63</color>
 </resources>

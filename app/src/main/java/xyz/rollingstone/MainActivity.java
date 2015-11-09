@@ -40,9 +40,10 @@ public class MainActivity extends ActionBarActivity {
     public static final String SERVER_PORT = "xyz.rollingstone.server.port";
     public static final String RES_POS = "xyz.rollingstone.resolution.pos";
     public static final String CONTROL_PORT = "xyz.rollingstone.control.port";
-    //res_pos 0 = 480p, 1 = 720p, 2 = 1080p
+    // res_pos 0 = 480p, 1 = 720p, 2 = 1080p
 
     public static final String TAG = "VULUME";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -68,6 +69,9 @@ public class MainActivity extends ActionBarActivity {
                 return getResources().getColor(R.color.tabsClickColor);
             }
         });
+
+        // Setting Custom Tab View for Tab Layout
+        tabs.setCustomTabView(R.layout.tabview, R.id.tab_name);
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);

@@ -230,8 +230,9 @@ public class ManualTab extends Fragment {
                     );
 
                     int direction = joystick.get8Direction();
-                    int distance = (int) joystick.getDistance();
-                    distance = distance / 6;
+                    int distance = Math.min(map((int) joystick.getDistance(), 0, 215, 0, 100), 100);
+
+                    Log.d("DEBUG", "Distance : " + distance);
 
                     joystickLayout.dispatchTouchEvent(motionEvent);
 
@@ -288,7 +289,7 @@ public class ManualTab extends Fragment {
         Log.d(DEBUG, "onResume called. Starting updater thread if none exist ..");
         if (!updater.isAlive()) {
 
-            // Get IP and PORT from sharedPreferenceuse in LiveViewUpdaterSocket
+            // Get IP and PORT from sharedPreferences in LiveViewUpdaterSocket
             String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
             int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
 
@@ -297,13 +298,20 @@ public class ManualTab extends Fragment {
         }
     }
 
-    // Implementation for handling live view updates
+    // Set image data passed by updater thread as local data
     public void setLiveViewData(Bitmap imageData) {
         this.imageData = imageData;
     }
 
+    // Allow updater thread to access the handler
     public Handler getHandler() {
         return this.handler;
+    }
+
+    // Function to map value from one range to another range
+    private int map(int x, int in_min, int in_max, int out_min, int out_max)
+    {
+        return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
 }
