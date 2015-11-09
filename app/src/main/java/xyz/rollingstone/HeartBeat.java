@@ -1,8 +1,12 @@
 package xyz.rollingstone;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,17 +47,27 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
     private CommandPacketReader commandPacketReader;
 
+    private Handler handler;
 
     public static final String TAG = "AutoCommand.DEBUG";
     public static final String TAG2 = "HeartBeat.DEBUG";
     private List<int[]> packetList = new ArrayList<>();
     private TextView[] TVList = new TextView[5];
 
-    public HeartBeat(String serverAddress, int port, int heartBeatPort, List<int[]> packetList) {
+    public HeartBeat(String serverAddress, int port, int heartBeatPort, List<int[]> packetList, Handler handler) {
         this.serverAddress = serverAddress;
         this.port = port;
         this.heartBeatPort = heartBeatPort;
         this.packetList = packetList;
+        this.handler = handler;
+    }
+
+    public void setTVList(TextView a, TextView b, TextView c, TextView d, TextView e) {
+        this.TVList[0] = a;
+        this.TVList[1] = b;
+        this.TVList[2] = c;
+        this.TVList[3] = d;
+        this.TVList[4] = e;
     }
 
     public void openSocket() throws UnknownHostException, IOException {
@@ -159,8 +173,8 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                     if (commandPacketReader.getType() == 1) { // if get the type of ACK back
                         boolean getHeartBeatYet = false;
 
-                        // loop sending HeartBeat every 5*1000 with unknown unit until get ACK
-                        // if the ACK is received, exit this loop and continue with next command
+                        // loop sending HeartBeat every 5*1000 with unknown unit until get the ACK
+                        // if the ack is received, exit this loop and continue with next command
                         while (!getHeartBeatYet) {
                             try {
                                 this.sendHeartBeat(0b1000_0000);
@@ -174,6 +188,13 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                                 if ((heartBeatAnswerInteger & 0b0100_0000) == 0b0100_0000) {
                                     Log.d(TAG2, "ACK from the robot");
                                     getHeartBeatYet = true;
+                                    count = 0;
+
+                                    Message msg = Message.obtain();
+                                    Bundle b = new Bundle();
+                                    b.putSerializable("status", "OK");
+                                    msg.setData(b);
+                                    handler.sendMessage(msg);
                                 }
 
                             } catch (UnknownHostException e) {
@@ -199,15 +220,18 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                     Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
                 } catch (ConnectException e) {
                     Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                    Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
                 } catch (Exception e) {
                     Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
                 } finally {
                     if (++count == maxTries) {
                         Log.d(TAG, "Max tries exceeded");
                         tryNotExceed = false;
+
+                        Message msg = Message.obtain();
+                        Bundle b = new Bundle();
+                        b.putSerializable("status", "CNNERR");
+                        msg.setData(b);
+                        handler.sendMessage(msg);
                     }
                 }
             }
