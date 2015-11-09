@@ -25,7 +25,7 @@ public class SettingTab extends Fragment {
 
     private SharedPreferences sharedPreferences;
 
-    private EditText robotIpEditText, robotPortEditText, serverIpEditText, serverPortEditText, controlPortEditText;
+    private EditText robotIpEditText, robotPortEditText, serverIpEditText, serverPortEditText, controlPortEditText, heartbeatPortEditText;
     private Button settingSaveBtn;
     private Spinner resolutionSpinner;
 
@@ -51,6 +51,7 @@ public class SettingTab extends Fragment {
         this.robotIpEditText = (EditText) getView().findViewById(R.id.robot_ip_editText);
         this.robotPortEditText = (EditText) getView().findViewById(R.id.robot_port_editText);
         this.controlPortEditText = (EditText) getView().findViewById(R.id.control_port_editText);
+        this.heartbeatPortEditText = (EditText) getView().findViewById(R.id.heartbeat_port_editText);
 
         this.serverIpEditText = (EditText) getView().findViewById(R.id.server_ip_editText);
         this.serverPortEditText = (EditText) getView().findViewById(R.id.server_port_editText);
@@ -69,8 +70,8 @@ public class SettingTab extends Fragment {
          */
         String robotIP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
         int robotPORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
-
-        int controlPort = sharedPreferences.getInt(MainActivity.CONTROL_PORT,-1);
+        int controlPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+        int heartbeatPORT = sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
 
         String serverIP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
         int serverPORT = sharedPreferences.getInt(MainActivity.SERVER_PORT, -1);
@@ -85,8 +86,12 @@ public class SettingTab extends Fragment {
             robotPortEditText.setText(String.valueOf(robotPORT));
         }
 
-        if (controlPort != -1){
-            controlPortEditText.setText(String.valueOf(controlPort));
+        if (controlPORT != -1) {
+            controlPortEditText.setText(String.valueOf(controlPORT));
+        }
+
+        if (heartbeatPORT != -1) {
+            heartbeatPortEditText.setText(String.valueOf(heartbeatPORT));
         }
 
         if (serverIP != null) {
@@ -97,7 +102,6 @@ public class SettingTab extends Fragment {
             serverPortEditText.setText(String.valueOf(serverPORT));
         }
 
-        Log.d("SettingTab", Integer.toString(spinnerPosition));
         if (spinnerPosition != -1) {
             resolutionSpinner.setSelection(spinnerPosition);
         }
@@ -109,15 +113,14 @@ public class SettingTab extends Fragment {
             public void onClick(View v) {
 
                 try {
-
-                    Log.d("SettingTab", Integer.toString(resolutionSpinner.getSelectedItemPosition()));
-
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString(MainActivity.LIVEVIEW_IP, robotIpEditText.getText().toString());
                     editor.putInt(MainActivity.LIVEVIEW_PORT, Integer.parseInt(robotPortEditText.getText().toString()));
                     editor.putString(MainActivity.SERVER_IP, serverIpEditText.getText().toString());
                     editor.putInt(MainActivity.SERVER_PORT, Integer.parseInt(serverPortEditText.getText().toString()));
+
                     editor.putInt(MainActivity.CONTROL_PORT, Integer.parseInt(controlPortEditText.getText().toString()));
+                    editor.putInt(MainActivity.HEARTBEAT_PORT, Integer.parseInt(heartbeatPortEditText.getText().toString()));
 
                     // Position
                     editor.putInt(MainActivity.RES_POS, resolutionSpinner.getSelectedItemPosition());
@@ -127,7 +130,6 @@ public class SettingTab extends Fragment {
                     hideSoftKeyboard(getActivity());
 
                     Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
-
                 } catch (NumberFormatException e) {
                     Toast.makeText(getActivity(), "Format error! Please check again!", Toast.LENGTH_SHORT).show();
                 }

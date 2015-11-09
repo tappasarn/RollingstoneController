@@ -4,8 +4,10 @@
     <color name="ColorPrimaryDark">#0277BD</color>
     <color name="tabsClickColor">#F06292</color>
 
-    <!-- Colors for dab buttons -->
-    <color name="addButton">#2196F3</color>
+
+
+    <!-- Colors for fab buttons -->
+    <color name="addButton">#3F51B5</color>
     <color name="uploadButton">#009688</color>
-    <color name="editButton">#E91E63</color>
+    <color name="editButton">#FF4081</color>
 </resources>

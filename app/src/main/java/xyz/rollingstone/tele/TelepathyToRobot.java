@@ -70,8 +70,8 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
 
         try {
             this.send(params[0], params[1]);
-            Log.d("socketHelperSend1", String.format("%8s", Integer.toBinaryString(params[0])).replace(' ', '0'));
-            Log.d("socketHelperSend2", String.format("%8s", Integer.toBinaryString(params[1])).replace(' ', '0'));
+            Log.d("Send-HiByte", String.format("%8s", Integer.toBinaryString(params[0])).replace(' ', '0'));
+            Log.d("Send-LoByte", String.format("%8s", Integer.toBinaryString(params[1])).replace(' ', '0'));
 
 
             // get raw byte then convert into int
@@ -83,8 +83,8 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
             // clear the id
             this.availableId[commandPacketReader.getId()] = 0;
 
-            Log.d("socketHelperRecv1", String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
-            Log.d("socketHelperRecv2", String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
+            Log.d("Receive-HiByte", String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
+            Log.d("Receive-LoByte", String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
 
         } catch (UnknownHostException e) {
             e.printStackTrace();
@@ -113,7 +113,7 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
         try {
             this.closeSocket();
         } catch (Exception e) {
-            Log.d("TelepathyToRobot", "Trying to close the socket, the server is already closed");
+            Log.d(TAG, e.getMessage());
         }
     }
 

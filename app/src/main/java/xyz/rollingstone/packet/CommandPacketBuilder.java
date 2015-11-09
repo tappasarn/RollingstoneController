@@ -88,7 +88,7 @@ public class CommandPacketBuilder {
             case "FORWARD":
                 this.command = 1;
                 break;
-            case "BACKWARD":
+            case "BACK":
                 this.command = 5;
                 break;
             case "LEFT":

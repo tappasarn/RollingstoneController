@@ -40,6 +40,7 @@ public class MainActivity extends ActionBarActivity {
     public static final String SERVER_PORT = "xyz.rollingstone.server.port";
     public static final String RES_POS = "xyz.rollingstone.resolution.pos";
     public static final String CONTROL_PORT = "xyz.rollingstone.control.port";
+    public static final String HEARTBEAT_PORT = "xyz.rollingstone.heartbeat.port";
     // res_pos 0 = 480p, 1 = 720p, 2 = 1080p
 
     public static final String TAG = "VULUME";
@@ -66,7 +67,7 @@ public class MainActivity extends ActionBarActivity {
         tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
             public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.tabsClickColor);
+                return getResources().getColor(R.color.editButton);
             }
         });
 
@@ -118,7 +119,6 @@ public class MainActivity extends ActionBarActivity {
         // if the volume up or down is pressed, then pass value of (REQ on/off, resolution) connect to the server
         if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN) {
             if (event.getAction() == KeyEvent.ACTION_UP) {
-                Log.d(TAG,"KEY REC");
                 toggle = !toggle;
                 banana = new Banana(0, toggle, resolution);
                 telepathyToServer = new TelepathyToServer(serverIP, serverPORT, handler);
