@@ -6,7 +6,9 @@ package xyz.rollingstone;
 public class ResumeIndicator {
     private Integer value;
 
-    public ResumeIndicator() {}
+    public ResumeIndicator() {
+        this.value = 0;
+    }
 
     public void setInt(Integer value) {
         this.value = value;
