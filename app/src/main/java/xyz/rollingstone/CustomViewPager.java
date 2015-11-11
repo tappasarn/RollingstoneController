@@ -27,6 +27,8 @@ public class CustomViewPager extends ViewPager {
             @Override
             public void onPageScrollStateChanged(int state) { }
         });
+
+        setOffscreenPageLimit(6);
     }
 
     @Override
