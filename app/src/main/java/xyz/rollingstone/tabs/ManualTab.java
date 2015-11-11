@@ -199,7 +199,7 @@ public class ManualTab extends Fragment {
                     // need to check whether the id is usable
                     if (availableId[commandId] == 0) {
                         commandPacketBuilder = new CommandPacketBuilder();
-                        commandPacketBuilder.setType(0); // set type = REQ
+                        commandPacketBuilder.setType(0); // set type = REQ_M_TYPE
 
                         commandPacketBuilder.setId(commandId);
                         availableId[commandId] = 1;

@@ -116,7 +116,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
         byte[] ans = new byte[1];
 
-        this.heartBeatSocket.setSoTimeout(5*100000);
+        this.heartBeatSocket.setSoTimeout(5 * 100000);
         this.heartBeatinputStream = this.heartBeatSocket.getInputStream();
         this.heartBeatinputStream.read(ans, 0, 1);
         return ans;
@@ -134,11 +134,11 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
     /**
      * for each command:
-     *      send a command
-     *      if ACK receive :
-     *          continuously send HEARTBEAT until got DONE, ERR
-     *      else :
-     *          try to send a command again for 5 times
+     * send a command
+     * if ACK receive :
+     * continuously send HEARTBEAT until got DONE, ERR
+     * else :
+     * try to send a command again for 5 times
      */
     @Override
     protected Void doInBackground(Void... avoid) {
@@ -191,7 +191,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                                 int heartBeatAnswerInteger = (int) heartBeatAnswer[0] & 0xFF;
 
                                 Log.d(TAG2, "The HB answer " + String.format("%8s", Integer.toBinaryString(heartBeatAnswerInteger)).replace(' ', '0'));
-                                if ((heartBeatAnswerInteger & 0b0100_0000) == 0b0100_0000) {
+                                if ((heartBeatAnswerInteger & 0b1100_0000) == 0b1100_0000) { // ACK_A_TYPE
                                     Log.d(TAG2, "ACK from the robot");
                                     getHeartBeatYet = true;
                                     //Do this to break the tryNotExceed Loop and send the next command

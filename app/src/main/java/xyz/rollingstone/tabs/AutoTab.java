@@ -102,7 +102,7 @@ public class AutoTab extends Fragment {
                 for (Action act : actionList) {
                     displayList.add(act.humanize());
                     commandPacketBuilder = new CommandPacketBuilder(act);
-                    commandPacketBuilder.setType(0);
+                    commandPacketBuilder.setType(2); // REQ_A_TYPE
                     commandPacketBuilder.setId(0);
 
                     int[] dummy = new int[2];
@@ -123,6 +123,7 @@ public class AutoTab extends Fragment {
             nextTextView.setText("");
             nextnextTextView.setText("");
             startButton.setEnabled(false);
+            Integer currentIndex = 0;
 
             if (displayList.size() > 2) {
                 currentTextView.setText(displayList.get(currentIndex));
