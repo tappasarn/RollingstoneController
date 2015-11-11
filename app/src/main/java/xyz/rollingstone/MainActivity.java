@@ -36,7 +36,7 @@ public class MainActivity extends ActionBarActivity {
     private Handler handler;
 
     public static final String PREFERENCES = "xyz.rollingstone.preferences";
-    public static final String LIVEVIEW_IP = "xyz.rollingstone.liveview.ip";
+    public static final String ROBOT_IP = "xyz.rollingstone.liveview.ip";
     public static final String LIVEVIEW_PORT = "xyz.rollingstone.liveview.port";
     public static final String SERVER_IP = "xyz.rollingstone.server.ip";
     public static final String SERVER_PORT = "xyz.rollingstone.server.port";
@@ -46,7 +46,6 @@ public class MainActivity extends ActionBarActivity {
     // res_pos 0 = 480p, 1 = 720p, 2 = 1080p
 
     public static ArrayList<String> selectedScripts;
-    public static final String TAG = "VULUME";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,12 +103,7 @@ public class MainActivity extends ActionBarActivity {
         super.onWindowFocusChanged(hasFocus);
         View decorView = getWindow().getDecorView();
         if (hasFocus) {
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
     }
 

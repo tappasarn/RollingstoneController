@@ -1,13 +1,10 @@
 package xyz.rollingstone.tabs;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +20,6 @@ import java.util.List;
 
 import xyz.rollingstone.Action;
 import xyz.rollingstone.ActionSQLHelper;
-import xyz.rollingstone.Big;
 import xyz.rollingstone.packet.Banana;
 import xyz.rollingstone.packet.CommandPacketBuilder;
 import xyz.rollingstone.HeartBeat;
@@ -65,7 +60,7 @@ public class AutoTab extends Fragment {
                 MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         this.startButton = (Button) getView().findViewById(R.id.startButton);
 
-        final String robotIP = this.sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        final String robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
         final int controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
         final int heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
 
@@ -134,7 +129,11 @@ public class AutoTab extends Fragment {
                 nextTextView.setText(displayList.get(currentIndex + 1));
                 nextnextTextView.setText(displayList.get(currentIndex + 2));
                 startButton.setEnabled(true);
-            } else if (displayList.size() == 1){
+            } else if (displayList.size() == 2) {
+                currentTextView.setText(displayList.get(currentIndex));
+                nextTextView.setText(displayList.get(currentIndex + 1));
+                startButton.setEnabled(true);
+            } else if (displayList.size() == 1) {
                 currentTextView.setText(displayList.get(currentIndex));
                 startButton.setEnabled(true);
             } else {
@@ -149,6 +148,10 @@ public class AutoTab extends Fragment {
                         actionSlider();
                     } else if (messages == "CNNERR") {
                         Toast.makeText(getActivity(), "The operation is aborted, can't connect to server", Toast.LENGTH_SHORT).show();
+                    } else if (messages == "DONE"){
+                        currentTextView.setText("Script Execution is done");
+                        currentTextView.setTextColor(getResources().getColor(R.color.editButton));
+                        Toast.makeText(getActivity(), "Script Execution is done", Toast.LENGTH_SHORT).show();
                     }
                 }
             };
@@ -158,7 +161,7 @@ public class AutoTab extends Fragment {
                 public void onClick(View v) {
                     HeartBeat HB = new HeartBeat(robotIP, controlPORT, heartbeatPORT, packetList, handler);
                     HB.execute();
-                    Log.d(DEBUG, "Hello, Im executing");
+                    Log.d(DEBUG, "HeartBeat is executing");
                 }
             });
         } else {
@@ -170,7 +173,7 @@ public class AutoTab extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        final String robotIP = this.sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        final String robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
         final int controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
         final int heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
     }
@@ -188,8 +191,8 @@ public class AutoTab extends Fragment {
         }
 
         if (currentIndex + 1 > displayList.size() - 1) {
-            currentTextView.setText(displayList.get(currentIndex));
-            pastTextView.setText("");
+            currentTextView.setText("");
+            pastTextView.setText(displayList.get(currentIndex));
         } else {
             pastTextView.setText(displayList.get(currentIndex));
             currentTextView.setText(displayList.get(currentIndex + 1));

@@ -244,6 +244,11 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                 //END tryNotExceed
             }
         }
+        Message msg = Message.obtain();
+        Bundle b = new Bundle();
+        b.putSerializable("status", "DONE");
+        msg.setData(b);
+        handler.sendMessage(msg);
         Log.d(TAG, "DONE");
         return null;
     }

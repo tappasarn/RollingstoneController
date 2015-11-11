@@ -139,7 +139,7 @@ public class ManualTab extends Fragment {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
-                final String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+                final String IP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
                 final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
 
                 //Get Port from sharedPreference use for control
