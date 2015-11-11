@@ -17,8 +17,11 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import xyz.rollingstone.packet.CommandPacketBuilder;
 import xyz.rollingstone.packet.CommandPacketReader;
@@ -50,25 +53,21 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
     private Handler handler;
 
+    public ResumeIndicator resumeIndicator;
+
+
     public static final String TAG = "AutoCommand.DEBUG";
     public static final String TAG2 = "HeartBeat.DEBUG";
     private List<int[]> packetList = new ArrayList<>();
     private TextView[] TVList = new TextView[5];
 
-    public HeartBeat(String serverAddress, int port, int heartBeatPort, List<int[]> packetList, Handler handler) {
+    public HeartBeat(String serverAddress, int port, int heartBeatPort, List<int[]> packetList, Handler handler, ResumeIndicator resumeIndicator) {
         this.serverAddress = serverAddress;
         this.port = port;
         this.heartBeatPort = heartBeatPort;
         this.packetList = packetList;
         this.handler = handler;
-    }
-
-    public void setTVList(TextView a, TextView b, TextView c, TextView d, TextView e) {
-        this.TVList[0] = a;
-        this.TVList[1] = b;
-        this.TVList[2] = c;
-        this.TVList[3] = d;
-        this.TVList[4] = e;
+        this.resumeIndicator = resumeIndicator;
     }
 
     public void openSocket() throws UnknownHostException, IOException {
@@ -171,28 +170,33 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                     Log.d(TAG, "Recv1 = " + String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
                     Log.d(TAG, "Recv2 = " + String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
 
-                    // just to remind
-                    //	    10XXXXXX - REQ
-                    //	    01XXXXXX - ACK
-                    //      00XXXXXX - ERR
-                    //      11XXXXXX - OK
-                    if (commandPacketReader.getType() == 1) { // if get the type of ACK back
+                    Log.d(TAG, "HOLY SHIT WE GOT " + commandPacketReader.getType());
+                    if (commandPacketReader.getType() == 3) { // if get the type of ACK_A_TYPE
                         boolean getHeartBeatYet = false;
 
                         // loop sending HeartBeat every 5*1000 with unknown unit until get the ACK
                         // if the ack is received, exit this loop and continue with next command
                         while (!getHeartBeatYet) {
                             try {
-                                this.sendHeartBeat(0b1000_0000);
+                                // send HEART_REQ
+                                this.sendHeartBeat(0b0000_0000);
                                 Log.d(TAG2, "Heart Beat is sent");
                                 byte[] heartBeatAnswer = this.receiveHeartBeat();
 
                                 // just to convert byte to (unsigned)int
+                                Log.d(TAG2, Byte.toString(heartBeatAnswer[0]));
                                 int heartBeatAnswerInteger = (int) heartBeatAnswer[0] & 0xFF;
 
                                 Log.d(TAG2, "The HB answer " + String.format("%8s", Integer.toBinaryString(heartBeatAnswerInteger)).replace(' ', '0'));
-                                if ((heartBeatAnswerInteger & 0b1100_0000) == 0b1100_0000) { // ACK_A_TYPE
-                                    Log.d(TAG2, "ACK from the robot");
+
+                                // got HEART_ACK
+                                if ((heartBeatAnswerInteger & 0b1100_0000) == 0b0100_0000) {
+                                    Log.d(TAG2, "HEART_ACK received");
+
+                                // HEART_OK, it means that the action is done.
+                                // so we continue with the next action
+                                } else if ((heartBeatAnswerInteger & 0b1100_0000) == 0b1000_0000) {
+                                    Log.d(TAG2, "HEART_OK from the robot");
                                     getHeartBeatYet = true;
                                     //Do this to break the tryNotExceed Loop and send the next command
                                     tryNotExceed = false;
@@ -202,7 +206,28 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                                     b.putSerializable("status", "OK");
                                     msg.setData(b);
                                     handler.sendMessage(msg);
+
+                                // got HEART_ERR, the robot stops.
+                                } else if ((heartBeatAnswerInteger & 0b1100_0000) == 0b1100_0000) {
+                                    Log.d(TAG2, "HEART_ERR from the robot");
+
+                                    Message msg = Message.obtain();
+                                    Bundle b = new Bundle();
+                                    b.putSerializable("status", "ERR");
+                                    msg.setData(b);
+                                    handler.sendMessage(msg);
+
+                                    while (resumeIndicator.getInt() != 5){
+
+                                    }
+
+                                    getHeartBeatYet = true;
+                                    //Do this to break the tryNotExceed Loop and send the next command
+                                    tryNotExceed = false;
+                                } else {
+                                    // Log.d(TAG2, "got sth " + heartBeatAnswerInteger);
                                 }
+
 
                             } catch (UnknownHostException e) {
                                 e.printStackTrace();
@@ -219,8 +244,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                     } else {
                         Log.d(TAG, "error occurred");
                     }
-                    // just delaying for my pleasure
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                     Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());

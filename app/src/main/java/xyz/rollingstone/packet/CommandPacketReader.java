@@ -8,7 +8,6 @@ public class CommandPacketReader {
     private int id;
     private int command;
     private int value;
-    private int fromPipe;
 
     public CommandPacketReader(int[] packet) {
         this.highByte = packet[0];
@@ -52,11 +51,11 @@ public class CommandPacketReader {
 //      handle Packet types
 //      Perform AND operation with received high-byte
 //      and check for equality
-        if ((this.highByte & 0b0000_0000) == 0b0000_0000) {
+        if ((this.highByte & 0b1100_0000) == 0b0000_0000) {
             this.type = 0;
-        } else if ((this.highByte & 0b0100_0000) == 0b0100_0000) {
+        }  if ((this.highByte & 0b1100_0000) == 0b0100_0000) {
             this.type = 1;
-        } else if ((this.highByte & 0b1000_0000) == 0b1000_0000) {
+        } else if ((this.highByte & 0b1100_0000) == 0b1000_0000) {
             this.type = 2;
         } else if ((this.highByte & 0b1100_0000) == 0b1100_0000) {
             this.type = 3;

@@ -16,10 +16,6 @@ import java.util.concurrent.TimeoutException;
 
 import xyz.rollingstone.packet.CommandPacketReader;
 
-/**
- * Created by Common Room on 10/1/2015.
- */
-
 public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
     private String serverAddress;
     private int port;
@@ -65,6 +61,7 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
         return ans;
     }
 
+    // This Asyntask send 2 intehers
     @Override
     protected Void doInBackground(Integer... params) {
 

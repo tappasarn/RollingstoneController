@@ -8,8 +8,7 @@ import xyz.rollingstone.Action;
 
 /**
  * CommandPacketBuilder
- * <p/>
- * __| __ |    ____   | ____ ____ | (Bits)
+ *  __| __ |    ____   | ____ ____ | (Bits)
  * REQ| ID |  COMMAND  |   VALUE   |
  * ACK|    |           |           |
  * [-----HIGH BYTE-----][--LOW BYTE-]

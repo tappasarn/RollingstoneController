@@ -16,10 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import xyz.rollingstone.Action;
 import xyz.rollingstone.ActionSQLHelper;
+import xyz.rollingstone.ResumeIndicator;
 import xyz.rollingstone.packet.Banana;
 import xyz.rollingstone.packet.CommandPacketBuilder;
 import xyz.rollingstone.HeartBeat;
@@ -39,6 +42,7 @@ public class AutoTab extends Fragment {
     private static TelepathyToServer telepathyToServer;
     private SharedPreferences sharedPreferences;
     private Button startButton;
+    private Button resumeButton;
 
     private TextView pastpastTextView;
     private TextView pastTextView;
@@ -47,6 +51,8 @@ public class AutoTab extends Fragment {
     private TextView nextnextTextView;
     private Integer currentIndex = 0;
     private Handler handler;
+
+    public ResumeIndicator resumeIndicator;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,6 +65,8 @@ public class AutoTab extends Fragment {
         this.sharedPreferences = getActivity().getSharedPreferences(
                 MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         this.startButton = (Button) getView().findViewById(R.id.startButton);
+        this.resumeButton = (Button) getView().findViewById(R.id.resumeButton);
+        resumeButton.setEnabled(false);
 
         final String robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
         final int controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
@@ -122,26 +130,27 @@ public class AutoTab extends Fragment {
             currentTextView.setText("");
             nextTextView.setText("");
             nextnextTextView.setText("");
-            startButton.setEnabled(false);
+            startButton.setEnabled(true);
             Integer currentIndex = 0;
 
             if (displayList.size() > 2) {
                 currentTextView.setText(displayList.get(currentIndex));
                 nextTextView.setText(displayList.get(currentIndex + 1));
                 nextnextTextView.setText(displayList.get(currentIndex + 2));
-                startButton.setEnabled(true);
             } else if (displayList.size() == 2) {
                 currentTextView.setText(displayList.get(currentIndex));
                 nextTextView.setText(displayList.get(currentIndex + 1));
-                startButton.setEnabled(true);
             } else if (displayList.size() == 1) {
                 currentTextView.setText(displayList.get(currentIndex));
-                startButton.setEnabled(true);
             } else {
                 currentTextView.setText("Script has no action/ no script is selected");
+                startButton.setEnabled(false);
             }
 
 
+            /**
+             * To handle the message passed from HeartBeat to here
+             */
             handler = new Handler() {
                 public void handleMessage(android.os.Message msg) {
                     String messages = (String) msg.getData().getSerializable("status");
@@ -153,6 +162,12 @@ public class AutoTab extends Fragment {
                         currentTextView.setText("Script Execution is done");
                         currentTextView.setTextColor(getResources().getColor(R.color.editButton));
                         Toast.makeText(getActivity(), "Script Execution is done", Toast.LENGTH_SHORT).show();
+                    } else if (messages == "ERR") {
+                        resumeButton.setEnabled(true);
+                        Toast.makeText(getActivity(), "Obstacle found", Toast.LENGTH_SHORT).show();
+                    } else if (messages == "NOHB") {
+                        startButton.setEnabled(true);
+                        Toast.makeText(getActivity(), "no HeartBeat", Toast.LENGTH_SHORT).show();
                     }
                 }
             };
@@ -160,11 +175,22 @@ public class AutoTab extends Fragment {
             startButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    HeartBeat HB = new HeartBeat(robotIP, controlPORT, heartbeatPORT, packetList, handler);
+                    resumeIndicator = new ResumeIndicator();
+                    HeartBeat HB = new HeartBeat(robotIP, controlPORT, heartbeatPORT, packetList, handler, resumeIndicator);
                     HB.execute();
                     Log.d(DEBUG, "HeartBeat is executing");
+                    startButton.setEnabled(false);
                 }
             });
+
+            resumeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    resumeIndicator.setInt(5);
+                    resumeButton.setEnabled(false);
+                }
+            });
+
         } else {
             Log.d(DEBUG, "No Automated Script set yet");
         }
@@ -180,9 +206,8 @@ public class AutoTab extends Fragment {
     }
 
     /**
-     * use to slide the command to show what is executing
+     * use to slide the action to show what is executing
      *
-     * @return
      */
     public int actionSlider() {
         if (currentIndex - 1 < 0) {
@@ -212,7 +237,6 @@ public class AutoTab extends Fragment {
         }
 
         currentIndex++;
-
         return 0;
     }
 

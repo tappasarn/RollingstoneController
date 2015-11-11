@@ -80,6 +80,15 @@
             android:gravity="center"
             android:textAlignment="center" />
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="resume"
+            android:id="@+id/resumeButton"
+            android:layout_alignTop="@+id/startButton"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
     </RelativeLayout>
 
 </LinearLayout>
