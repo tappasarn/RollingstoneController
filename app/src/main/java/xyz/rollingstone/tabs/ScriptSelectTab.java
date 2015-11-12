@@ -36,11 +36,10 @@ public class ScriptSelectTab extends Fragment {
     List<String> allBigsName; //Bigs stands for Script, me so sry i can't remember the name at that time
     ArrayList<Boolean> selectedChecker;
     ArrayList<String> selectedScripts;
-    int selectedScriptsPosition = 0;
     ListView listView;
+    // SQLite reserved words
     String[] reservedList = new String[]{"ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "AS", "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY", "CASCADE", "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "COMMIT", "CONFLICT", "CONSTRAINT", "CREATE", "CROSS", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "DATABASE", "DEFAULT", "DEFERRABLE", "DEFERRED", "DELETE", "DESC", "DETACH", "DISTINCT", "DROP", "EACH", "ELSE", "END", "ESCAPE", "EXCEPT", "EXCLUSIVE", "EXISTS", "EXPLAIN", "FAIL", "FOR", "FOREIGN", "FROM", "FULL", "GLOB", "GROUP", "HAVING", "IF", "IGNORE", "IMMEDIATE", "IN", "INDEX", "INDEXED", "INITIALLY", "INNER", "INSERT", "INSTEAD", "INTERSECT", "INTO", "IS", "ISNULL", "JOIN", "KEY", "LEFT", "LIKE", "LIMIT", "MATCH", "NATURAL", "NO", "NOT", "NOTNULL", "NULL", "OF", "OFFSET", "ON", "OR", "ORDER", "OUTER", "PLAN", "PRAGMA", "PRIMARY", "QUERY", "RAISE", "RECURSIVE", "REFERENCES", "REGEXP", "REINDEX", "RELEASE", "RENAME", "REPLACE", "RESTRICT", "RIGHT", "ROLLBACK", "ROW", "SAVEPOINT", "SELECT", "SET", "TABLE", "TEMP", "TEMPORARY", "THEN", "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM", "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE", "WITH", "WITHOUT"};
-    private int addToPosition, old_position = -1, current_position = -1;
-    private boolean isSelected = false;
+    private int current_position = -1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -69,44 +68,11 @@ public class ScriptSelectTab extends Fragment {
             selectedChecker.add(i, false);
         }
 
-        // Default adding position will be appending to the last of the list
-        addToPosition = allBigsName.size();
 
         // Implement the list view so it can receive long click and normal click to delete
         listView.setLongClickable(true);
         listView.setClickable(true);
         listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-
-        // Set listener for both long click and normal click
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-                                           int pos, long id) {
-                Toast toast = Toast.makeText(getActivity(), String.format("The script %s is removed", allBigsName.get(pos)), Toast.LENGTH_SHORT);
-                toast.show();
-
-                //remove from check list
-                selectedChecker.remove(pos);
-                Log.d("Time checker", selectedChecker.toString());
-
-                //remove from database
-                db.deleteBigByName(allBigsName.get(pos));
-
-                //remove from showing list
-                allBigsName.remove(pos);
-
-                //loop for changing color
-                for (int i = 0; i < selectedChecker.size(); i++) {
-                    listView.setItemChecked(i, selectedChecker.get(i));
-                }
-
-                selectedScripts.remove(allBigsName.indexOf(allBigsName.get(pos)));
-
-                listAdapter.notifyDataSetChanged();
-
-                return true;
-            }
-        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

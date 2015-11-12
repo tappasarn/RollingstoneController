@@ -149,11 +149,13 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
             int count = 0;
             int maxTries = 5;
             boolean tryNotExceed = true;
+
             while (tryNotExceed) {
                 try {
 
                     // send a command to the robot
                     this.sendCommand(HiLo[0], HiLo[1]);
+                    Log.d(TAG, "REQ_A_TYPE");
                     Log.d(TAG, "Send1 = " + String.format("%8s", Integer.toBinaryString(HiLo[0])).replace(' ', '0'));
                     Log.d(TAG, "Send2 = " + String.format("%8s", Integer.toBinaryString(HiLo[1])).replace(' ', '0'));
                     CommandPacketReader commandPacketReader1 = new CommandPacketReader(HiLo);
@@ -170,8 +172,8 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                     Log.d(TAG, "Recv1 = " + String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
                     Log.d(TAG, "Recv2 = " + String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
 
-                    Log.d(TAG, "HOLY SHIT WE GOT " + commandPacketReader.getType());
                     if (commandPacketReader.getType() == 3) { // if get the type of ACK_A_TYPE
+                        Log.d(TAG, "GOT ACK_A_TYPE from the robot");
                         boolean getHeartBeatYet = false;
 
                         // loop sending HeartBeat every 5*1000 with unknown unit until get the ACK
@@ -180,11 +182,10 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                             try {
                                 // send HEART_REQ
                                 this.sendHeartBeat(0b0000_0000);
-                                Log.d(TAG2, "Heart Beat is sent");
+                                Log.d(TAG2, "Heart Beat is sent and waiting for answer");
                                 byte[] heartBeatAnswer = this.receiveHeartBeat();
 
                                 // just to convert byte to (unsigned)int
-                                Log.d(TAG2, Byte.toString(heartBeatAnswer[0]));
                                 int heartBeatAnswerInteger = (int) heartBeatAnswer[0] & 0xFF;
 
                                 Log.d(TAG2, "The HB answer " + String.format("%8s", Integer.toBinaryString(heartBeatAnswerInteger)).replace(' ', '0'));
@@ -222,10 +223,17 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                                     }
 
                                     getHeartBeatYet = true;
-                                    //Do this to break the tryNotExceed Loop and send the next command
+                                    // Do this to break the tryNotExceed Loop and send the next command
                                     tryNotExceed = false;
+
+                                    // send OK to the AutoTab so that it will call scriptSlider and display the correct action
+                                    msg = Message.obtain();
+                                    b = new Bundle();
+                                    b.putSerializable("status", "OK");
+                                    msg.setData(b);
+                                    handler.sendMessage(msg);
                                 } else {
-                                    // Log.d(TAG2, "got sth " + heartBeatAnswerInteger);
+                                    Log.d(TAG2, "GOT STH strange from HeartBeat " + String.format("%8s", Integer.toBinaryString(heartBeatAnswerInteger)).replace(' ', '0'));
                                 }
 
 
