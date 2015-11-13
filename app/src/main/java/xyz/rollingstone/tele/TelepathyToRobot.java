@@ -25,7 +25,7 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
     private CommandPacketReader commandPacketReader;
     private int[] availableId;
     private FragmentActivity fragmentActivity;
-    public static final String TAG = "TelepathyToRobot.DEBUG";
+    public static final String TAG = "Tele2Robot.DEBUG";
 
     public TelepathyToRobot(FragmentActivity fa, String serverAddress, int port, int[] availableId) {
         this.fragmentActivity = fa;
@@ -66,7 +66,10 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
     protected Void doInBackground(Integer... params) {
 
         try {
+            commandPacketReader = new CommandPacketReader(params);
+
             this.send(params[0], params[1]);
+            Log.d(TAG + " S", commandPacketReader.toString());
             Log.d("Send-HiByte", String.format("%8s", Integer.toBinaryString(params[0])).replace(' ', '0'));
             Log.d("Send-LoByte", String.format("%8s", Integer.toBinaryString(params[1])).replace(' ', '0'));
 
@@ -80,6 +83,7 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
             // clear the id
             this.availableId[commandPacketReader.getId()] = 0;
 
+            Log.d(TAG + " R", commandPacketReader.toString());
             Log.d("Receive-HiByte", String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
             Log.d("Receive-LoByte", String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
 

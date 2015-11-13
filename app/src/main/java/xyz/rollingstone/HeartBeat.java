@@ -155,20 +155,18 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
                     // send a command to the robot
                     this.sendCommand(HiLo[0], HiLo[1]);
-                    Log.d(TAG, "REQ_A_TYPE");
+                    commandPacketReader = new CommandPacketReader(HiLo);
+                    Log.d(TAG, commandPacketReader.toString());
                     Log.d(TAG, "Send1 = " + String.format("%8s", Integer.toBinaryString(HiLo[0])).replace(' ', '0'));
                     Log.d(TAG, "Send2 = " + String.format("%8s", Integer.toBinaryString(HiLo[1])).replace(' ', '0'));
                     CommandPacketReader commandPacketReader1 = new CommandPacketReader(HiLo);
-
-                    Log.d(TAG, "TYPE = " + commandPacketReader1.getType());
-                    Log.d(TAG, "COMMAND = " + commandPacketReader1.getCommand());
-                    Log.d(TAG, "VALUE = " + commandPacketReader1.getValue());
 
                     // get answer as raw byte then convert into int
                     byte[] ans;
                     ans = this.receive();
 
                     commandPacketReader = new CommandPacketReader(ans);
+                    Log.d(TAG, commandPacketReader.toString());
                     Log.d(TAG, "Recv1 = " + String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
                     Log.d(TAG, "Recv2 = " + String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
 

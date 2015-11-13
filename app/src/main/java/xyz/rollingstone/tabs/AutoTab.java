@@ -54,6 +54,12 @@ public class AutoTab extends Fragment {
 
     public ResumeIndicator resumeIndicator;
 
+    final Integer REQ_A_TYPE = 2;
+
+    String robotIP;
+    int controlPORT;
+    int heartbeatPORT;
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.auto_tab, container, false);
@@ -68,9 +74,9 @@ public class AutoTab extends Fragment {
         this.resumeButton = (Button) getView().findViewById(R.id.resumeButton);
         resumeButton.setEnabled(false);
 
-        final String robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
-        final int controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
-        final int heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
+        robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
+        controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+        heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
 
         /*
             To Adjust the color of TextView
@@ -110,8 +116,8 @@ public class AutoTab extends Fragment {
                 for (Action act : actionList) {
                     displayList.add(act.humanize());
                     commandPacketBuilder = new CommandPacketBuilder(act);
-                    commandPacketBuilder.setType(2); // REQ_A_TYPE
-                    commandPacketBuilder.setId(0);
+                    commandPacketBuilder.setType(REQ_A_TYPE);
+                    commandPacketBuilder.setId(0); // there is no such thing as an ID in automated system
 
                     int[] dummy = new int[2];
                     dummy = commandPacketBuilder.Create();
@@ -200,9 +206,9 @@ public class AutoTab extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        final String robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
-        final int controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
-        final int heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
+        robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
+        controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+        heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
     }
 
     /**

@@ -16,6 +16,12 @@ public class CommandPacketReader {
         this.read();
     }
 
+    public CommandPacketReader(Integer[] packet){
+        this.highByte = packet[0];
+        this.lowByte = packet[1];
+
+        this.read();
+    }
     public CommandPacketReader(byte[] fromPipe) {
         this.highByte = unsignedByteToInt(fromPipe[0]);
         this.lowByte = unsignedByteToInt(fromPipe[1]);
@@ -53,7 +59,8 @@ public class CommandPacketReader {
 //      and check for equality
         if ((this.highByte & 0b1100_0000) == 0b0000_0000) {
             this.type = 0;
-        }  if ((this.highByte & 0b1100_0000) == 0b0100_0000) {
+        }
+        if ((this.highByte & 0b1100_0000) == 0b0100_0000) {
             this.type = 1;
         } else if ((this.highByte & 0b1100_0000) == 0b1000_0000) {
             this.type = 2;
@@ -79,4 +86,56 @@ public class CommandPacketReader {
         return (int) b & 0xFF;
     }
 
+    @Override
+    public String toString() {
+        String TYPE = "";
+        String COMM = "";
+
+        switch (type) {
+            case 0:
+                TYPE = "REQ_M_TYPE";
+                break;
+            case 1:
+                TYPE = "ACK_M_TYPE";
+                break;
+            case 2:
+                TYPE = "REQ_A_TYPE";
+                break;
+            case 3:
+                TYPE = "ACK_A_TYPE";
+                break;
+        }
+
+        switch (command) {
+            case 0:
+                COMM = "STICK_NONE";
+                break;
+            case 1:
+                COMM = "STICK_UP";
+                break;
+            case 2:
+                COMM = "STICK_UPRIGHT";
+                break;
+            case 3:
+                COMM = "STICK_RIGHT";
+                break;
+            case 4:
+                COMM = "STICK_DOWNRIGHT";
+                break;
+            case 5:
+                COMM = "STICK_DOWN";
+                break;
+            case 6:
+                COMM = "STICK_DOWNLEFT";
+                break;
+            case 7:
+                COMM = "STICK_LEFT";
+                break;
+            case 8:
+                COMM = "STICK_UPLEFT";
+                break;
+        }
+
+        return TYPE + " " + COMM + " val: " + value;
+    }
 }
