@@ -135,8 +135,8 @@ public class ActionListActivity extends Activity {
         }
 
         np = (NumberPicker) findViewById(R.id.numberPicker);
-        np.setMaxValue(10);
-        np.setMinValue(1);
+        np.setMaxValue(100);
+        np.setMinValue(30);
         np.setWrapSelectorWheel(false);
 
         rg = (RadioGroup) findViewById(R.id.radioGroup);

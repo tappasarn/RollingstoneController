@@ -268,6 +268,8 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                         b.putSerializable("status", "CNNERR");
                         msg.setData(b);
                         handler.sendMessage(msg);
+
+                        return null;
                     }
                 }
 
