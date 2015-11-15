@@ -240,6 +240,8 @@ public class ScriptSelectTab extends Fragment {
                     bundle.putStringArrayList("SELECTED", selectedScripts);
 
                     MainActivity.selectedScripts = selectedScripts;
+                    MainActivity.autoTabcurrentIndex = 0;
+
                     AutoTab autoTab = new AutoTab();
                     autoTab.setArguments(bundle);
                     // in .replace use id.container instead of the old one to fix bug that removes this own page

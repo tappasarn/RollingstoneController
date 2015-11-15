@@ -48,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
 
     public static ArrayList<String> selectedScripts;
     //AUTOTAB THINGS
-    public static Integer autoTabcurrentIndex;
+    public static Integer autoTabcurrentIndex = 0;
 
     public static boolean startButtonState;
     public static boolean stopButtonState;

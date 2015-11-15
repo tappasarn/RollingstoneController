@@ -261,12 +261,13 @@ public class AutoTab extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Log.d(DEBUG, "AUTOTAB ONRESUME");
         robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
         controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
         heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
 
-        if (MainActivity.autoTabcurrentIndex != null){
-            currentIndex = MainActivity.autoTabcurrentIndex-1;
+        if (MainActivity.autoTabcurrentIndex != 0) {
+            currentIndex = MainActivity.autoTabcurrentIndex - 1;
             actionSlider();
         } else {
             currentIndex = 0;
@@ -283,7 +284,7 @@ public class AutoTab extends Fragment {
         MainActivity.autoTabcurrentIndex = currentIndex;
 
         MainActivity.startButtonState = startButton.isEnabled();
-        MainActivity.stopButtonState= stopButton.isEnabled();
+        MainActivity.stopButtonState = stopButton.isEnabled();
         MainActivity.resumeButtonState = resumeButton.isEnabled();
     }
 

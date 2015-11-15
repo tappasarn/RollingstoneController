@@ -247,7 +247,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                                 Log.d(TAG2, e.getMessage());
                             }
                             //END WHILE(GET_HB)
-                            Thread.sleep(1000);
+                            Thread.sleep(500);
                         }
                     } else {
                         Log.d(TAG, "error occurred");
