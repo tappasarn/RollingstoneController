@@ -224,6 +224,7 @@ public class AutoTab extends Fragment {
                 public void onClick(View v) {
                     resumeIndicator = new ResumeIndicator();
                     HB = new HeartBeat(robotIP, controlPORT, heartbeatPORT, packetList, handler, resumeIndicator);
+                    //HB.cancel(false);
                     HB.execute();
                     Log.d(DEBUG, "HeartBeat is executing");
                     startButton.setEnabled(false);
@@ -245,6 +246,7 @@ public class AutoTab extends Fragment {
                 @Override
                 public void onClick(View view) {
                     HB.cancel(true);
+
                     startButton.setEnabled(true);
                     resumeButton.setEnabled(false);
                     stopButton.setEnabled(false);
@@ -286,18 +288,25 @@ public class AutoTab extends Fragment {
                 startButton.setEnabled(true);
                 currentIndex = 0;
 
-                if (displayList.size() > 2) {
-                    currentTextView.setText(displayList.get(currentIndex));
-                    nextTextView.setText(displayList.get(currentIndex + 1));
-                    nextnextTextView.setText(displayList.get(currentIndex + 2));
-                } else if (displayList.size() == 2) {
-                    currentTextView.setText(displayList.get(currentIndex));
-                    nextTextView.setText(displayList.get(currentIndex + 1));
-                } else if (displayList.size() == 1) {
-                    currentTextView.setText(displayList.get(currentIndex));
+                if (displayList != null) {
+                    if (displayList.size() > 2) {
+                        currentTextView.setText(displayList.get(currentIndex));
+                        nextTextView.setText(displayList.get(currentIndex + 1));
+                        nextnextTextView.setText(displayList.get(currentIndex + 2));
+                    } else if (displayList.size() == 2) {
+                        currentTextView.setText(displayList.get(currentIndex));
+                        nextTextView.setText(displayList.get(currentIndex + 1));
+                    } else if (displayList.size() == 1) {
+                        currentTextView.setText(displayList.get(currentIndex));
+                    } else {
+                        currentTextView.setText("Script has no action/ no script is selected");
+                        startButton.setEnabled(false);
+                    }
                 } else {
                     currentTextView.setText("Script has no action/ no script is selected");
                     startButton.setEnabled(false);
+                    stopButton.setEnabled(false);
+                    resumeButton.setEnabled(false);
                 }
             }
         } else {
