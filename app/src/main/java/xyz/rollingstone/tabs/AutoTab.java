@@ -22,6 +22,7 @@ import java.util.Queue;
 
 import xyz.rollingstone.Action;
 import xyz.rollingstone.ActionSQLHelper;
+import xyz.rollingstone.HeartBeatThread;
 import xyz.rollingstone.ResumeIndicator;
 import xyz.rollingstone.packet.Banana;
 import xyz.rollingstone.packet.CommandPacketBuilder;
@@ -60,7 +61,7 @@ public class AutoTab extends Fragment {
     String robotIP;
     int controlPORT;
     int heartbeatPORT;
-    HeartBeat HB;
+    HeartBeatThread HB;
     Integer currentIndex;
     private boolean executeOnResume = false;
 
@@ -224,9 +225,9 @@ public class AutoTab extends Fragment {
                 @Override
                 public void onClick(View v) {
                     resumeIndicator = new ResumeIndicator();
-                    HB = new HeartBeat(robotIP, controlPORT, heartbeatPORT, packetList, handler, resumeIndicator);
+                    HB = new HeartBeatThread(robotIP, controlPORT, heartbeatPORT, packetList, handler, resumeIndicator);
                     //HB.cancel(false);
-                    HB.execute();
+                    HB.start();
                     Log.d(DEBUG, "HeartBeat is executing");
                     startButton.setEnabled(false);
                     stopButton.setEnabled(true);

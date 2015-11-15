@@ -9,6 +9,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
 import xyz.rollingstone.tele.TelepathyToRobot;
 import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
+import xyz.rollingstone.tele.TelepathyToRobotThread;
 
 public class ManualTab extends Fragment {
 
@@ -60,6 +62,7 @@ public class ManualTab extends Fragment {
     private boolean isJoystickShown = false;
 
     // To send a command to robot
+    private TelepathyToRobotThread telepathyToRobotThread;
     private TelepathyToRobot telepathyToRobot;
     // To count the commandId
     private Integer commandId = 0;
@@ -215,10 +218,14 @@ public class ManualTab extends Fragment {
 
                         //execute the correct value
                         int[] command = commandPacketBuilder.Create();
-
                         // send direction and distance to the robot and Log it for debugging
+
+                        /*
+                        telepathyToRobotThread = new TelepathyToRobotThread(getActivity(), IP, CONTROL_PORT, availableId, command);
+                        telepathyToRobotThread.start();
+                        */
                         telepathyToRobot = new TelepathyToRobot(getActivity(), IP, CONTROL_PORT, availableId);
-                        telepathyToRobot.execute(command[0], command[1]);
+                        telepathyToRobot.execute(command[0],command[1]);
                     }
                 }
 
@@ -266,10 +273,13 @@ public class ManualTab extends Fragment {
 
                         // send direction and distance to the robot and Log it for debugging
                         Log.d(DEBUG, "Im at before Tele2Robot");
+
+                        /*
+                        telepathyToRobotThread = new TelepathyToRobotThread(getActivity(), IP, CONTROL_PORT, availableId, command);
+                        telepathyToRobotThread.start();
+                        */
                         telepathyToRobot = new TelepathyToRobot(getActivity(), IP, CONTROL_PORT, availableId);
-                        Log.d(DEBUG, "constructor created");
                         telepathyToRobot.execute(command[0], command[1]);
-                        Log.d(DEBUG, "EXECUTED <3");
                     }
 
                 }
