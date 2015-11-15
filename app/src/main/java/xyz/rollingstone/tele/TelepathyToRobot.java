@@ -28,6 +28,7 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
     public static final String TAG = "Tele2Robot.DEBUG";
 
     public TelepathyToRobot(FragmentActivity fa, String serverAddress, int port, int[] availableId) {
+        Log.d(TAG, "TELE2ROBOT is Created !!");
         this.fragmentActivity = fa;
         this.serverAddress = serverAddress;
         this.port = port;
@@ -39,12 +40,15 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
     }
 
     public void send(int highByte, int lowByte) throws IOException, Exception {
+        Log.d(TAG, "Trying to open socket");
         this.openSocket();
+        Log.d(TAG, "Trying to get outputStream");
         this.outputStream = this.socket.getOutputStream();
+        Log.d(TAG, "Trying to socket & outputStream OK");
         outputStream.write(highByte);
         outputStream.write(lowByte);
         outputStream.flush();
-
+        Log.d(TAG, "SEND&FLUSH");
     }
 
     public void closeSocket() throws Exception {
@@ -53,9 +57,12 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
 
     public byte[] receive() throws SocketTimeoutException, SocketException, IOException, TimeoutException, NullPointerException {
         byte[] ans = new byte[2];
+        Log.d(TAG, "Trying to receive");
 
         this.socket.setSoTimeout(1000);
+        Log.d(TAG, "Trying to get InputStream");
         this.inputStream = this.socket.getInputStream();
+        Log.d(TAG, "Trying to read2");
         this.inputStream.read(ans, 0, 2);
 
         return ans;
@@ -81,9 +88,10 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
             ans = this.receive();
 
             commandPacketReader = new CommandPacketReader(ans);
-
-            // clear the id
-            this.availableId[commandPacketReader.getId()] = 0;
+            if (commandPacketReader.getType() == 1){
+                // clear the id
+                this.availableId[commandPacketReader.getId()] = 0;
+            }
 
             Log.d(TAG + " R", commandPacketReader.toString());
             Log.d("Receive-HiByte", String.format("%8s", Integer.toBinaryString(commandPacketReader.getHighByte())).replace(' ', '0'));
@@ -116,7 +124,6 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
         try {
             this.closeSocket();
         } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
         }
     }
 

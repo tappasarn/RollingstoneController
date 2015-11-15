@@ -183,6 +183,7 @@ public class AutoTab extends Fragment {
                     } else if (messages.equals("DONE")) {
                         currentTextView.setText("Script Execution is done");
                         currentTextView.setTextColor(getResources().getColor(R.color.editButton));
+                        stopButton.setEnabled(false);
                         Toast.makeText(getActivity(), "Script Execution is done", Toast.LENGTH_SHORT).show();
                     } else if (messages.equals("ERR")) {
                         resumeButton.setEnabled(true);

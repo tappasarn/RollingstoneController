@@ -140,6 +140,7 @@ public class ManualTab extends Fragment {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Log.d(DEBUG, "Oh! I'm touched!!");
 
                 // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
                 final String IP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
@@ -225,6 +226,8 @@ public class ManualTab extends Fragment {
                 // Only ACTION_DOWN and ACTION_MOVE needed to be dispatch
                 // to joystickLayout as well
                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
+
+                    Log.d(DEBUG, "ACTION_MOVE");
                     // Obtain MotionEvent object
                     MotionEvent motionEvent = MotionEvent.obtain(
                             SystemClock.uptimeMillis(),
@@ -240,9 +243,14 @@ public class ManualTab extends Fragment {
                     int direction = joystick.get8Direction();
                     int distance = Math.min(map((int) joystick.getDistance(), 0, 215, 0, 100), 100);
 
-
+                    Log.d(DEBUG, "commandId " + commandId);
+                    Log.d(DEBUG, "AV[CID] " + availableId[0]);
+                    Log.d(DEBUG, "AV[CID] " + availableId[1]);
+                    Log.d(DEBUG, "AV[CID] " + availableId[2]);
+                    Log.d(DEBUG, "AV[CID] " + availableId[3]);
                     // need to check whether the id is usable
                     if (availableId[commandId] == 0) {
+
                         commandPacketBuilder = new CommandPacketBuilder();
                         commandPacketBuilder.setType(0); // set type = REQ
 
@@ -257,8 +265,11 @@ public class ManualTab extends Fragment {
                         int[] command = commandPacketBuilder.Create();
 
                         // send direction and distance to the robot and Log it for debugging
+                        Log.d(DEBUG, "Im at before Tele2Robot");
                         telepathyToRobot = new TelepathyToRobot(getActivity(), IP, CONTROL_PORT, availableId);
+                        Log.d(DEBUG, "constructor created");
                         telepathyToRobot.execute(command[0], command[1]);
+                        Log.d(DEBUG, "EXECUTED <3");
                     }
 
                 }
