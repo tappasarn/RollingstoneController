@@ -102,6 +102,18 @@
             android:onClick="SaveButtonOnClick"
             android:nestedScrollingEnabled="false" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="m"
+            android:id="@+id/meter"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/AddButton"
+            android:layout_toStartOf="@+id/AddButton"
+            android:layout_marginRight="15dp"
+            android:layout_marginEnd="15dp" />
+
 
     </RelativeLayout>
 

@@ -41,8 +41,10 @@ public class AutoTab extends Fragment {
     private Banana banana;
     private static TelepathyToServer telepathyToServer;
     private SharedPreferences sharedPreferences;
+
     private Button startButton;
     private Button resumeButton;
+    private Button stopButton;
 
     private TextView pastpastTextView;
     private TextView pastTextView;
@@ -59,6 +61,7 @@ public class AutoTab extends Fragment {
     String robotIP;
     int controlPORT;
     int heartbeatPORT;
+    HeartBeat HB;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,6 +75,9 @@ public class AutoTab extends Fragment {
                 MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         this.startButton = (Button) getView().findViewById(R.id.startButton);
         this.resumeButton = (Button) getView().findViewById(R.id.resumeButton);
+        this.stopButton = (Button)getView().findViewById(R.id.stopButton);
+
+        stopButton.setEnabled(false);
         resumeButton.setEnabled(false);
 
         robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
@@ -160,18 +166,19 @@ public class AutoTab extends Fragment {
             handler = new Handler() {
                 public void handleMessage(android.os.Message msg) {
                     String messages = (String) msg.getData().getSerializable("status");
-                    if (messages == "OK") {
+                    if (messages.equals("OK")) {
                         actionSlider();
-                    } else if (messages == "CNNERR") {
+                    } else if (messages.equals("CNNERR")) {
                         Toast.makeText(getActivity(), "The operation is aborted, can't connect to server", Toast.LENGTH_SHORT).show();
-                    } else if (messages == "DONE"){
+                        startButton.setEnabled(true);
+                    } else if (messages.equals("DONE")){
                         currentTextView.setText("Script Execution is done");
                         currentTextView.setTextColor(getResources().getColor(R.color.editButton));
                         Toast.makeText(getActivity(), "Script Execution is done", Toast.LENGTH_SHORT).show();
-                    } else if (messages == "ERR") {
+                    } else if (messages.equals("ERR")) {
                         resumeButton.setEnabled(true);
                         Toast.makeText(getActivity(), "Obstacle found", Toast.LENGTH_SHORT).show();
-                    } else if (messages == "NOHB") {
+                    } else if (messages.equals("NOHB")) {
                         startButton.setEnabled(true);
                         Toast.makeText(getActivity(), "no HeartBeat", Toast.LENGTH_SHORT).show();
                     }
@@ -182,10 +189,12 @@ public class AutoTab extends Fragment {
                 @Override
                 public void onClick(View v) {
                     resumeIndicator = new ResumeIndicator();
-                    HeartBeat HB = new HeartBeat(robotIP, controlPORT, heartbeatPORT, packetList, handler, resumeIndicator);
+                    HB = new HeartBeat(robotIP, controlPORT, heartbeatPORT, packetList, handler, resumeIndicator);
                     HB.execute();
                     Log.d(DEBUG, "HeartBeat is executing");
                     startButton.setEnabled(false);
+                    stopButton.setEnabled(true);
+                    Toast.makeText(getActivity(), "Start Executing", Toast.LENGTH_SHORT).show();
                 }
             });
 
@@ -194,6 +203,20 @@ public class AutoTab extends Fragment {
                 public void onClick(View v) {
                     resumeIndicator.setInt(5);
                     resumeButton.setEnabled(false);
+                    Toast.makeText(getActivity(), "Resume Executing", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            stopButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    if(HB != null){
+                        HB.cancel(true);
+                        startButton.setEnabled(true);
+                        resumeButton.setEnabled(false);
+                        stopButton.setEnabled(false);
+                        Toast.makeText(getActivity(), "Stop Executing", Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
 

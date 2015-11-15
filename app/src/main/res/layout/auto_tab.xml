@@ -73,7 +73,7 @@
             android:layout_height="wrap_content"
             android:text="start"
             android:id="@+id/startButton"
-            android:enabled="false"
+            android:enabled="true"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="45dp"
@@ -86,8 +86,19 @@
             android:text="resume"
             android:id="@+id/resumeButton"
             android:layout_alignTop="@+id/startButton"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_toRightOf="@+id/currentAction"
+            android:layout_toEndOf="@+id/currentAction"
+            android:enabled="false" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="stop"
+            android:id="@+id/stopButton"
+            android:layout_alignTop="@+id/startButton"
+            android:layout_toLeftOf="@+id/currentAction"
+            android:layout_toStartOf="@+id/currentAction"
+            android:enabled="false" />
 
     </RelativeLayout>
 
