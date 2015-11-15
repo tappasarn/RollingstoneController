@@ -47,6 +47,12 @@ public class MainActivity extends ActionBarActivity {
     // res_pos 0 = 480p, 1 = 720p, 2 = 1080p
 
     public static ArrayList<String> selectedScripts;
+    //AUTOTAB THINGS
+    public static Integer autoTabcurrentIndex;
+
+    public static boolean startButtonState;
+    public static boolean stopButtonState;
+    public static boolean resumeButtonState;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

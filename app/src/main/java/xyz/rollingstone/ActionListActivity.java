@@ -69,6 +69,7 @@ public class ActionListActivity extends Activity {
 
             }
         };
+
         np.setFormatter(formatter);
         np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 

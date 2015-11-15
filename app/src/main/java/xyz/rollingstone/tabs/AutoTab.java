@@ -78,8 +78,13 @@ public class AutoTab extends Fragment {
         this.resumeButton = (Button) getView().findViewById(R.id.resumeButton);
         this.stopButton = (Button) getView().findViewById(R.id.stopButton);
 
-        stopButton.setEnabled(false);
-        resumeButton.setEnabled(false);
+        MainActivity.startButtonState = true;
+        MainActivity.stopButtonState = false;
+        MainActivity.resumeButtonState = false;
+
+        startButton.setEnabled(MainActivity.startButtonState);
+        stopButton.setEnabled(MainActivity.stopButtonState);
+        resumeButton.setEnabled(MainActivity.resumeButtonState);
 
         robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
         controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
@@ -259,12 +264,33 @@ public class AutoTab extends Fragment {
         robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
         controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
         heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
+
+        if (MainActivity.autoTabcurrentIndex != null){
+            currentIndex = MainActivity.autoTabcurrentIndex-1;
+            actionSlider();
+        } else {
+            currentIndex = 0;
+        }
+
+        startButton.setEnabled(MainActivity.startButtonState);
+        stopButton.setEnabled(MainActivity.stopButtonState);
+        resumeButton.setEnabled(MainActivity.resumeButtonState);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MainActivity.autoTabcurrentIndex = currentIndex;
+
+        MainActivity.startButtonState = startButton.isEnabled();
+        MainActivity.stopButtonState= stopButton.isEnabled();
+        MainActivity.resumeButtonState = resumeButton.isEnabled();
     }
 
     /**
      * use to slide the action to show what is executing
      */
-    public int actionSlider() {
+    public void actionSlider() {
         if (currentIndex - 1 < 0) {
             pastpastTextView.setText("");
         } else {
@@ -292,7 +318,6 @@ public class AutoTab extends Fragment {
         }
 
         currentIndex++;
-        return 0;
     }
 
 }
