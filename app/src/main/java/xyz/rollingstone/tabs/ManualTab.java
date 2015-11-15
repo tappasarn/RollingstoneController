@@ -112,7 +112,9 @@ public class ManualTab extends Fragment {
         // Locate layouts and views
         imageView = (ImageView) getView().findViewById(R.id.liveview);
         frameLayout = (FrameLayout) getView().findViewById(R.id.frame_layout);
-        joystickLayout = (RelativeLayout) getView().findViewById(R.id.joystick);
+        if (joystickLayout == null) {
+            joystickLayout = (RelativeLayout) getView().findViewById(R.id.joystick);
+        }
 
         // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
         final String SERVER_IP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
@@ -138,6 +140,7 @@ public class ManualTab extends Fragment {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+
                 // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
                 final String IP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
                 final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
@@ -194,6 +197,7 @@ public class ManualTab extends Fragment {
                     isJoystickShown = false;
 
                     // Remove joystick from root view
+                    joystickLayout.dispatchTouchEvent(event);
                     frameLayout.removeView(joystickLayout);
 
                     // need to check whether the id is usable
@@ -231,10 +235,11 @@ public class ManualTab extends Fragment {
                             0
                     );
 
+                    joystickLayout.dispatchTouchEvent(motionEvent);
+
                     int direction = joystick.get8Direction();
                     int distance = Math.min(map((int) joystick.getDistance(), 0, 215, 0, 100), 100);
 
-                    joystickLayout.dispatchTouchEvent(motionEvent);
 
                     // need to check whether the id is usable
                     if (availableId[commandId] == 0) {

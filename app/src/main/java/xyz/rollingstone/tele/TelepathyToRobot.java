@@ -65,6 +65,8 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
     @Override
     protected Void doInBackground(Integer... params) {
 
+        Log.d(TAG, "RATTHANAN IS HERE ");
+
         try {
             commandPacketReader = new CommandPacketReader(params);
 

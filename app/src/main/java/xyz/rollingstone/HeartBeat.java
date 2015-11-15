@@ -141,7 +141,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
      */
     @Override
     protected Void doInBackground(Void... avoid) {
-
+        Log.d(TAG,"HB DOINBG");
         // loop through all commands
         for (int[] HiLo : packetList) {
 
@@ -149,10 +149,12 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
             int count = 0;
             int maxTries = 5;
             boolean tryNotExceed = true;
+            Log.d(TAG, "HB DOINBG1 " + this.isCancelled() );
 
-            while (tryNotExceed && !isCancelled()) {
+            while (tryNotExceed && !this.isCancelled()) {
                 try {
 
+                    Log.d(TAG, "HB DOINBG2 " + this.isCancelled() );
                     // send a command to the robot
                     this.sendCommand(HiLo[0], HiLo[1]);
                     commandPacketReader = new CommandPacketReader(HiLo);
@@ -175,7 +177,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
                         // loop sending HeartBeat every 5*1000 with unknown unit until get the ACK
                         // if the ack is received, exit this loop and continue with next command
-                        while (!getHeartBeatYet && !isCancelled()) {
+                        while (!getHeartBeatYet && !this.isCancelled()) {
                             try {
                                 // send HEART_REQ
                                 this.sendHeartBeat(0b0000_0000);

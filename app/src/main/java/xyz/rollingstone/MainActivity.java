@@ -54,6 +54,8 @@ public class MainActivity extends ActionBarActivity {
     public static boolean stopButtonState;
     public static boolean resumeButtonState;
 
+    public static final String DEBUG_TAG = "MainAct.DEBUG";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -102,6 +104,19 @@ public class MainActivity extends ActionBarActivity {
                 Toast.makeText(getApplicationContext(), String.valueOf(toggle), Toast.LENGTH_LONG).show();
             }
         };
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(DEBUG_TAG, "ONPAUSE");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(DEBUG_TAG, "ONRESUME");
 
     }
 
