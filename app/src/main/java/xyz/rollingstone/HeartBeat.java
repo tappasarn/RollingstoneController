@@ -150,7 +150,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
             int maxTries = 5;
             boolean tryNotExceed = true;
 
-            while (tryNotExceed) {
+            while (tryNotExceed && !isCancelled()) {
                 try {
 
                     // send a command to the robot
@@ -176,7 +176,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
                         // loop sending HeartBeat every 5*1000 with unknown unit until get the ACK
                         // if the ack is received, exit this loop and continue with next command
-                        while (!getHeartBeatYet) {
+                        while (!getHeartBeatYet && !isCancelled()) {
                             try {
                                 // send HEART_REQ
                                 this.sendHeartBeat(0b0000_0000);
@@ -246,11 +246,13 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                             } catch (Exception e) {
                                 Log.d(TAG2, e.getMessage());
                             }
+                            //END WHILE(GET_HB)
+                            Thread.sleep(1000);
                         }
                     } else {
                         Log.d(TAG, "error occurred");
                     }
-                    Thread.sleep(3000);
+
                 } catch (UnknownHostException e) {
                     e.printStackTrace();
                     Log.d(TAG, "try " + count + " out of " + maxTries + e.getMessage());
@@ -276,12 +278,21 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                 //END tryNotExceed
             }
         }
-        Message msg = Message.obtain();
-        Bundle b = new Bundle();
-        b.putSerializable("status", "DONE");
-        msg.setData(b);
-        handler.sendMessage(msg);
-        Log.d(TAG, "DONE");
+        if (this.isCancelled()){
+            Message msg = Message.obtain();
+            Bundle b = new Bundle();
+            b.putSerializable("status", "CANCL");
+            msg.setData(b);
+            handler.sendMessage(msg);
+            Log.d(TAG, "DONE");
+        }else {
+            Message msg = Message.obtain();
+            Bundle b = new Bundle();
+            b.putSerializable("status", "DONE");
+            msg.setData(b);
+            handler.sendMessage(msg);
+            Log.d(TAG, "DONE");
+        }
         return null;
     }
 }

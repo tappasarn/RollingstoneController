@@ -70,6 +70,7 @@ public class ActionListActivity extends Activity {
             }
         };
         np.setFormatter(formatter);
+        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         try {
             // connect to db and get all actions from the table

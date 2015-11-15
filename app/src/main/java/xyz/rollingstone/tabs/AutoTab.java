@@ -51,7 +51,6 @@ public class AutoTab extends Fragment {
     private TextView currentTextView;
     private TextView nextTextView;
     private TextView nextnextTextView;
-    private Integer currentIndex = 0;
     private Handler handler;
 
     public ResumeIndicator resumeIndicator;
@@ -62,6 +61,8 @@ public class AutoTab extends Fragment {
     int controlPORT;
     int heartbeatPORT;
     HeartBeat HB;
+    Integer currentIndex;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,7 +76,7 @@ public class AutoTab extends Fragment {
                 MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         this.startButton = (Button) getView().findViewById(R.id.startButton);
         this.resumeButton = (Button) getView().findViewById(R.id.resumeButton);
-        this.stopButton = (Button)getView().findViewById(R.id.stopButton);
+        this.stopButton = (Button) getView().findViewById(R.id.stopButton);
 
         stopButton.setEnabled(false);
         resumeButton.setEnabled(false);
@@ -84,6 +85,7 @@ public class AutoTab extends Fragment {
         controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
         heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
 
+        currentIndex = 0;
         /*
             To Adjust the color of TextView
          */
@@ -143,8 +145,7 @@ public class AutoTab extends Fragment {
             nextTextView.setText("");
             nextnextTextView.setText("");
             startButton.setEnabled(true);
-            Integer currentIndex = 0;
-
+            currentIndex = 0;
             if (displayList.size() > 2) {
                 currentTextView.setText(displayList.get(currentIndex));
                 nextTextView.setText(displayList.get(currentIndex + 1));
@@ -171,7 +172,9 @@ public class AutoTab extends Fragment {
                     } else if (messages.equals("CNNERR")) {
                         Toast.makeText(getActivity(), "The operation is aborted, can't connect to server", Toast.LENGTH_SHORT).show();
                         startButton.setEnabled(true);
-                    } else if (messages.equals("DONE")){
+                        stopButton.setEnabled(false);
+                        resumeButton.setEnabled(false);
+                    } else if (messages.equals("DONE")) {
                         currentTextView.setText("Script Execution is done");
                         currentTextView.setTextColor(getResources().getColor(R.color.editButton));
                         Toast.makeText(getActivity(), "Script Execution is done", Toast.LENGTH_SHORT).show();
@@ -181,6 +184,31 @@ public class AutoTab extends Fragment {
                     } else if (messages.equals("NOHB")) {
                         startButton.setEnabled(true);
                         Toast.makeText(getActivity(), "no HeartBeat", Toast.LENGTH_SHORT).show();
+                    } else if (messages.equals("CANCL")) {
+
+                        pastpastTextView.setText("");
+                        pastTextView.setText("");
+                        currentTextView.setText("");
+                        nextTextView.setText("");
+                        nextnextTextView.setText("");
+                        startButton.setEnabled(true);
+                        currentIndex = 0;
+
+                        if (displayList.size() > 2) {
+                            currentTextView.setText(displayList.get(currentIndex));
+                            nextTextView.setText(displayList.get(currentIndex + 1));
+                            nextnextTextView.setText(displayList.get(currentIndex + 2));
+                        } else if (displayList.size() == 2) {
+                            currentTextView.setText(displayList.get(currentIndex));
+                            nextTextView.setText(displayList.get(currentIndex + 1));
+                        } else if (displayList.size() == 1) {
+                            currentTextView.setText(displayList.get(currentIndex));
+                        } else {
+                            currentTextView.setText("Script has no action/ no script is selected");
+                            startButton.setEnabled(false);
+                        }
+
+                        Toast.makeText(getActivity(), "Stop Executing Successfully", Toast.LENGTH_SHORT).show();
                     }
                 }
             };
@@ -207,16 +235,15 @@ public class AutoTab extends Fragment {
                 }
             });
 
-            stopButton.setOnClickListener(new View.OnClickListener(){
+            stopButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(HB != null){
-                        HB.cancel(true);
-                        startButton.setEnabled(true);
-                        resumeButton.setEnabled(false);
-                        stopButton.setEnabled(false);
-                        Toast.makeText(getActivity(), "Stop Executing", Toast.LENGTH_SHORT).show();
-                    }
+                    HB.cancel(true);
+                    startButton.setEnabled(true);
+                    resumeButton.setEnabled(false);
+                    stopButton.setEnabled(false);
+                    Toast.makeText(getActivity(), "Send Stop Command", Toast.LENGTH_SHORT).show();
+                    currentIndex = 0;
                 }
             });
 
@@ -236,7 +263,6 @@ public class AutoTab extends Fragment {
 
     /**
      * use to slide the action to show what is executing
-     *
      */
     public int actionSlider() {
         if (currentIndex - 1 < 0) {
