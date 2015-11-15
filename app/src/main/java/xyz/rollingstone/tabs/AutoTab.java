@@ -62,7 +62,7 @@ public class AutoTab extends Fragment {
     int heartbeatPORT;
     HeartBeat HB;
     Integer currentIndex;
-
+    private boolean executeOnResume = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -72,6 +72,7 @@ public class AutoTab extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
         this.sharedPreferences = getActivity().getSharedPreferences(
                 MainActivity.PREFERENCES, Context.MODE_PRIVATE);
         this.startButton = (Button) getView().findViewById(R.id.startButton);
@@ -255,37 +256,69 @@ public class AutoTab extends Fragment {
         } else {
             Log.d(DEBUG, "No Automated Script set yet");
         }
-
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(DEBUG, "AUTOTAB ONRESUME");
-        robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
-        controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
-        heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
+        if(executeOnResume) {
+            Log.d(DEBUG, "AUTOTAB ONRESUME");
+            robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
+            controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+            heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
 
-        if (MainActivity.autoTabcurrentIndex != 0) {
-            currentIndex = MainActivity.autoTabcurrentIndex - 1;
-            actionSlider();
+            startButton.setEnabled(MainActivity.startButtonState);
+            stopButton.setEnabled(MainActivity.stopButtonState);
+            resumeButton.setEnabled(MainActivity.resumeButtonState);
+
+            if (MainActivity.autoTabcurrentIndex != 0) {
+                currentIndex = MainActivity.autoTabcurrentIndex - 1;
+                actionSlider();
+            } else {
+                /**
+                 * Set the initial script command
+                 */
+                pastpastTextView.setText("");
+                pastTextView.setText("");
+                currentTextView.setText("");
+                nextTextView.setText("");
+                nextnextTextView.setText("");
+                startButton.setEnabled(true);
+                currentIndex = 0;
+
+                if (displayList.size() > 2) {
+                    currentTextView.setText(displayList.get(currentIndex));
+                    nextTextView.setText(displayList.get(currentIndex + 1));
+                    nextnextTextView.setText(displayList.get(currentIndex + 2));
+                } else if (displayList.size() == 2) {
+                    currentTextView.setText(displayList.get(currentIndex));
+                    nextTextView.setText(displayList.get(currentIndex + 1));
+                } else if (displayList.size() == 1) {
+                    currentTextView.setText(displayList.get(currentIndex));
+                } else {
+                    currentTextView.setText("Script has no action/ no script is selected");
+                    startButton.setEnabled(false);
+                }
+            }
         } else {
-            currentIndex = 0;
+            executeOnResume = true;
         }
 
-        startButton.setEnabled(MainActivity.startButtonState);
-        stopButton.setEnabled(MainActivity.stopButtonState);
-        resumeButton.setEnabled(MainActivity.resumeButtonState);
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(DEBUG, "AUTOTAB ONPAUSE");
         MainActivity.autoTabcurrentIndex = currentIndex;
 
         MainActivity.startButtonState = startButton.isEnabled();
         MainActivity.stopButtonState = stopButton.isEnabled();
         MainActivity.resumeButtonState = resumeButton.isEnabled();
+
+        Log.d(DEBUG, "startState = " + MainActivity.startButtonState);
+        Log.d(DEBUG, "stopState = " + MainActivity.stopButtonState);
+        Log.d(DEBUG, "resumeState = " + MainActivity.resumeButtonState);
     }
 
     /**

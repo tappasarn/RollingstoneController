@@ -171,7 +171,6 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                     Log.d(TAG, "Recv2 = " + String.format("%8s", Integer.toBinaryString(commandPacketReader.getLowByte())).replace(' ', '0'));
 
                     if (commandPacketReader.getType() == 3) { // if get the type of ACK_A_TYPE
-                        Log.d(TAG, "GOT ACK_A_TYPE from the robot");
                         boolean getHeartBeatYet = false;
 
                         // loop sending HeartBeat every 5*1000 with unknown unit until get the ACK
