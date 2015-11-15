@@ -34,7 +34,7 @@
                 app:borderWidth="0dp"
                 app:backgroundTint="@color/addButton"
                 app:fabSize="normal"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="0dp"
                 android:layout_gravity="center_vertical" />
 
             <android.support.design.widget.FloatingActionButton
@@ -48,7 +48,7 @@
                 app:borderWidth="0dp"
                 app:backgroundTint="@color/editButton"
                 app:fabSize="normal"
-                android:layout_marginLeft="25dp" />
+                android:layout_marginLeft="0dp" />
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/uploadButton"
@@ -60,7 +60,7 @@
                 app:backgroundTint="@color/uploadButton"
                 app:fabSize="normal"
                 android:layout_marginRight="0dp"
-                android:layout_marginLeft="25dp"
+                android:layout_marginLeft="0dp"
                 android:layout_gravity="center_vertical" />
 
             <android.support.design.widget.FloatingActionButton
@@ -74,7 +74,7 @@
                 app:fabSize="normal"
                 android:layout_gravity="center|right"
                 android:layout_marginRight="0dp"
-                android:layout_marginLeft="25dp" />
+                android:layout_marginLeft="0dp" />
         </LinearLayout>
 
     </FrameLayout>
