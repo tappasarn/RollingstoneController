@@ -29,6 +29,8 @@ import xyz.rollingstone.packet.CommandPacketBuilder;
 import xyz.rollingstone.HeartBeat;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
+import xyz.rollingstone.packet.CommandPacketReader;
+import xyz.rollingstone.tele.TelepathyToRobot;
 import xyz.rollingstone.tele.TelepathyToServer;
 
 public class AutoTab extends Fragment {
@@ -224,10 +226,14 @@ public class AutoTab extends Fragment {
             startButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    robotIP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
+                    controlPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+                    heartbeatPORT = sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
+
                     resumeIndicator = new ResumeIndicator();
                     HB = new HeartBeatThread(robotIP, controlPORT, heartbeatPORT, packetList, handler, resumeIndicator);
-                    //HB.cancel(false);
                     HB.start();
+
                     Log.d(DEBUG, "HeartBeat is executing");
                     startButton.setEnabled(false);
                     stopButton.setEnabled(true);
@@ -253,7 +259,46 @@ public class AutoTab extends Fragment {
                     resumeButton.setEnabled(false);
                     stopButton.setEnabled(false);
                     Toast.makeText(getActivity(), "Send Stop Command", Toast.LENGTH_SHORT).show();
+
+                    CommandPacketBuilder commandPacketBuilder = new CommandPacketBuilder();
+                    commandPacketBuilder.setType(0); // set type = REQ_M_TYPE
+
+                    // special type, don't include it in availableId
+                    commandPacketBuilder.setId(0);
+
+                    commandPacketBuilder.setCommand(0);
+                    commandPacketBuilder.setValue(0);
+
+                    //execute the correct value
+                    int[] command = commandPacketBuilder.Create();
+
+                    robotIP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
+                    controlPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+
+                    TelepathyToRobot telepathyToRobot = new TelepathyToRobot(getActivity(), robotIP, controlPORT, new int[1]);
+                    telepathyToRobot.execute(command[0],command[1]);
+
+                    pastpastTextView.setText("");
+                    pastTextView.setText("");
+                    currentTextView.setText("");
+                    nextTextView.setText("");
+                    nextnextTextView.setText("");
+                    startButton.setEnabled(true);
                     currentIndex = 0;
+
+                    if (displayList.size() > 2) {
+                        currentTextView.setText(displayList.get(currentIndex));
+                        nextTextView.setText(displayList.get(currentIndex + 1));
+                        nextnextTextView.setText(displayList.get(currentIndex + 2));
+                    } else if (displayList.size() == 2) {
+                        currentTextView.setText(displayList.get(currentIndex));
+                        nextTextView.setText(displayList.get(currentIndex + 1));
+                    } else if (displayList.size() == 1) {
+                        currentTextView.setText(displayList.get(currentIndex));
+                    } else {
+                        currentTextView.setText("Script has no action/ no script is selected");
+                        startButton.setEnabled(false);
+                    }
                 }
             });
 

@@ -137,8 +137,6 @@ public class TelepathyToServer extends AsyncTask<Integer, Void, Void> {
             msg.setData(b);
             handler.sendMessage(msg);
         } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
-
             Message msg = Message.obtain();
             Bundle b = new Bundle();
             b.putSerializable("status", "NO");
