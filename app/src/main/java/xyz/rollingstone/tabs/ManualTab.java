@@ -9,7 +9,6 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -20,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import xyz.rollingstone.liveview.LiveViewCallback;
 import xyz.rollingstone.packet.CommandPacketBuilder;
 import xyz.rollingstone.JoyStick;
 import xyz.rollingstone.MainActivity;
@@ -28,7 +28,7 @@ import xyz.rollingstone.tele.TelepathyToRobot;
 import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
 import xyz.rollingstone.tele.TelepathyToRobotThread;
 
-public class ManualTab extends Fragment {
+public class ManualTab extends Fragment implements LiveViewCallback {
 
     // Define TAG for logcat filtering
     final public static String DEBUG = "me.hibikiledo.DEBUG";
@@ -76,14 +76,14 @@ public class ManualTab extends Fragment {
         Handler for UI thread
             This allows LiveViewUpdater to set new imageData and trigger update
      */
-    public Handler handler;
+    public Handler liveViewHandler;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // create handler
-        handler = new Handler(new Handler.Callback() {
+        // create liveViewHandler
+        liveViewHandler = new Handler(new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 // Get message type
@@ -119,12 +119,7 @@ public class ManualTab extends Fragment {
             joystickLayout = (RelativeLayout) getView().findViewById(R.id.joystick);
         }
 
-        // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
-        final String SERVER_IP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
-        final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
-
-        //Get Port from sharedPreference use for control
-        final int CONTROL_PORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, 0);
+        // ------------------------------------- JOY STICK ----------------------------------
 
         // Create our joystick
         joystick = new JoyStick(getActivity(), joystickLayout, R.drawable.joystick_button);
@@ -296,6 +291,14 @@ public class ManualTab extends Fragment {
             }
         });
 
+        // ------------------------------- END JOY STICK -----------------------------------------
+
+        // ------------------------------- LIVE VIEW STACK ---------------------------------------
+
+        // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
+        final String SERVER_IP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
+        final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+
         // Creating new thread for refreshing ImageView
         updater = new LiveViewUpdaterSocket(this, SERVER_IP, LIVEVIEW_PORT);
         updater.start();
@@ -325,13 +328,15 @@ public class ManualTab extends Fragment {
     }
 
     // Set image data passed by updater thread as local data
+    @Override
     public void setLiveViewData(Bitmap imageData) {
         this.imageData = imageData;
     }
 
-    // Allow updater thread to access the handler
-    public Handler getHandler() {
-        return this.handler;
+    // Allow updater thread to access the liveViewHandler
+    @Override
+    public Handler getLiveViewHandler() {
+        return this.liveViewHandler;
     }
 
     // Function to map value from one range to another range

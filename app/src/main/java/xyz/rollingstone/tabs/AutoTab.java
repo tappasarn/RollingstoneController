@@ -2,9 +2,11 @@ package xyz.rollingstone.tabs;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -12,46 +14,42 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 import xyz.rollingstone.Action;
 import xyz.rollingstone.ActionSQLHelper;
 import xyz.rollingstone.HeartBeatThread;
 import xyz.rollingstone.ResumeIndicator;
-import xyz.rollingstone.packet.Banana;
+import xyz.rollingstone.liveview.LiveViewCallback;
+import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
 import xyz.rollingstone.packet.CommandPacketBuilder;
-import xyz.rollingstone.HeartBeat;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
-import xyz.rollingstone.tele.TelepathyToServer;
 
-public class AutoTab extends Fragment {
+public class AutoTab extends Fragment implements LiveViewCallback {
 
-    public static String tableName;
     private static List<String> displayList;
     private static List<String> anotherDisplayList;
     private static List<int[]> packetList;
     private static List<String> selectedScripts;
-    public static final String DEBUG = "AutoTab.DEBUG";
-    private Banana banana;
-    private static TelepathyToServer telepathyToServer;
+
     private SharedPreferences sharedPreferences;
 
     private Button startButton;
     private Button resumeButton;
     private Button stopButton;
 
-    private TextView pastpastTextView;
+    private TextView pastPastTextView;
     private TextView pastTextView;
     private TextView currentTextView;
     private TextView nextTextView;
-    private TextView nextnextTextView;
+    private TextView nextNextTextView;
+
     private Handler handler;
 
     public ResumeIndicator resumeIndicator;
@@ -63,22 +61,89 @@ public class AutoTab extends Fragment {
     int heartbeatPORT;
     HeartBeatThread HB;
     Integer currentIndex;
+
     private boolean executeOnResume = false;
+
+    // ----------------------------- LIVE VIEW STACK ----------------------------
+
+    // Define TAG for logcat filtering
+    final public static String DEBUG = "me.hibikiledo.DEBUG";
+    // Define TAG for sending message betweeb UI Thread and LiveViewUpdater Thread
+    final public static String MSG = "me.hibikiledo.MESSAGE";
+    // Define type of MSG. In this case, LIVEVIEW message which contains Bitmap
+    final public static int LIVEVIEW_MSG = 0;
+
+    // Thread for performing image fetching from the robot
+    private LiveViewUpdaterSocket updater = null;
+    // For showing live view
+    private ImageView imageView;
+    // Hold bitmap data for displaying in imageView
+    private Bitmap imageData;
+
+    /*
+        Handler for UI thread
+            This allows LiveViewUpdater to set new imageData and trigger update
+     */
+    public Handler liveViewHandler;
+
+    // --------------------------- END LIVE VIEW STACK ---------------------------
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // create liveViewHandler
+        liveViewHandler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                // Get message type
+                int msgType = msg.getData().getInt(MSG);
+                // If message type is LIVEVIEW_MSG, this implies that, new bitmap data has been set.
+                // We are free to update Bitmap data in imageView.
+                if (msgType == LIVEVIEW_MSG) {
+                    imageView.setImageBitmap(imageData);
+                }
+                return false;
+            }
+        });
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.auto_tab, container, false);
+        // Inflate layout as view
+        View view = inflater.inflate(R.layout.auto_tab, container, false);
+
+        // Locate UI elements
+        imageView = (ImageView) view.findViewById(R.id.imageView);
+        sharedPreferences = getActivity().getSharedPreferences(MainActivity.PREFERENCES, Context.MODE_PRIVATE);
+        startButton = (Button) view.findViewById(R.id.startButton);
+        resumeButton = (Button) view.findViewById(R.id.resumeButton);
+        stopButton = (Button) view.findViewById(R.id.stopButton);
+
+        // Locate UI components related to script commands and customize them
+        pastPastTextView = (TextView) view.findViewById(R.id.pastpastAction);
+        pastPastTextView.setTextColor(Color.argb(38, 0, 0, 0));
+
+        pastTextView = ((TextView) view.findViewById(R.id.pastAction));
+        pastTextView.setTextColor(Color.argb(38, 0, 0, 0));
+
+        currentTextView = (TextView) view.findViewById(R.id.currentAction);
+        currentTextView.setTextColor(Color.argb(87, 0, 0, 0));
+
+        nextTextView = (TextView) view.findViewById(R.id.nextAction);
+        nextTextView.setTextColor(Color.argb(54, 0, 0, 0));
+
+        nextNextTextView = (TextView) view.findViewById(R.id.nextNextAction);
+        nextNextTextView.setTextColor(Color.argb(54, 0, 0, 0));
+
+        return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-        this.sharedPreferences = getActivity().getSharedPreferences(
-                MainActivity.PREFERENCES, Context.MODE_PRIVATE);
-        this.startButton = (Button) getView().findViewById(R.id.startButton);
-        this.resumeButton = (Button) getView().findViewById(R.id.resumeButton);
-        this.stopButton = (Button) getView().findViewById(R.id.stopButton);
 
         MainActivity.startButtonState = true;
         MainActivity.stopButtonState = false;
@@ -88,28 +153,11 @@ public class AutoTab extends Fragment {
         stopButton.setEnabled(MainActivity.stopButtonState);
         resumeButton.setEnabled(MainActivity.resumeButtonState);
 
-        robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
-        controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
-        heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
+        robotIP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
+        controlPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+        heartbeatPORT = sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
 
         currentIndex = 0;
-        /*
-            To Adjust the color of TextView
-         */
-        pastpastTextView = (TextView) getView().findViewById(R.id.pastpastAction);
-        pastpastTextView.setTextColor(Color.argb(38, 0, 0, 0));
-
-        pastTextView = ((TextView) getView().findViewById(R.id.pastAction));
-        pastTextView.setTextColor(Color.argb(38, 0, 0, 0));
-
-        currentTextView = (TextView) getView().findViewById(R.id.currentAction);
-        currentTextView.setTextColor(Color.argb(87, 0, 0, 0));
-
-        nextTextView = (TextView) getView().findViewById(R.id.nextAction);
-        nextTextView.setTextColor(Color.argb(54, 0, 0, 0));
-
-        nextnextTextView = (TextView) getView().findViewById(R.id.nextNextAction);
-        nextnextTextView.setTextColor(Color.argb(54, 0, 0, 0));
 
         if (MainActivity.selectedScripts != null) {
 
@@ -123,8 +171,8 @@ public class AutoTab extends Fragment {
             CommandPacketBuilder commandPacketBuilder;
 
             /* loop through every script, we are using 2 Lists here, 1 for keeping display data to be displayed on UI,
-              * another one is to keep the commandPacketList to be sent to the robot
-               * */
+             *  another one is to keep the commandPacketList to be sent to the robot
+             */
             for (String script : selectedScripts) {
                 List<Action> actionList = db.getAllActionsFromTable(script);
 
@@ -143,30 +191,33 @@ public class AutoTab extends Fragment {
                 }
             }
 
-            /**
-             * Set the initial script command
-             */
-            pastpastTextView.setText("");
+            // Initialize view and list values when first load the autoTab
+
+            pastPastTextView.setText("");
             pastTextView.setText("");
             currentTextView.setText("");
             nextTextView.setText("");
-            nextnextTextView.setText("");
+            nextNextTextView.setText("");
+
             startButton.setEnabled(true);
             currentIndex = 0;
+
             if (displayList.size() > 2) {
                 currentTextView.setText(displayList.get(currentIndex));
                 nextTextView.setText(displayList.get(currentIndex + 1));
-                nextnextTextView.setText(displayList.get(currentIndex + 2));
-            } else if (displayList.size() == 2) {
+                nextNextTextView.setText(displayList.get(currentIndex + 2));
+            }
+            else if (displayList.size() == 2) {
                 currentTextView.setText(displayList.get(currentIndex));
                 nextTextView.setText(displayList.get(currentIndex + 1));
-            } else if (displayList.size() == 1) {
+            }
+            else if (displayList.size() == 1) {
                 currentTextView.setText(displayList.get(currentIndex));
-            } else {
+            }
+            else {
                 currentTextView.setText("Script has no action/ no script is selected");
                 startButton.setEnabled(false);
             }
-
 
             /**
              * To handle the message passed from HeartBeat to here
@@ -194,18 +245,18 @@ public class AutoTab extends Fragment {
                         Toast.makeText(getActivity(), "no HeartBeat", Toast.LENGTH_SHORT).show();
                     } else if (messages.equals("CANCL")) {
 
-                        pastpastTextView.setText("");
+                        pastPastTextView.setText("");
                         pastTextView.setText("");
                         currentTextView.setText("");
                         nextTextView.setText("");
-                        nextnextTextView.setText("");
+                        nextNextTextView.setText("");
                         startButton.setEnabled(true);
                         currentIndex = 0;
 
                         if (displayList.size() > 2) {
                             currentTextView.setText(displayList.get(currentIndex));
                             nextTextView.setText(displayList.get(currentIndex + 1));
-                            nextnextTextView.setText(displayList.get(currentIndex + 2));
+                            nextNextTextView.setText(displayList.get(currentIndex + 2));
                         } else if (displayList.size() == 2) {
                             currentTextView.setText(displayList.get(currentIndex));
                             nextTextView.setText(displayList.get(currentIndex + 1));
@@ -260,13 +311,27 @@ public class AutoTab extends Fragment {
         } else {
             Log.d(DEBUG, "No Automated Script set yet");
         }
+
+        // ----------------------------- LIVE VIEW STACK ----------------------------
+
+        // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
+        final String SERVER_IP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
+        final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+
+        // Creating new thread for refreshing ImageView
+        updater = new LiveViewUpdaterSocket(this, SERVER_IP, LIVEVIEW_PORT);
+        updater.start();
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
         if(executeOnResume) {
+
             Log.d(DEBUG, "AUTOTAB ONRESUME");
+
             robotIP = this.sharedPreferences.getString(MainActivity.ROBOT_IP, null);
             controlPORT = this.sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
             heartbeatPORT = this.sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
@@ -282,11 +347,11 @@ public class AutoTab extends Fragment {
                 /**
                  * Set the initial script command
                  */
-                pastpastTextView.setText("");
+                pastPastTextView.setText("");
                 pastTextView.setText("");
                 currentTextView.setText("");
                 nextTextView.setText("");
-                nextnextTextView.setText("");
+                nextNextTextView.setText("");
                 startButton.setEnabled(true);
                 currentIndex = 0;
 
@@ -294,7 +359,7 @@ public class AutoTab extends Fragment {
                     if (displayList.size() > 2) {
                         currentTextView.setText(displayList.get(currentIndex));
                         nextTextView.setText(displayList.get(currentIndex + 1));
-                        nextnextTextView.setText(displayList.get(currentIndex + 2));
+                        nextNextTextView.setText(displayList.get(currentIndex + 2));
                     } else if (displayList.size() == 2) {
                         currentTextView.setText(displayList.get(currentIndex));
                         nextTextView.setText(displayList.get(currentIndex + 1));
@@ -315,11 +380,24 @@ public class AutoTab extends Fragment {
             executeOnResume = true;
         }
 
+        // ----------------------------- LIVE VIEW STACK ----------------------------
+        Log.d(DEBUG, "onResume called. Starting updater thread if none exist ..");
+        if (!updater.isAlive()) {
+
+            // Get IP and PORT from sharedPreferences in LiveViewUpdaterSocket
+            String SERVER_IP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
+            int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+
+            updater = new LiveViewUpdaterSocket(this, SERVER_IP, PORT);
+            updater.start();
+        }
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
+
         Log.d(DEBUG, "AUTOTAB ONPAUSE");
         MainActivity.autoTabcurrentIndex = currentIndex;
 
@@ -330,16 +408,23 @@ public class AutoTab extends Fragment {
         Log.d(DEBUG, "startState = " + MainActivity.startButtonState);
         Log.d(DEBUG, "stopState = " + MainActivity.stopButtonState);
         Log.d(DEBUG, "resumeState = " + MainActivity.resumeButtonState);
+
+        // ----------------------------- LIVE VIEW STACK ----------------------------
+
+        // When on pause is called, stop the updater thread
+        Log.d(DEBUG, "onPause called. Stopping updater thread ..");
+        updater.kill();
     }
+
 
     /**
      * use to slide the action to show what is executing
      */
     public void actionSlider() {
         if (currentIndex - 1 < 0) {
-            pastpastTextView.setText("");
+            pastPastTextView.setText("");
         } else {
-            pastpastTextView.setText(displayList.get(currentIndex - 1));
+            pastPastTextView.setText(displayList.get(currentIndex - 1));
         }
 
         if (currentIndex + 1 > displayList.size() - 1) {
@@ -357,12 +442,24 @@ public class AutoTab extends Fragment {
         }
 
         if (currentIndex + 3 > displayList.size() - 1) {
-            nextnextTextView.setText("");
+            nextNextTextView.setText("");
         } else {
-            nextnextTextView.setText(displayList.get(currentIndex + 3));
+            nextNextTextView.setText(displayList.get(currentIndex + 3));
         }
 
         currentIndex++;
+    }
+
+    // Allow updater thread to access the liveViewHandler
+    @Override
+    public Handler getLiveViewHandler() {
+        return liveViewHandler;
+    }
+
+    // Set image data passed by updater thread as local data
+    @Override
+    public void setLiveViewData(Bitmap imageData) {
+        this.imageData = imageData;
     }
 
 }
