@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,7 +67,7 @@ public class SettingTab extends Fragment {
         /*
             Populate values of robot&server IP and PORT into EditTexts if the values exist
          */
-        String robotIP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        String robotIP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
         int robotPORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, -1);
         int controlPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
         int heartbeatPORT = sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
@@ -114,7 +113,7 @@ public class SettingTab extends Fragment {
 
                 try {
                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString(MainActivity.LIVEVIEW_IP, robotIpEditText.getText().toString());
+                    editor.putString(MainActivity.ROBOT_IP, robotIpEditText.getText().toString());
                     editor.putInt(MainActivity.LIVEVIEW_PORT, Integer.parseInt(robotPortEditText.getText().toString()));
                     editor.putString(MainActivity.SERVER_IP, serverIpEditText.getText().toString());
                     editor.putInt(MainActivity.SERVER_PORT, Integer.parseInt(serverPortEditText.getText().toString()));

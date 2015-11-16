@@ -10,6 +10,9 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 import xyz.rollingstone.packet.Banana;
 import xyz.rollingstone.tele.TelepathyToServer;
 
@@ -34,7 +37,7 @@ public class MainActivity extends ActionBarActivity {
     private Handler handler;
 
     public static final String PREFERENCES = "xyz.rollingstone.preferences";
-    public static final String LIVEVIEW_IP = "xyz.rollingstone.liveview.ip";
+    public static final String ROBOT_IP = "xyz.rollingstone.liveview.ip";
     public static final String LIVEVIEW_PORT = "xyz.rollingstone.liveview.port";
     public static final String SERVER_IP = "xyz.rollingstone.server.ip";
     public static final String SERVER_PORT = "xyz.rollingstone.server.port";
@@ -43,7 +46,15 @@ public class MainActivity extends ActionBarActivity {
     public static final String HEARTBEAT_PORT = "xyz.rollingstone.heartbeat.port";
     // res_pos 0 = 480p, 1 = 720p, 2 = 1080p
 
-    public static final String TAG = "VULUME";
+    public static ArrayList<String> selectedScripts;
+    //AUTOTAB THINGS
+    public static Integer autoTabcurrentIndex = 0;
+
+    public static boolean startButtonState;
+    public static boolean stopButtonState;
+    public static boolean resumeButtonState;
+
+    public static final String DEBUG_TAG = "MainAct.DEBUG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,16 +108,24 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(DEBUG_TAG, "ONPAUSE");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d(DEBUG_TAG, "ONRESUME");
+
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
         View decorView = getWindow().getDecorView();
         if (hasFocus) {
-            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+            decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
     }
 

@@ -8,7 +8,6 @@ import xyz.rollingstone.Action;
 
 /**
  * CommandPacketBuilder
- *
  *  __| __ |    ____   | ____ ____ | (Bits)
  * REQ| ID |  COMMAND  |   VALUE   |
  * ACK|    |           |           |
@@ -88,14 +87,14 @@ public class CommandPacketBuilder {
             case "FORWARD":
                 this.command = 1;
                 break;
+            case "RIGHT":
+                this.command = 3;
+                break;
             case "BACK":
                 this.command = 5;
                 break;
             case "LEFT":
                 this.command = 7;
-                break;
-            case "RIGHT":
-                this.command = 3;
                 break;
             default:
                 Log.d("CmdPacketBuilder.ERROR", "PLEASE CHECK THE ACTION YOU USED");
@@ -107,18 +106,18 @@ public class CommandPacketBuilder {
 
         int highByte = 0b0000_0000;
         int lowByte = 0b0000_0000;
-
-//	    handle packet types
-//	    10XXXXXX - REQ
-//	    01XXXXXX - ACK
-//      00XXXXXX - ERR
-//      11XXXXXX - OK
+        /**
+         REQ_M_TYPE : 00 (Request type for manual control.)
+         ACK_M_TYPE : 01 (Acknowledge type for manual control.)
+         REQ_A_TYPE : 10 (Request type for automate control.)
+         ACK_A_TYPE : 11 (Acknowledge type for automate control.)
+         */
         if (this.type == 0) {
-            highByte |= 0b1000_0000;
+            highByte |= 0b0000_0000;
         } else if (this.type == 1) {
             highByte |= 0b0100_0000;
         } else if (this.type == 2) {
-            highByte |= 0b0000_0000;
+            highByte |= 0b1000_0000;
         } else if (this.type == 3) {
             highByte |= 0b1100_0000;
         }

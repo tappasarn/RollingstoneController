@@ -50,6 +50,29 @@ public class ActionListActivity extends Activity {
         listActs = (ListView) findViewById(R.id.list_options);
         Log.d("listAct", listActs.toString());
 
+
+        np = (NumberPicker) findViewById(R.id.numberPicker);
+        np.setMaxValue(2);
+        np.setMinValue(1);
+        np.setWrapSelectorWheel(false);
+
+        NumberPicker.Formatter formatter = new NumberPicker.Formatter() {
+            @Override
+            public String format(int value) {
+                if(value == 1) {
+                    return "0.5";
+                } else if (value == 2) {
+                    return "1";
+                } else {
+                    return "NO";
+                }
+
+            }
+        };
+
+        np.setFormatter(formatter);
+        np.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+
         try {
             // connect to db and get all actions from the table
             ActionSQLHelper db = new ActionSQLHelper(this);
@@ -134,11 +157,6 @@ public class ActionListActivity extends Activity {
             toast.show();
         }
 
-        np = (NumberPicker) findViewById(R.id.numberPicker);
-        np.setMaxValue(10);
-        np.setMinValue(1);
-        np.setWrapSelectorWheel(false);
-
         rg = (RadioGroup) findViewById(R.id.radioGroup);
 
         rg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -162,11 +180,18 @@ public class ActionListActivity extends Activity {
         NumberPicker np = (NumberPicker) findViewById(R.id.numberPicker);
 
         Action act = new Action();
+        int val;
 
         switch (id) {
+
             case R.id.ForwardRadioButton:
                 act.setDirection("FORWARD");
-                act.setLength(np.getValue());
+                val = np.getValue();
+                if (val == 1) {
+                    act.setLength(50);
+                } else if (val == 2){
+                    act.setLength(100);
+                }
                 break;
             case R.id.LeftRadioButton:
                 act.setDirection("LEFT");
@@ -178,7 +203,12 @@ public class ActionListActivity extends Activity {
                 break;
             case R.id.BackRadioButton:
                 act.setDirection("BACK");
-                act.setLength(np.getValue());
+                val = np.getValue();
+                if (val == 1) {
+                    act.setLength(50);
+                } else if (val == 2){
+                    act.setLength(100);
+                }
                 break;
             default:
                 Toast toast = Toast.makeText(ActionListActivity.this, "Please select the direction", Toast.LENGTH_SHORT);
@@ -201,8 +231,8 @@ public class ActionListActivity extends Activity {
     }
 
     /*
-        Create delete an existing database, create a new one then get what's on displayList
-        make it as a Action class then fucking put them into the database with the specify table
+        Delete an existing database, create a new one then get what's on displayList
+        make it as an Action class then put them into the database with the specify table
      */
     public void SaveButtonOnClick(View view) {
         ActionSQLHelper db = new ActionSQLHelper(this);
@@ -215,7 +245,7 @@ public class ActionListActivity extends Activity {
             String block[] = str.split("\\s+");
             if (block[0].equals("FORWARD") || block[0].equals("BACK")) {
                 act.setDirection(block[0]);
-                act.setLength(Integer.parseInt(block[1]));
+                act.setLength((int)(Double.parseDouble(block[1])*100.0));
             } else {
                 act.setDirection(block[0]);
                 act.setLength(0);

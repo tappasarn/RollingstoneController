@@ -58,7 +58,7 @@ public class Action {
             If it's LEFT or RIGHT, only direction is needed since the length is always zero
          */
         if (direction.equals("FORWARD") || direction.equals("BACK")) {
-            return direction + " " + length + " m";
+            return direction + " " + length/100.0 + " m";
         } else if (direction.equals("LEFT") || direction.equals("RIGHT")) {
             return direction;
         } else {

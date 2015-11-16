@@ -9,6 +9,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +26,7 @@ import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
 import xyz.rollingstone.tele.TelepathyToRobot;
 import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
+import xyz.rollingstone.tele.TelepathyToRobotThread;
 
 public class ManualTab extends Fragment {
 
@@ -60,6 +62,7 @@ public class ManualTab extends Fragment {
     private boolean isJoystickShown = false;
 
     // To send a command to robot
+    private TelepathyToRobotThread telepathyToRobotThread;
     private TelepathyToRobot telepathyToRobot;
     // To count the commandId
     private Integer commandId = 0;
@@ -112,10 +115,12 @@ public class ManualTab extends Fragment {
         // Locate layouts and views
         imageView = (ImageView) getView().findViewById(R.id.liveview);
         frameLayout = (FrameLayout) getView().findViewById(R.id.frame_layout);
-        joystickLayout = (RelativeLayout) getView().findViewById(R.id.joystick);
+        if (joystickLayout == null) {
+            joystickLayout = (RelativeLayout) getView().findViewById(R.id.joystick);
+        }
 
         // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
-        final String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+        final String SERVER_IP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
         final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
 
         //Get Port from sharedPreference use for control
@@ -138,8 +143,10 @@ public class ManualTab extends Fragment {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                Log.d(DEBUG, "Oh! I'm touched!!");
+
                 // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
-                final String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+                final String IP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
                 final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
 
                 //Get Port from sharedPreference use for control
@@ -194,12 +201,13 @@ public class ManualTab extends Fragment {
                     isJoystickShown = false;
 
                     // Remove joystick from root view
+                    joystickLayout.dispatchTouchEvent(event);
                     frameLayout.removeView(joystickLayout);
 
                     // need to check whether the id is usable
                     if (availableId[commandId] == 0) {
                         commandPacketBuilder = new CommandPacketBuilder();
-                        commandPacketBuilder.setType(0); // set type = REQ
+                        commandPacketBuilder.setType(0); // set type = REQ_M_TYPE
 
                         commandPacketBuilder.setId(commandId);
                         availableId[commandId] = 1;
@@ -210,10 +218,14 @@ public class ManualTab extends Fragment {
 
                         //execute the correct value
                         int[] command = commandPacketBuilder.Create();
-
                         // send direction and distance to the robot and Log it for debugging
+
+                        /*
+                        telepathyToRobotThread = new TelepathyToRobotThread(getActivity(), IP, CONTROL_PORT, availableId, command);
+                        telepathyToRobotThread.start();
+                        */
                         telepathyToRobot = new TelepathyToRobot(getActivity(), IP, CONTROL_PORT, availableId);
-                        telepathyToRobot.execute(command[0], command[1]);
+                        telepathyToRobot.execute(command[0],command[1]);
                     }
                 }
 
@@ -221,6 +233,8 @@ public class ManualTab extends Fragment {
                 // Only ACTION_DOWN and ACTION_MOVE needed to be dispatch
                 // to joystickLayout as well
                 if (event.getAction() == MotionEvent.ACTION_MOVE) {
+
+                    Log.d(DEBUG, "ACTION_MOVE");
                     // Obtain MotionEvent object
                     MotionEvent motionEvent = MotionEvent.obtain(
                             SystemClock.uptimeMillis(),
@@ -231,13 +245,19 @@ public class ManualTab extends Fragment {
                             0
                     );
 
+                    joystickLayout.dispatchTouchEvent(motionEvent);
+
                     int direction = joystick.get8Direction();
                     int distance = Math.min(map((int) joystick.getDistance(), 0, 215, 0, 100), 100);
 
-                    joystickLayout.dispatchTouchEvent(motionEvent);
-
+                    Log.d(DEBUG, "commandId " + commandId);
+                    Log.d(DEBUG, "AV[CID] " + availableId[0]);
+                    Log.d(DEBUG, "AV[CID] " + availableId[1]);
+                    Log.d(DEBUG, "AV[CID] " + availableId[2]);
+                    Log.d(DEBUG, "AV[CID] " + availableId[3]);
                     // need to check whether the id is usable
                     if (availableId[commandId] == 0) {
+
                         commandPacketBuilder = new CommandPacketBuilder();
                         commandPacketBuilder.setType(0); // set type = REQ
 
@@ -252,6 +272,12 @@ public class ManualTab extends Fragment {
                         int[] command = commandPacketBuilder.Create();
 
                         // send direction and distance to the robot and Log it for debugging
+                        Log.d(DEBUG, "Im at before Tele2Robot");
+
+                        /*
+                        telepathyToRobotThread = new TelepathyToRobotThread(getActivity(), IP, CONTROL_PORT, availableId, command);
+                        telepathyToRobotThread.start();
+                        */
                         telepathyToRobot = new TelepathyToRobot(getActivity(), IP, CONTROL_PORT, availableId);
                         telepathyToRobot.execute(command[0], command[1]);
                     }
@@ -271,7 +297,7 @@ public class ManualTab extends Fragment {
         });
 
         // Creating new thread for refreshing ImageView
-        updater = new LiveViewUpdaterSocket(this, IP, LIVEVIEW_PORT);
+        updater = new LiveViewUpdaterSocket(this, SERVER_IP, LIVEVIEW_PORT);
         updater.start();
 
     }
@@ -290,10 +316,10 @@ public class ManualTab extends Fragment {
         if (!updater.isAlive()) {
 
             // Get IP and PORT from sharedPreferences in LiveViewUpdaterSocket
-            String IP = sharedPreferences.getString(MainActivity.LIVEVIEW_IP, null);
+            String SERVER_IP = sharedPreferences.getString(MainActivity.SERVER_IP, null);
             int PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
 
-            updater = new LiveViewUpdaterSocket(this, IP, PORT);
+            updater = new LiveViewUpdaterSocket(this, SERVER_IP, PORT);
             updater.start();
         }
     }

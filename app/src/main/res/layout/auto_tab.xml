@@ -19,56 +19,86 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/nextAction"
-            android:layout_above="@+id/nextNextAction"
+            android:id="@+id/pastpastAction"
+            android:layout_above="@+id/pastAction"
+            android:gravity="center"
+            android:textAlignment="center"
             android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/pastAction"
+            android:layout_above="@+id/currentAction"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textAlignment="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Large Text"
             android:id="@+id/currentAction"
             android:layout_above="@+id/nextAction"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:autoText="false"
+            android:text="Select Script First"
+            android:gravity="center"
+            android:textAlignment="center" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
+            android:id="@+id/nextAction"
+            android:layout_above="@+id/nextNextAction"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textAlignment="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/nextNextAction"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="156dp" />
+            android:layout_marginBottom="156dp"
+            android:gravity="center"
+            android:textAlignment="center" />
 
-        <TextView
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/pastAction"
-            android:layout_above="@+id/currentAction"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Medium Text"
-            android:id="@+id/pastpastAction"
-            android:layout_above="@+id/pastAction"
-            android:layout_alignStart="@+id/currentAction" />
+            android:text="stop"
+            android:id="@+id/stopButton"
+            android:layout_alignTop="@+id/startButton"
+            android:layout_toLeftOf="@+id/currentAction"
+            android:layout_toStartOf="@+id/currentAction"
+            android:enabled="false" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="start"
             android:id="@+id/startButton"
-            android:layout_alignParentTop="true"
+            android:enabled="true"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="75dp" />
+            android:layout_marginBottom="45dp"
+            android:gravity="center"
+            android:textAlignment="center" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="resume"
+            android:id="@+id/resumeButton"
+            android:layout_alignTop="@+id/startButton"
+            android:layout_toRightOf="@+id/currentAction"
+            android:layout_toEndOf="@+id/currentAction"
+            android:enabled="false" />
 
     </RelativeLayout>
 
