@@ -30,9 +30,12 @@ import xyz.rollingstone.liveview.LiveViewUpdaterSocket;
 import xyz.rollingstone.packet.CommandPacketBuilder;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
+<<<<<<< HEAD
 import xyz.rollingstone.packet.CommandPacketReader;
 import xyz.rollingstone.tele.TelepathyToRobot;
 import xyz.rollingstone.tele.TelepathyToServer;
+=======
+>>>>>>> 958d3994c3ce9ce248b4d1968fd87a8b0656cb5d
 
 public class AutoTab extends Fragment implements LiveViewCallback {
 
