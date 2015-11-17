@@ -50,7 +50,7 @@ public class AutoTab extends Fragment implements LiveViewCallback {
     private TextView nextTextView;
     private TextView nextNextTextView;
 
-    private Handler handler;
+    private Handler heartBeatHandler;
 
     public ResumeIndicator resumeIndicator;
 
@@ -112,6 +112,7 @@ public class AutoTab extends Fragment implements LiveViewCallback {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         // Inflate layout as view
         View view = inflater.inflate(R.layout.auto_tab, container, false);
 
@@ -222,7 +223,7 @@ public class AutoTab extends Fragment implements LiveViewCallback {
             /**
              * To handle the message passed from HeartBeat to here
              */
-            handler = new Handler() {
+            heartBeatHandler = new Handler() {
                 public void handleMessage(android.os.Message msg) {
                     String messages = (String) msg.getData().getSerializable("status");
                     if (messages.equals("OK")) {
@@ -272,11 +273,13 @@ public class AutoTab extends Fragment implements LiveViewCallback {
                 }
             };
 
+
+
             startButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     resumeIndicator = new ResumeIndicator();
-                    HB = new HeartBeatThread(robotIP, controlPORT, heartbeatPORT, packetList, handler, resumeIndicator);
+                    HB = new HeartBeatThread(robotIP, controlPORT, heartbeatPORT, packetList, heartBeatHandler, resumeIndicator);
                     //HB.cancel(false);
                     HB.start();
                     Log.d(DEBUG, "HeartBeat is executing");
@@ -327,6 +330,8 @@ public class AutoTab extends Fragment implements LiveViewCallback {
     @Override
     public void onResume() {
         super.onResume();
+
+        Log.d("DEBUG", "OnResume Called from AUTOTAB");
 
         if(executeOnResume) {
 
@@ -460,6 +465,77 @@ public class AutoTab extends Fragment implements LiveViewCallback {
     @Override
     public void setLiveViewData(Bitmap imageData) {
         this.imageData = imageData;
+    }
+
+    public void updateScript() {
+
+        Log.d("DEBUG", "Inside UpdateScript");
+        Log.d("DEBUG", "" + MainActivity.autoTabcurrentIndex);
+
+        if (MainActivity.selectedScripts != null) {
+
+            /* if there is at least 1 selected script, get the table which has the same name as them */
+            selectedScripts = MainActivity.selectedScripts;
+            ActionSQLHelper db = new ActionSQLHelper(getActivity());
+            displayList = new ArrayList<String>();
+            anotherDisplayList = new ArrayList<String>();
+
+            packetList = new ArrayList<int[]>();
+            CommandPacketBuilder commandPacketBuilder;
+
+            /* loop through every script, we are using 2 Lists here, 1 for keeping display data to be displayed on UI,
+             *  another one is to keep the commandPacketList to be sent to the robot
+             */
+            for (String script : selectedScripts) {
+                List<Action> actionList = db.getAllActionsFromTable(script);
+
+                for (Action act : actionList) {
+                    displayList.add(act.humanize());
+                    commandPacketBuilder = new CommandPacketBuilder(act);
+                    commandPacketBuilder.setType(REQ_A_TYPE);
+                    commandPacketBuilder.setId(0); // there is no such thing as an ID in automated system
+
+                    int[] dummy = new int[2];
+                    dummy = commandPacketBuilder.Create();
+                    Log.d(DEBUG, "Dummy1" + String.format("%8s", Integer.toBinaryString(dummy[0])).replace(' ', '0'));
+                    Log.d(DEBUG, "Dummy2" + String.format("%8s", Integer.toBinaryString(dummy[1])).replace(' ', '0'));
+
+                    packetList.add(commandPacketBuilder.Create());
+                }
+            }
+
+            // Initialize view and list values when first load the autoTab
+
+            pastPastTextView.setText("");
+            pastTextView.setText("");
+            currentTextView.setText("");
+            nextTextView.setText("");
+            nextNextTextView.setText("");
+
+            startButton.setEnabled(true);
+            currentIndex = 0;
+
+            if (displayList.size() > 2) {
+                currentTextView.setText(displayList.get(currentIndex));
+                nextTextView.setText(displayList.get(currentIndex + 1));
+                nextNextTextView.setText(displayList.get(currentIndex + 2));
+            }
+            else if (displayList.size() == 2) {
+                currentTextView.setText(displayList.get(currentIndex));
+                nextTextView.setText(displayList.get(currentIndex + 1));
+            }
+            else if (displayList.size() == 1) {
+                currentTextView.setText(displayList.get(currentIndex));
+            }
+            else {
+                currentTextView.setText("Script has no action/ no script is selected");
+                startButton.setEnabled(false);
+            }
+
+        } else {
+            Log.d(DEBUG, "No Automated Script set yet");
+        }
+
     }
 
 }

@@ -27,6 +27,7 @@ import xyz.rollingstone.ActionSQLHelper;
 import xyz.rollingstone.Big;
 import xyz.rollingstone.MainActivity;
 import xyz.rollingstone.R;
+import xyz.rollingstone.ViewPagerAdapter;
 
 public class ScriptSelectTab extends Fragment {
 
@@ -41,6 +42,8 @@ public class ScriptSelectTab extends Fragment {
     String[] reservedList = new String[]{"ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "AS", "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY", "CASCADE", "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "COMMIT", "CONFLICT", "CONSTRAINT", "CREATE", "CROSS", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "DATABASE", "DEFAULT", "DEFERRABLE", "DEFERRED", "DELETE", "DESC", "DETACH", "DISTINCT", "DROP", "EACH", "ELSE", "END", "ESCAPE", "EXCEPT", "EXCLUSIVE", "EXISTS", "EXPLAIN", "FAIL", "FOR", "FOREIGN", "FROM", "FULL", "GLOB", "GROUP", "HAVING", "IF", "IGNORE", "IMMEDIATE", "IN", "INDEX", "INDEXED", "INITIALLY", "INNER", "INSERT", "INSTEAD", "INTERSECT", "INTO", "IS", "ISNULL", "JOIN", "KEY", "LEFT", "LIKE", "LIMIT", "MATCH", "NATURAL", "NO", "NOT", "NOTNULL", "NULL", "OF", "OFFSET", "ON", "OR", "ORDER", "OUTER", "PLAN", "PRAGMA", "PRIMARY", "QUERY", "RAISE", "RECURSIVE", "REFERENCES", "REGEXP", "REINDEX", "RELEASE", "RENAME", "REPLACE", "RESTRICT", "RIGHT", "ROLLBACK", "ROW", "SAVEPOINT", "SELECT", "SET", "TABLE", "TEMP", "TEMPORARY", "THEN", "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM", "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE", "WITH", "WITHOUT"};
     private int current_position = -1;
 
+    private ViewPagerAdapter viewPagerAdapter;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.script_select_tab, container, false);
@@ -49,6 +52,9 @@ public class ScriptSelectTab extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+        // Get view pager adapter from main activity
+        viewPagerAdapter = ((MainActivity) getActivity()).getViewPagerAdapter();
 
         listView = (ListView) getView().findViewById(R.id.list);
 
@@ -242,13 +248,7 @@ public class ScriptSelectTab extends Fragment {
                     MainActivity.selectedScripts = selectedScripts;
                     MainActivity.autoTabcurrentIndex = 0;
 
-                    AutoTab autoTab = new AutoTab();
-                    autoTab.setArguments(bundle);
-                    // in .replace use id.container instead of the old one to fix bug that removes this own page
-                    getFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.container, autoTab, "SELECTED")
-                            .addToBackStack("SELECTED").commit();
+                    viewPagerAdapter.getAutoTab().updateScript();
 
                 } else {
                     Toast.makeText(getActivity(), "Please select the script first", Toast.LENGTH_SHORT).show();

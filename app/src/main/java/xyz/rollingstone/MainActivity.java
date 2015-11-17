@@ -63,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         // Creating The ViewPagerAdapter and Passing Fragment Manager, titles fot the Tabs and Number Of Tabs.
-        adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs);
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, numTabs, this);
 
         // Assigning ViewPager View and setting the adapter
         pager = (CustomViewPager) findViewById(R.id.pager);
@@ -130,7 +130,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    //Override to specifically handle the volume buttons
+    // Override to specifically handle the volume buttons
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
         int keyCode = event.getKeyCode();
@@ -148,6 +148,11 @@ public class MainActivity extends ActionBarActivity {
             return super.dispatchKeyEvent(event);
         }
         return true;
+    }
+
+    // Return ViewPagerAdapter
+    public ViewPagerAdapter getViewPagerAdapter() {
+        return adapter;
     }
 
 }
