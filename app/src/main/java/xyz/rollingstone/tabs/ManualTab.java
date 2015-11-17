@@ -141,11 +141,11 @@ public class ManualTab extends Fragment implements LiveViewCallback {
                 Log.d(DEBUG, "Oh! I'm touched!!");
 
                 // Get IP and PORT from sharedPreference use in LiveViewUpdaterSocket
-                final String IP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
-                final int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
+                String IP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
+                int LIVEVIEW_PORT = sharedPreferences.getInt(MainActivity.LIVEVIEW_PORT, 0);
 
                 //Get Port from sharedPreference use for control
-                final int CONTROL_PORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, 0);
+                int CONTROL_PORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, 0);
 
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
