@@ -13,12 +13,11 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.Socket;
 
-import xyz.rollingstone.BuildConfig;
 import xyz.rollingstone.tabs.*;
 
 public class LiveViewUpdaterSocket extends Thread {
 
-    private Fragment fragment;
+    private LiveViewCallback callback;
     private boolean failed = false;
     private boolean killed = false;
 
@@ -36,8 +35,8 @@ public class LiveViewUpdaterSocket extends Thread {
     private Bitmap inBitmap = null;
     private byte[] buffer = new byte[16 * 1024];
 
-    public LiveViewUpdaterSocket(Fragment fragment, String IP, int PORT) {
-        this.fragment = fragment;
+    public LiveViewUpdaterSocket(LiveViewCallback callback, String IP, int PORT) {
+        this.callback = callback;
         this.IP = IP;
         this.PORT = PORT;
 
@@ -116,7 +115,7 @@ public class LiveViewUpdaterSocket extends Thread {
             }
 
             /*
-                Send new Bitmap from stream via handler on UI Thread
+                Send new Bitmap from stream via liveViewHandler on UI Thread
                 via a Message and Bundle.
              */
             if( inBitmap != null ) {
@@ -126,9 +125,9 @@ public class LiveViewUpdaterSocket extends Thread {
                 bundle.putInt(ManualTab.MSG, ManualTab.LIVEVIEW_MSG);
                 msg.setData(bundle);
 
-                // send message to main thread's handler
-                ((ManualTab) fragment).setLiveViewData(inBitmap);
-                ((ManualTab) fragment).getHandler().sendMessage(msg);
+                // send message to main thread's liveViewHandler
+                callback.setLiveViewData(inBitmap);
+                callback.getLiveViewHandler().sendMessage(msg);
             }
 
             /*
