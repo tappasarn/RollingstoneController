@@ -223,117 +223,36 @@ public class AutoTab extends Fragment implements LiveViewCallback {
                 startButton.setEnabled(false);
             }
 
-            /**
-             * To handle the message passed from HeartBeat to here
-             */
-            heartBeatHandler = new Handler() {
-                public void handleMessage(android.os.Message msg) {
-                    String messages = (String) msg.getData().getSerializable("status");
-                    if (messages.equals("OK")) {
-                        actionSlider();
-                    } else if (messages.equals("CNNERR")) {
-                        Toast.makeText(getActivity(), "The operation is aborted, can't connect to server", Toast.LENGTH_SHORT).show();
-                        startButton.setEnabled(true);
-                        stopButton.setEnabled(false);
-                        resumeButton.setEnabled(false);
-                    } else if (messages.equals("DONE")) {
-                        currentTextView.setText("Script Execution is done");
-                        currentTextView.setTextColor(getResources().getColor(R.color.editButton));
-                        stopButton.setEnabled(false);
-                        Toast.makeText(getActivity(), "Script Execution is done", Toast.LENGTH_SHORT).show();
-                    } else if (messages.equals("ERR")) {
-                        resumeButton.setEnabled(true);
-                        Toast.makeText(getActivity(), "Obstacle found", Toast.LENGTH_SHORT).show();
-                    } else if (messages.equals("NOHB")) {
-                        startButton.setEnabled(true);
-                        Toast.makeText(getActivity(), "no HeartBeat", Toast.LENGTH_SHORT).show();
-                    } else if (messages.equals("CANCL")) {
-
-                        pastPastTextView.setText("");
-                        pastTextView.setText("");
-                        currentTextView.setText("");
-                        nextTextView.setText("");
-                        nextNextTextView.setText("");
-                        startButton.setEnabled(true);
-                        currentIndex = 0;
-
-                        if (displayList.size() > 2) {
-                            currentTextView.setText(displayList.get(currentIndex));
-                            nextTextView.setText(displayList.get(currentIndex + 1));
-                            nextNextTextView.setText(displayList.get(currentIndex + 2));
-                        } else if (displayList.size() == 2) {
-                            currentTextView.setText(displayList.get(currentIndex));
-                            nextTextView.setText(displayList.get(currentIndex + 1));
-                        } else if (displayList.size() == 1) {
-                            currentTextView.setText(displayList.get(currentIndex));
-                        } else {
-                            currentTextView.setText("Script has no action/ no script is selected");
-                            startButton.setEnabled(false);
-                        }
-
-                        Toast.makeText(getActivity(), "Stop Executing Successfully", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            };
+        } else {
+            Log.d(DEBUG, "No Automated Script set yet");
+        }
 
 
-
-            startButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    robotIP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
-                    controlPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
-                    heartbeatPORT = sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
-
-                    resumeIndicator = new ResumeIndicator();
-
-                    HB = new HeartBeatThread(robotIP, controlPORT, heartbeatPORT, packetList, heartBeatHandler, resumeIndicator);
-                    //HB.cancel(false);
-                    HB.start();
-
-                    Log.d(DEBUG, "HeartBeat is executing");
-                    startButton.setEnabled(false);
-                    stopButton.setEnabled(true);
-                    Toast.makeText(getActivity(), "Start Executing", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            resumeButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    resumeIndicator.setInt(5);
-                    resumeButton.setEnabled(false);
-                    Toast.makeText(getActivity(), "Resume Executing", Toast.LENGTH_SHORT).show();
-                }
-            });
-
-            stopButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    HB.cancel(true);
-
+        /**
+         * To handle the message passed from HeartBeat to here
+         */
+        heartBeatHandler = new Handler() {
+            public void handleMessage(android.os.Message msg) {
+                String messages = (String) msg.getData().getSerializable("status");
+                if (messages.equals("OK")) {
+                    actionSlider();
+                } else if (messages.equals("CNNERR")) {
+                    Toast.makeText(getActivity(), "The operation is aborted, can't connect to server", Toast.LENGTH_SHORT).show();
                     startButton.setEnabled(true);
-                    resumeButton.setEnabled(false);
                     stopButton.setEnabled(false);
-                    Toast.makeText(getActivity(), "Send Stop Command", Toast.LENGTH_SHORT).show();
-
-                    CommandPacketBuilder commandPacketBuilder = new CommandPacketBuilder();
-                    commandPacketBuilder.setType(0); // set type = REQ_M_TYPE
-
-                    // special type, don't include it in availableId
-                    commandPacketBuilder.setId(0);
-
-                    commandPacketBuilder.setCommand(0);
-                    commandPacketBuilder.setValue(0);
-
-                    //execute the correct value
-                    int[] command = commandPacketBuilder.Create();
-
-                    robotIP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
-                    controlPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
-
-                    TelepathyToRobot telepathyToRobot = new TelepathyToRobot(getActivity(), robotIP, controlPORT, new int[1]);
-                    telepathyToRobot.execute(command[0],command[1]);
+                    resumeButton.setEnabled(false);
+                } else if (messages.equals("DONE")) {
+                    currentTextView.setText("Script Execution is done");
+                    currentTextView.setTextColor(getResources().getColor(R.color.editButton));
+                    stopButton.setEnabled(false);
+                    Toast.makeText(getActivity(), "Script Execution is done", Toast.LENGTH_SHORT).show();
+                } else if (messages.equals("ERR")) {
+                    resumeButton.setEnabled(true);
+                    Toast.makeText(getActivity(), "Obstacle found", Toast.LENGTH_SHORT).show();
+                } else if (messages.equals("NOHB")) {
+                    startButton.setEnabled(true);
+                    Toast.makeText(getActivity(), "no HeartBeat", Toast.LENGTH_SHORT).show();
+                } else if (messages.equals("CANCL")) {
 
                     pastPastTextView.setText("");
                     pastTextView.setText("");
@@ -356,12 +275,95 @@ public class AutoTab extends Fragment implements LiveViewCallback {
                         currentTextView.setText("Script has no action/ no script is selected");
                         startButton.setEnabled(false);
                     }
-                }
-            });
 
-        } else {
-            Log.d(DEBUG, "No Automated Script set yet");
-        }
+                    Toast.makeText(getActivity(), "Stop Executing Successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+
+
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                robotIP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
+                controlPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+                heartbeatPORT = sharedPreferences.getInt(MainActivity.HEARTBEAT_PORT, -1);
+
+                resumeIndicator = new ResumeIndicator();
+
+                HB = new HeartBeatThread(robotIP, controlPORT, heartbeatPORT, packetList, heartBeatHandler, resumeIndicator);
+                //HB.cancel(false);
+                HB.start();
+
+                Log.d(DEBUG, "HeartBeat is executing");
+                startButton.setEnabled(false);
+                stopButton.setEnabled(true);
+                currentTextView.setTextColor(Color.argb(87, 0, 0, 0));
+                Toast.makeText(getActivity(), "Start Executing", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        resumeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                resumeIndicator.setInt(5);
+                resumeButton.setEnabled(false);
+                Toast.makeText(getActivity(), "Resume Executing", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        stopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HB.cancel(true);
+
+                startButton.setEnabled(true);
+                resumeButton.setEnabled(false);
+                stopButton.setEnabled(false);
+                Toast.makeText(getActivity(), "Send Stop Command", Toast.LENGTH_SHORT).show();
+
+                CommandPacketBuilder commandPacketBuilder = new CommandPacketBuilder();
+                commandPacketBuilder.setType(0); // set type = REQ_M_TYPE
+
+                // special type, don't include it in availableId
+                commandPacketBuilder.setId(0);
+
+                commandPacketBuilder.setCommand(0);
+                commandPacketBuilder.setValue(0);
+
+                //execute the correct value
+                int[] command = commandPacketBuilder.Create();
+
+                robotIP = sharedPreferences.getString(MainActivity.ROBOT_IP, null);
+                controlPORT = sharedPreferences.getInt(MainActivity.CONTROL_PORT, -1);
+
+                TelepathyToRobot telepathyToRobot = new TelepathyToRobot(getActivity(), robotIP, controlPORT, new int[1]);
+                telepathyToRobot.execute(command[0],command[1]);
+
+                pastPastTextView.setText("");
+                pastTextView.setText("");
+                currentTextView.setText("");
+                nextTextView.setText("");
+                nextNextTextView.setText("");
+                startButton.setEnabled(true);
+                currentIndex = 0;
+
+                if (displayList.size() > 2) {
+                    currentTextView.setText(displayList.get(currentIndex));
+                    nextTextView.setText(displayList.get(currentIndex + 1));
+                    nextNextTextView.setText(displayList.get(currentIndex + 2));
+                } else if (displayList.size() == 2) {
+                    currentTextView.setText(displayList.get(currentIndex));
+                    nextTextView.setText(displayList.get(currentIndex + 1));
+                } else if (displayList.size() == 1) {
+                    currentTextView.setText(displayList.get(currentIndex));
+                } else {
+                    currentTextView.setText("Script has no action/ no script is selected");
+                    startButton.setEnabled(false);
+                }
+            }
+        });
 
         // ----------------------------- LIVE VIEW STACK ----------------------------
 

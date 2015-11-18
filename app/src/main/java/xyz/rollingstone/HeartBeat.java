@@ -115,7 +115,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
 
         byte[] ans = new byte[1];
 
-        this.heartBeatSocket.setSoTimeout(5 * 100000);
+        this.heartBeatSocket.setSoTimeout(1000);
         this.heartBeatinputStream = this.heartBeatSocket.getInputStream();
         this.heartBeatinputStream.read(ans, 0, 1);
         return ans;
@@ -149,7 +149,6 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
             int count = 0;
             int maxTries = 5;
             boolean tryNotExceed = true;
-            Log.d(TAG, "HB DOINBG1 " + this.isCancelled() );
 
             while (tryNotExceed && !this.isCancelled()) {
                 try {
@@ -271,6 +270,7 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
                         b.putSerializable("status", "CNNERR");
                         msg.setData(b);
                         handler.sendMessage(msg);
+                        Log.d(TAG, "CNNERR");
 
                         return null;
                     }
@@ -285,8 +285,8 @@ public class HeartBeat extends AsyncTask<Void, Void, Void> {
             b.putSerializable("status", "CANCL");
             msg.setData(b);
             handler.sendMessage(msg);
-            Log.d(TAG, "DONE");
-        }else {
+            Log.d(TAG, "CANCL");
+        } else {
             Message msg = Message.obtain();
             Bundle b = new Bundle();
             b.putSerializable("status", "DONE");

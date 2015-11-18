@@ -62,7 +62,7 @@ public class TelepathyToRobot extends AsyncTask<Integer, Void, Void> {
         this.socket.setSoTimeout(1000);
         Log.d(TAG, "Trying to get InputStream");
         this.inputStream = this.socket.getInputStream();
-        Log.d(TAG, "Trying to read2");
+        Log.d(TAG, "Trying to read2 bytes");
         this.inputStream.read(ans, 0, 2);
 
         return ans;
